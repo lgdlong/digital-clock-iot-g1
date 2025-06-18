@@ -6,12 +6,12 @@ This is a digital clock project using ESP32 with real-time synchronization from 
 
 > Read more about the key features in [KEY_FEATURES.md](KEY_FEATURES.md)
 
-- Real-time clock display on 16x2 LCD screen
+<!-- - Real-time clock display on 16x2 LCD screen
 - Date display (DD/MM/YY)
 - Temperature display (simulated value)
 - NTP synchronization when WiFi is connected
 - DS1307 RTC module as backup when WiFi is unavailable
-- Status LED indicator (blinks every second)
+- Status LED indicator (blinks every second) -->
 
 ## Hardware Components
 
