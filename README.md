@@ -6,6 +6,17 @@ This is a digital clock project using ESP32 with real-time synchronization from 
 
 > Read more about the key features in [KEY_FEATURES.md](KEY_FEATURES.md)
 
+## Docs
+
+[IOT_Project_G1 - Google Tài liệu](https://docs.google.com/document/d/1ETpLSW7EK4e8zNShtvTOpb-vyrWY-4vWwZAHBhT7I4s/edit?usp=sharing)
+
+## Group 1 members:
+
+- Phùng Lưu Hoàng Long
+- Nguyễn Lê Phúc Nguyên
+- Hoàng Quốc Việt
+- Vũ Việt Anh
+
 <!-- - Real-time clock display on 16x2 LCD screen
 - Date display (DD/MM/YY)
 - Temperature display (simulated value)
@@ -18,7 +29,7 @@ This is a digital clock project using ESP32 with real-time synchronization from 
 - ESP32 Development Board (ESP32-DEVKIT-C)
 - 16x2 LCD Display with I2C interface
 - DS1307 RTC Module
-- LED indicator
+- ...
 - Connecting wires
 
 ## Pin Connections
@@ -27,7 +38,7 @@ This is a digital clock project using ESP32 with real-time synchronization from 
 | ----------- | ------------------------------------------------- |
 | LCD Display | SDA → GPIO21, SCL → GPIO22, VCC → 3.3V, GND → GND |
 | DS1307 RTC  | SDA → GPIO21, SCL → GPIO22, VCC → 3.3V, GND → GND |
-| Status LED  | Anode → GPIO12, Cathode → GND                     |
+| ...         | ...                                               |
 
 ## Software Dependencies
 
@@ -67,10 +78,4 @@ The default time zone is set to UTC+7 (Vietnam). To change the time zone:
 
 This project can be simulated using Wokwi. The diagram.json file contains the component connections for the simulation.
 
-## Docs
 
-[IOT_Project_G1 - Google Tài liệu](https://docs.google.com/document/d/1ETpLSW7EK4e8zNShtvTOpb-vyrWY-4vWwZAHBhT7I4s/edit?usp=sharing)
-
-## Authors
-
-- Group 1 - IOT102
