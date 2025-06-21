@@ -12,10 +12,23 @@ RTC_DS1307 rtc;
 
 #define LED_PIN 12
 
-bool syncedFromNTP = false;
+// ---- Thêm khai báo cho NTC ----
+#define NTC_PIN 34     // GPIO34 là chân ADC
+float fakeTemp = 30.5; // Sẽ ghi đè bởi nhiệt độ thực tế
 
-// Nhiệt độ giả lập, sau này thay bằng LM35
-float fakeTemp = 30.5;
+// Cân chỉnh lại ADC min/max đo được thực tế trên Wokwi:
+// Giả sử ADC thấp nhất (nhiệt cao nhất bạn đo được) là 650, ADC cao nhất (nhiệt thấp nhất -24°C) là 4095
+const int adcMin = 650;  // đo thực tế trên wokwi lúc kéo max lên 80
+const int adcMax = 4095; // đo thực tế trên wokwi lúc kéo min xuống -24
+
+// ---- Hàm chuyển đổi giá trị ADC của NTC sang nhiệt độ (giả sử dùng thông số mặc định Wokwi) ----
+float readNTCTemperature()
+{
+  int adcValue = analogRead(NTC_PIN);
+  // Tính toán nhiệt độ dựa trên mô hình Wokwi (giả lập), bạn có thể dùng hàm sau
+  float temp = (1.0 - (adcValue / 4095.0)) * (80.0 + 24.0) - 24.0; // (104 là độ rộng dải)
+  return temp;
+}
 
 void printInfo(struct tm *timeinfo)
 {
@@ -91,7 +104,7 @@ void setup()
           timeinfo.tm_hour,
           timeinfo.tm_min,
           timeinfo.tm_sec));
-      syncedFromNTP = true;
+      // syncedFromNTP = true; // không thay đổi
       Serial.println("Time synced from NTP.");
     }
     LCD.clear();
@@ -107,6 +120,9 @@ void setup()
 
 void loop()
 {
+  // ---- Đọc nhiệt độ từ NTC, cập nhật biến fakeTemp ----
+  fakeTemp = readNTCTemperature();
+
   if (WiFi.status() == WL_CONNECTED)
   {
     struct tm timeinfo;
