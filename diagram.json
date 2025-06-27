@@ -3,188 +3,70 @@
   "author": "Anonymous maker",
   "editor": "wokwi",
   "parts": [
-    {
-      "type": "board-esp32-devkit-c-v4",
-      "id": "esp",
-      "top": -67.2,
-      "left": 52.84,
-      "attrs": {}
-    },
+    { "type": "wokwi-breadboard", "id": "bb1", "top": 265.8, "left": -64.4, "attrs": {} },
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -38.4, "left": -23.96, "attrs": {} },
     {
       "type": "wokwi-lcd1602",
       "id": "lcd1",
-      "top": 6.4,
-      "left": 274.4,
-      "attrs": {
-        "pins": "i2c"
-      }
+      "top": 102.4,
+      "left": 389.6,
+      "attrs": { "pins": "i2c" }
     },
-    {
-      "type": "wokwi-ds1307",
-      "id": "rtc1",
-      "top": -149.4,
-      "left": 278.5,
-      "attrs": {}
-    },
-    {
-      "type": "wokwi-led",
-      "id": "led1",
-      "top": -42,
-      "left": -332.2,
-      "attrs": {
-        "color": "red"
-      }
-    },
+    { "type": "wokwi-ds1307", "id": "rtc1", "top": 4.2, "left": 403.3, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": -42, "left": -332.2, "attrs": { "color": "red" } },
     {
       "type": "wokwi-ntc-temperature-sensor",
       "id": "ntc1",
-      "top": -179.8,
-      "left": -115.8,
+      "top": -93.4,
+      "left": -173.4,
       "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": 146.4,
+      "left": -171,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text1",
+      "top": 134.4,
+      "left": -182.4,
+      "attrs": { "text": "active buzzer" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text2",
+      "top": -115.2,
+      "left": -115.2,
+      "attrs": { "text": "NTC" }
     }
   ],
   "connections": [
-    [
-      "esp:TX",
-      "$serialMonitor:RX",
-      "",
-      []
-    ],
-    [
-      "esp:RX",
-      "$serialMonitor:TX",
-      "",
-      []
-    ],
-    [
-      "lcd1:SDA",
-      "esp:21",
-      "green",
-      [
-        "v-4.49",
-        "h-28.8",
-        "v23.89"
-      ]
-    ],
-    [
-      "lcd1:GND",
-      "esp:GND.2",
-      "black",
-      [
-        "h-16.67",
-        "v162.78"
-      ]
-    ],
-    [
-      "lcd1:SCL",
-      "esp:22",
-      "purple",
-      [
-        "h-19.2",
-        "v-18.9"
-      ]
-    ],
-    [
-      "rtc1:SDA",
-      "esp:21",
-      "green",
-      [
-        "h-48.6",
-        "v181.3"
-      ]
-    ],
-    [
-      "rtc1:SCL",
-      "esp:22",
-      "purple",
-      [
-        "h-57.6",
-        "v162.5"
-      ]
-    ],
-    [
-      "rtc1:GND",
-      "esp:GND.2",
-      "black",
-      [
-        "h-67.2",
-        "v201.7"
-      ]
-    ],
-    [
-      "rtc1:VCC",
-      "esp:3V3",
-      "red",
-      [
-        "h-76.8",
-        "v182"
-      ]
-    ],
-    [
-      "led1:A",
-      "esp:12",
-      "red",
-      [
-        "v0"
-      ]
-    ],
-    [
-      "led1:C",
-      "esp:GND.1",
-      "black",
-      [
-        "v19.2",
-        "h192",
-        "v-86.4"
-      ]
-    ],
-    [
-      "esp:5V",
-      "rtc1:5V",
-      "red",
-      [
-        "v28.8",
-        "h134.55",
-        "v-287.6"
-      ]
-    ],
-    [
-      "esp:5V",
-      "lcd1:VCC",
-      "red",
-      [
-        "v28.8",
-        "h134.55",
-        "v-115.3"
-      ]
-    ],
-    [
-      "ntc1:VCC",
-      "esp:5V",
-      "red",
-      [
-        "h9.6",
-        "v278.4"
-      ]
-    ],
-    [
-      "ntc1:GND",
-      "esp:GND.1",
-      "black",
-      [
-        "h19.2",
-        "v240"
-      ]
-    ],
-    [
-      "ntc1:OUT",
-      "esp:34",
-      "green",
-      [
-        "h28.8",
-        "v134.3"
-      ]
-    ]
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "rtc1:VCC", "esp:3V3", "red", [ "h-76.8", "v182" ] ],
+    [ "led1:A", "esp:12", "red", [ "v0" ] ],
+    [ "ntc1:OUT", "esp:34", "green", [ "v28.7", "h-124.8", "v86.4" ] ],
+    [ "esp:5V", "bb1:tp.1", "red", [ "h0" ] ],
+    [ "esp:GND.1", "bb1:tn.1", "black", [ "h-19.05", "v172.9" ] ],
+    [ "lcd1:VCC", "bb1:tp.37", "red", [ "h0" ] ],
+    [ "lcd1:GND", "bb1:tn.36", "black", [ "h0" ] ],
+    [ "rtc1:5V", "bb1:tp.35", "red", [ "h0" ] ],
+    [ "rtc1:GND", "bb1:tn.34", "black", [ "h0" ] ],
+    [ "esp:21", "bb1:34t.a", "green", [ "h0" ] ],
+    [ "rtc1:SDA", "bb1:34t.c", "green", [ "h-124.8", "v297.3" ] ],
+    [ "lcd1:SDA", "bb1:34t.d", "green", [ "h-96", "v192.2" ] ],
+    [ "esp:22", "bb1:28t.a", "purple", [ "h0" ] ],
+    [ "rtc1:SCL", "bb1:28t.c", "purple", [ "h-182.4", "v287.8" ] ],
+    [ "ntc1:GND", "bb1:tn.16", "black", [ "h0" ] ],
+    [ "ntc1:VCC", "bb1:tp.17", "red", [ "h0" ] ],
+    [ "bb1:tn.3", "bb1:5t.a", "black", [ "v0" ] ],
+    [ "lcd1:SCL", "bb1:28t.d", "purple", [ "h-153.6", "v182.7" ] ],
+    [ "bz1:2", "esp:25", "red", [ "h76.4", "v-163.2" ] ],
+    [ "led1:C", "bb1:5t.e", "black", [ "v0" ] ],
+    [ "bz1:1", "bb1:5t.b", "black", [ "v0" ] ]
   ],
   "dependencies": {}
 }
