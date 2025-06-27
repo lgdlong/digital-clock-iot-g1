@@ -51,7 +51,11 @@ export default function AlarmList({
             <button
               className="btn btn-sm btn-outline-danger"
               style={{ borderRadius: "50%", width: 32, height: 32, padding: 0 }}
-              onClick={() => onDelete(alarm.id)}
+              onClick={() => {
+                if (window.confirm('Bạn có chắc muốn xóa báo thức này?')) {
+                  onDelete(alarm.id);
+                }
+              }}
               title="Xoá"
             >
               &times;
