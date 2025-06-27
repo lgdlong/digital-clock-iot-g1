@@ -1,0 +1,106 @@
+:root {
+  /* Màu nền & chữ Next.js Docs */
+  --geist-bg: #000000; /* nền chính toàn trang */
+
+  --color-bg-dark: #18181b; /* nền chính toàn trang */
+  --color-bg-card: #222226; /* nền card, input */
+  --color-bg-hover: #232326; /* hover lên card, nút */
+  --color-bg-accent: #21272e; /* accent sidebar, overlay */
+
+  --color-text-main: #ededed; /* chữ chính */
+  --color-text-secondary: #a1a1aa; /* chữ phụ */
+  --color-text-accent: #fff; /* chữ nhấn mạnh */
+
+  --color-border: #333338; /* viền nhẹ */
+  --color-border-accent: #2d2d31; /* viền nổi bật hơn */
+
+  --color-accent-blue: #0070f3; /* xanh Next.js */
+  --color-accent-blue-hover: #0369a1; /* xanh hover */
+
+  --color-accent-yellow: #f5e853;
+  --color-info-bg: #26263a;
+  --color-info-text: #b2e0fe;
+
+  --shadow-card: 0 4px 32px #0004;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Giữ nguyên, vì đây đã là màu tối chuẩn Next.js Docs */
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+  flex-direction: column;
+  background: var(--geist-bg) !important;
+  color: var(--color-text-main);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  color: var(--color-accent-blue);
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: var(--color-accent-blue-hover);
+  text-decoration: underline;
+}
+
+/* Card, input, shadow */
+.card.bg-secondary {
+  background: var(--color-bg-card) !important;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+.form-control.bg-dark {
+  background: var(--color-bg-card) !important;
+  color: var(--color-text-main) !important;
+  border-color: var(--color-border) !important;
+}
+.btn-primary {
+  background: var(--color-accent-blue);
+  border-color: var(--color-accent-blue);
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--color-accent-blue-hover);
+  border-color: var(--color-accent-blue-hover);
+}
+.alert-info {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+  border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+[data-nextjs-toolbar],
+.next-feedback-widget,
+.next-feedback-button {
+  display: none !important;
+}

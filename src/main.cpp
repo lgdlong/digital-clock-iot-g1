@@ -21,6 +21,9 @@ float fakeTemp = 30.5; // Sẽ ghi đè bởi nhiệt độ thực tế
 const int adcMin = 650;  // đo thực tế trên wokwi lúc kéo max lên 80
 const int adcMax = 4095; // đo thực tế trên wokwi lúc kéo min xuống -24
 
+// ---- Thêm khai báo cho active buzzer ----
+#define BUZZER_PIN 25 // GPIO25 cho buzzer
+
 // ---- Hàm chuyển đổi giá trị ADC của NTC sang nhiệt độ (giả sử dùng thông số mặc định Wokwi) ----
 float readNTCTemperature()
 {
@@ -68,6 +71,9 @@ void setup()
   Serial.begin(115200);
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
+
+  pinMode(BUZZER_PIN, OUTPUT);   // Đặt buzzer là output
+  digitalWrite(BUZZER_PIN, LOW); // Đảm bảo buzzer tắt lúc đầu
 
   Wire.begin();
   LCD.init();
@@ -140,8 +146,11 @@ void loop()
     printInfoFromRTC();
   }
 
-  digitalWrite(LED_PIN, HIGH);
+  digitalWrite(BUZZER_PIN, HIGH); // Buzzer kêu
+  digitalWrite(LED_PIN, HIGH);    // LED bật
   delay(500);
-  digitalWrite(LED_PIN, LOW);
+
+  digitalWrite(BUZZER_PIN, LOW); // Buzzer tắt
+  digitalWrite(LED_PIN, LOW);    // LED tắt
   delay(500);
 }

@@ -1,0 +1,28 @@
+i {
+  font-size: 24px !important;
+}
+
+.nav-label {
+  font-size: 13px;
+}
+
+.navbar.fixed-bottom {
+  min-height: 56px;
+  background-color: var(--color-bg-navbar) !important;
+  border-top: 1px solid var(--color-border) !important;
+  box-shadow: none !important;
+  padding: 10px 0 !important;
+}
+
+@media (max-width: 600px) {
+  header {
+    font-size: 15px !important;
+    padding: 12px !important;
+  }
+  .navbar.fixed-bottom {
+    font-size: 14px;
+  }
+  .nav-label {
+    display: none !important;
+  }
+}

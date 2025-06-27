@@ -1,0 +1,8 @@
+.clock-display {
+  font-size: 54px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--color-text-main);
+  margin-bottom: 1rem;
+  text-align: center;
+}
