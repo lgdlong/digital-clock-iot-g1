@@ -8,10 +8,25 @@ type TimezoneOption = string;
 async function fetchDeviceTime(timezone?: string) {
   let url = "/api/get-device-time";
   if (timezone) url += "?timezone=" + encodeURIComponent(timezone);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Lỗi kết nối thiết bị");
-  const data = await res.json();
-  return data.datetime as string;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const errorMessage =
+        res.status >= 500
+          ? "Lỗi máy chủ"
+          : res.status >= 400
+          ? "Yêu cầu không hợp lệ"
+          : "Lỗi kết nối thiết bị";
+      throw new Error(`${errorMessage} (${res.status})`);
+    }
+    const data = await res.json();
+    return data.datetime as string;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error("Không thể kết nối đến thiết bị");
+    }
+    throw error;
+  }
 }
 
 async function setDeviceTimezone(timezone: string) {
