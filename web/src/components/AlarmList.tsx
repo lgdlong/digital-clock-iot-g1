@@ -46,6 +46,8 @@ export default function AlarmList({
                 checked={alarm.enabled}
                 onChange={() => onToggle(alarm.id)}
                 style={{ width: 38, height: 22 }}
+                aria-label={`${alarm.enabled ? 'Tắt' : 'Bật'} báo thức ${showTime(alarm.datetime)}`}
+                id={`alarm-toggle-${alarm.id}`}
               />
             </div>
             <button
