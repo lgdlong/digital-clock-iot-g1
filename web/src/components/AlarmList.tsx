@@ -17,7 +17,22 @@ export default function AlarmList({
   onDelete: (id: number) => void;
 }) {
   // Hiển thị giờ đẹp
-  const showTime = (dt: string) => dt.slice(11, 16);
+  // Before:
+- const showTime = (dt: string) => dt.slice(11, 16);
+  
+  // After:
+  const showTime = (dt: string) => {
+    try {
+      return new Date(dt).toLocaleTimeString('vi-VN', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+    } catch (error) {
+      console.warn('Invalid datetime format:', dt);
+      return '--:--';
+    }
+  };
 
   return (
     <ul className="list-group mb-4">
