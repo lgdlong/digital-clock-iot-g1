@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+import React, { useState } from "react";
 
 type Alarm = {
   id: number;
@@ -16,21 +15,18 @@ export default function AlarmList({
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-  // Hiển thị giờ đẹp
-  // Before:
-- const showTime = (dt: string) => dt.slice(11, 16);
-  
-  // After:
+  const [pendingDelete, setPendingDelete] = useState<number | null>(null);
+
   const showTime = (dt: string) => {
     try {
-      return new Date(dt).toLocaleTimeString('vi-VN', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
+      return new Date(dt).toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
       });
     } catch (error) {
-      console.warn('Invalid datetime format:', dt);
-      return '--:--';
+      console.error("Error parsing datetime:", dt, error);
+      return "--:--";
     }
   };
 
@@ -61,22 +57,45 @@ export default function AlarmList({
                 checked={alarm.enabled}
                 onChange={() => onToggle(alarm.id)}
                 style={{ width: 38, height: 22 }}
-                aria-label={`${alarm.enabled ? 'Tắt' : 'Bật'} báo thức ${showTime(alarm.datetime)}`}
+                aria-label={`${
+                  alarm.enabled ? "Tắt" : "Bật"
+                } báo thức ${showTime(alarm.datetime)}`}
                 id={`alarm-toggle-${alarm.id}`}
               />
             </div>
-            <button
-              className="btn btn-sm btn-outline-danger"
-              style={{ borderRadius: "50%", width: 32, height: 32, padding: 0 }}
-              onClick={() => {
-                if (window.confirm('Bạn có chắc muốn xóa báo thức này?')) {
+            {pendingDelete === alarm.id ? (
+              <button
+                className="btn btn-sm btn-danger"
+                style={{
+                  borderRadius: "8px",
+                  width: 80,
+                  height: 32,
+                  padding: 0,
+                  fontSize: 15,
+                }}
+                onClick={() => {
+                  setPendingDelete(null);
                   onDelete(alarm.id);
-                }
-              }}
-              title="Xoá"
-            >
-              &times;
-            </button>
+                }}
+                title="Xác nhận xoá"
+              >
+                Xác nhận
+              </button>
+            ) : (
+              <button
+                className="btn btn-sm btn-outline-danger"
+                style={{
+                  borderRadius: "50%",
+                  width: 32,
+                  height: 32,
+                  padding: 0,
+                }}
+                onClick={() => setPendingDelete(alarm.id)}
+                title="Xoá"
+              >
+                &times;
+              </button>
+            )}
           </div>
         </li>
       ))}
