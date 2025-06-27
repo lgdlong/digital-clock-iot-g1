@@ -1,0 +1,47 @@
+:root {
+  /* Màu nền chủ đạo (background, giống Next.js Docs) */
+  --color-bg-dark: #18181b; /* nền chính */
+  --color-bg-card: #232326; /* nền card, input */
+  --color-bg-hover: #222226; /* hover hoặc overlay card */
+  --color-bg-accent: #21272e; /* accent nhẹ */
+
+  /* Màu chữ */
+  --color-text-main: #fafafa; /* màu chữ chính */
+  --color-text-secondary: #a1a1aa; /* chữ phụ, mô tả */
+  --color-text-accent: #fff; /* accent text */
+
+  /* Màu border, line, separator */
+  --color-border: #333338;
+  --color-border-accent: #2d2d31;
+
+  /* Accent xanh Next.js */
+  --color-accent-blue: #0070f3; /* Next.js blue */
+  --color-accent-blue-hover: #0369a1; /* Blue hover */
+
+  /* Accent màu vàng sáng (rare) */
+  --color-accent-yellow: #f5e853;
+
+  /* Màu alert/info */
+  --color-info-bg: #26263a;
+  --color-info-text: #b2e0fe;
+
+  /* Shadow mặc định cho card */
+  --shadow-card: 0 4px 32px #0004;
+}
+
+.form-control.bg-dark {
+  background: #18181b !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+  }
+}
