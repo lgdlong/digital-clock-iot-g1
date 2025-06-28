@@ -3,16 +3,26 @@ skinparam dpi 150
 !include <tupadr3/common>
 !include <tupadr3/uml>
 
-[ESP32 DevKitC] as ESP32
+[ESP32/ESP8266 MCU] as MCU
 [DS1307 RTC] as RTC
-[LCD1602 Display] as LCD
-[NTC Temperature Sensor] as NTC
-[Active Buzzer] as Buzzer
-[LED] as LED
+[Temperature Sensor] as Temp
+[Heart Rate Sensor] as Heart
+[Display (7seg/LCD)] as Display
+[Button] as Button
+[Buzzer] as Buzzer
+[WiFi Network] as WiFi
+[NTP Server] as NTP
+[Weather API] as Weather
+[User Web Interface] as WebUI
 
-ESP32 --> LCD : I2C (GPIO21/22)
-ESP32 --> RTC : I2C (GPIO21/22)
-ESP32 --> NTC : ADC (GPIO34)
-ESP32 --> Buzzer : GPIO25
-ESP32 --> LED : GPIO12
+MCU --> Display : GPIO/I2C
+MCU --> RTC : I2C
+MCU --> Temp : ADC/I2C
+MCU --> Heart : ADC
+MCU --> Button : GPIO
+MCU --> Buzzer : GPIO
+MCU --> WiFi
+WiFi --> NTP
+WiFi --> Weather
+WiFi --> WebUI
 @enduml

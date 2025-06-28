@@ -86,5 +86,7 @@ This repository includes generated diagrams for hardware and firmware overview.
 - [`docs/flowchart.puml`](docs/flowchart.puml) – Main program flowchart
 
 The corresponding draw.io files are located in the same folder with the `.drawio` extension.
+The block diagram visualizes how the ESP32/ESP8266 connects to the RTC, sensors,
+display, buzzer, button and Wi‑Fi network.
 
 
