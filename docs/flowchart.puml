@@ -1,0 +1,28 @@
+@startuml
+skinparam dpi 150
+start
+:Setup peripherals;
+:Initialize LCD and RTC;
+:Connect to WiFi;
+if (WiFi connected?) then (yes)
+  :Sync time via NTP;
+else
+  :Show WiFi failed;
+endif
+while (true)
+  :Read temperature from NTC;
+  if (WiFi connected?) then (yes)
+    if (getLocalTime() success?) then (yes)
+      :Display NTP time;
+    else
+      :Display RTC time;
+    endif
+  else
+    :Display RTC time;
+  endif
+  :Buzzer ON; LED ON;
+  :delay 500ms;
+  :Buzzer OFF; LED OFF;
+  :delay 500ms;
+endwhile
+@enduml

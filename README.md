@@ -78,4 +78,13 @@ The default time zone is set to UTC+7 (Vietnam). To change the time zone:
 
 This project can be simulated using Wokwi. The diagram.json file contains the component connections for the simulation.
 
+## Diagrams
+
+This repository includes generated diagrams for hardware and firmware overview.
+
+- [`docs/block_diagram.puml`](docs/block_diagram.puml) – Hardware block diagram
+- [`docs/flowchart.puml`](docs/flowchart.puml) – Main program flowchart
+
+The corresponding draw.io files are located in the same folder with the `.drawio` extension.
+
 

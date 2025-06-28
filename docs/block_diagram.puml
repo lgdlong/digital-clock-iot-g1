@@ -1,0 +1,18 @@
+@startuml
+skinparam dpi 150
+!include <tupadr3/common>
+!include <tupadr3/uml>
+
+[ESP32 DevKitC] as ESP32
+[DS1307 RTC] as RTC
+[LCD1602 Display] as LCD
+[NTC Temperature Sensor] as NTC
+[Active Buzzer] as Buzzer
+[LED] as LED
+
+ESP32 --> LCD : I2C (GPIO21/22)
+ESP32 --> RTC : I2C (GPIO21/22)
+ESP32 --> NTC : ADC (GPIO34)
+ESP32 --> Buzzer : GPIO25
+ESP32 --> LED : GPIO12
+@enduml
