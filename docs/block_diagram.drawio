@@ -1,71 +1,65 @@
-<mxfile host="app.diagrams.net">
-  <diagram name="IoT Block Diagram">
-    <mxGraphModel>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0" version="27.1.6">
+  <diagram name="IoT Block Diagram" id="0">
+    <mxGraphModel dx="1281" dy="1785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
-        <mxCell id="0"/>
-        <mxCell id="1" parent="0"/>
-        <mxCell id="MCU" value="ESP32/ESP8266" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="300" y="40" width="140" height="60" as="geometry"/>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MCU" value="ESP32" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="50" width="160" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="RTC" value="DS1307 RTC" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="60" y="160" width="120" height="50" as="geometry"/>
+        <mxCell id="RTC" value="DS1307 RTC" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="200" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Temp" value="Temperature Sensor" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="160" width="140" height="50" as="geometry"/>
+        <mxCell id="Temp" value="Temperature Sensor" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="530" y="200" width="140" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Heart" value="Heart Rate Sensor" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="440" y="160" width="140" height="50" as="geometry"/>
+        <mxCell id="Display" value="Display" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="200" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Display" value="Display" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="60" y="260" width="120" height="50" as="geometry"/>
+        <mxCell id="Button" value="Button" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="200" width="80" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Button" value="Button" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="260" width="80" height="50" as="geometry"/>
+        <mxCell id="Buzzer" value="Buzzer" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="200" width="80" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Buzzer" value="Buzzer" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="360" y="260" width="80" height="50" as="geometry"/>
+        <mxCell id="WiFi" value="Internet" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="310" y="-60" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="WiFi" value="WiFi Network" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="40" width="120" height="60" as="geometry"/>
+        <mxCell id="NTP" value="NTP Server" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="-140" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="NTP" value="NTP Server" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="520" y="160" width="120" height="50" as="geometry"/>
+        <mxCell id="Weather" value="Weather API" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="-140" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Weather" value="Weather API" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="520" y="240" width="120" height="50" as="geometry"/>
+        <mxCell id="WebUI" value="Web Interface" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="460" y="-140" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="WebUI" value="Web Interface" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="520" y="320" width="120" height="50" as="geometry"/>
+        <mxCell id="edge1" style="endArrow=block;" parent="1" source="MCU" target="RTC" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge1" style="endArrow=block;" edge="1" source="MCU" target="RTC" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge2" style="endArrow=block;" parent="1" source="MCU" target="Temp" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge2" style="endArrow=block;" edge="1" source="MCU" target="Temp" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge4" style="endArrow=block;" parent="1" source="MCU" target="Display" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge3" style="endArrow=block;" edge="1" source="MCU" target="Heart" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge5" style="endArrow=block;" parent="1" source="MCU" target="Button" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge4" style="endArrow=block;" edge="1" source="MCU" target="Display" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge6" style="endArrow=block;" parent="1" source="MCU" target="Buzzer" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge5" style="endArrow=block;" edge="1" source="MCU" target="Button" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge7" style="endArrow=block;" parent="1" source="MCU" target="WiFi" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge6" style="endArrow=block;" edge="1" source="MCU" target="Buzzer" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge8" style="endArrow=block;" parent="1" source="WiFi" target="NTP" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge7" style="endArrow=block;" edge="1" source="MCU" target="WiFi" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge9" style="endArrow=block;" parent="1" source="WiFi" target="Weather" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge8" style="endArrow=block;" edge="1" source="WiFi" target="NTP" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="edge9" style="endArrow=block;" edge="1" source="WiFi" target="Weather" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="edge10" style="endArrow=block;" edge="1" source="WiFi" target="WebUI" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge10" style="endArrow=block;" parent="1" source="WiFi" target="WebUI" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
