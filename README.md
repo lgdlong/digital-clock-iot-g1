@@ -6,6 +6,9 @@ This is a digital clock project using ESP32 with real-time synchronization from 
 
 > Read more about the key features in [KEY_FEATURES.md](KEY_FEATURES.md)
 
+## Block Diagram
+<img src="/docs/block_diagram.drawio.png" alt="Block Diagram" width="600">
+
 ## Docs
 
 [IOT_Project_G1 - Google Tài liệu](https://docs.google.com/document/d/1ETpLSW7EK4e8zNShtvTOpb-vyrWY-4vWwZAHBhT7I4s/edit?usp=sharing)
