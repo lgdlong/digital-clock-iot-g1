@@ -1,0 +1,28 @@
+@startuml
+skinparam dpi 150
+!include <tupadr3/common>
+!include <tupadr3/uml>
+
+[ESP32/ESP8266 MCU] as MCU
+[DS1307 RTC] as RTC
+[Temperature Sensor] as Temp
+[Heart Rate Sensor] as Heart
+[Display (7seg/LCD)] as Display
+[Button] as Button
+[Buzzer] as Buzzer
+[WiFi Network] as WiFi
+[NTP Server] as NTP
+[Weather API] as Weather
+[User Web Interface] as WebUI
+
+MCU --> Display : GPIO/I2C
+MCU --> RTC : I2C
+MCU --> Temp : ADC/I2C
+MCU --> Heart : ADC
+MCU --> Button : GPIO
+MCU --> Buzzer : GPIO
+MCU --> WiFi
+WiFi --> NTP
+WiFi --> Weather
+WiFi --> WebUI
+@enduml
