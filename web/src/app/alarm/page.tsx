@@ -36,6 +36,7 @@ export default function AlarmPage() {
   }, []);
 
   const handleToggle = async (_id: string) => {
+    const originalAlarms = alarms;
     setAlarms((prev) =>
       prev.map((alarm) =>
         alarm._id === _id ? { ...alarm, enabled: !alarm.enabled } : alarm
@@ -45,9 +46,9 @@ export default function AlarmPage() {
       const alarm = alarms.find((a) => a._id === _id);
       if (alarm) await toggleAlarmAPI(_id, !alarm.enabled);
     } catch (err) {
+      setAlarms(originalAlarms); // Rollback on error
       setError("Không thể cập nhật báo thức");
       console.error(err);
-      // rollback nếu cần
     }
   };
 

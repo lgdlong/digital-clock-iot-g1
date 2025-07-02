@@ -8,13 +8,15 @@ let client: MongoClient;
 let db: Db;
 
 export async function connectDB() {
-  console.log("MONGODB_URI in db-config.ts:", process.env.MONGODB_URI);
-  if (!client || !db) {
-    client = new MongoClient(uri);
-    await client.connect();
-    db = client.db(dbName);
-
-    console.log("MONGODB_URI:", process.env.MONGODB_URI);
+  try {
+    if (!client || !db) {
+      client = new MongoClient(uri);
+      await client.connect();
+      db = client.db(dbName);
+    }
+    return db;
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+    throw new Error("Database connection failed");
   }
-  return db;
 }
