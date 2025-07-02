@@ -100,7 +100,7 @@ export async function PATCH(request: NextRequest) {
         { returnDocument: "after" }
       );
 
-    if (!result.value) {
+    if (!result || !result.value) {
       return NextResponse.json({ error: "Alarm not found" }, { status: 404 });
     }
 
