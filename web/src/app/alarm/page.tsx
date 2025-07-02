@@ -1,56 +1,103 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AlarmList from "@/components/AlarmList";
 import AddAlarmModal from "@/components/AddAlarmModal";
-
-type Alarm = {
-  id: number;
-  datetime: string;
-  enabled: boolean;
-};
+import type { Alarm } from "@/types/alarm.dto";
+import {
+  getAlarms,
+  addAlarm,
+  toggleAlarm as toggleAlarmAPI,
+  deleteAlarm as deleteAlarmAPI,
+} from "@/lib/alarms-api";
 
 export default function AlarmPage() {
-  const [alarms, setAlarms] = useState<Alarm[]>([
-    { id: 1, datetime: "2024-06-29T06:30:00", enabled: true },
-    { id: 2, datetime: "2024-06-29T21:15:00", enabled: false },
-    { id: 3, datetime: "2024-06-29T07:15:00", enabled: true },
-  ]);
+  const [alarms, setAlarms] = useState<Alarm[]>([]);
   const [showAdd, setShowAdd] = useState(false);
-  const [newTime, setNewTime] = useState("07:00");
+  const [newHour, setNewHour] = useState(7);
+  const [newMinute, setNewMinute] = useState(0);
+  const [newDays, setNewDays] = useState<number[]>([new Date().getDay() || 0]); // Ngày trong tuần hiện tại
+  const [newLabel, setNewLabel] = useState("Alarm");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const toggleAlarm = (id: number) => {
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    getAlarms()
+      .then(setAlarms)
+      .catch((err: unknown) => {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Đã xảy ra lỗi không xác định");
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleToggle = async (_id: string) => {
+    const originalAlarms = alarms;
     setAlarms((prev) =>
       prev.map((alarm) =>
-        alarm.id === id ? { ...alarm, enabled: !alarm.enabled } : alarm
+        alarm._id === _id ? { ...alarm, enabled: !alarm.enabled } : alarm
       )
     );
+    try {
+      const alarm = alarms.find((a) => a._id === _id);
+      if (alarm) await toggleAlarmAPI(_id, !alarm.enabled);
+    } catch (err) {
+      setAlarms(originalAlarms); // Rollback on error
+      setError("Không thể cập nhật báo thức");
+      console.error(err);
+    }
   };
 
-  const deleteAlarm = (id: number) => {
-    setAlarms((prev) => prev.filter((alarm) => alarm.id !== id));
+  const handleDelete = async (_id: string) => {
+    setAlarms((prev) => prev.filter((alarm) => alarm._id !== _id));
+    try {
+      await deleteAlarmAPI(_id);
+    } catch (err) {
+      setError("Không thể xoá báo thức");
+      console.error(err);
+      // rollback nếu cần
+    }
   };
 
-  const addAlarm = () => {
-    setAlarms((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        datetime: `2024-06-29T${newTime}:00`,
+  const handleAdd = async () => {
+    try {
+      const alarm = await addAlarm({
+        hour: newHour,
+        minute: newMinute,
         enabled: true,
-      },
-    ]);
-    setShowAdd(false);
-    setNewTime("07:00");
+        daysOfWeek: [...newDays],
+        label: newLabel,
+      });
+      setAlarms((prev) => [...prev, alarm]);
+      setShowAdd(false);
+      setNewHour(7);
+      setNewMinute(0);
+      setNewDays([new Date().getDay() || 0]);
+      setNewLabel("");
+    } catch (err) {
+      setError("Không thêm được báo thức");
+      console.error(err);
+    }
   };
 
   return (
     <div className="container py-4" style={{ maxWidth: 420 }}>
       <h2 className="text-center mb-4">Báo thức</h2>
-      <AlarmList
-        alarms={alarms}
-        onToggle={toggleAlarm}
-        onDelete={deleteAlarm}
-      />
+      {loading ? (
+        <div className="text-center my-4">Đang tải...</div>
+      ) : error ? (
+        <div className="alert alert-danger text-center">{error}</div>
+      ) : (
+        <AlarmList
+          alarms={alarms}
+          onToggle={handleToggle}
+          onDelete={handleDelete}
+        />
+      )}
       <div className="text-center">
         <button
           className="btn btn-primary btn-lg rounded-circle"
@@ -70,9 +117,15 @@ export default function AlarmPage() {
       <AddAlarmModal
         show={showAdd}
         onClose={() => setShowAdd(false)}
-        newTime={newTime}
-        setNewTime={setNewTime}
-        onAdd={addAlarm}
+        newHour={newHour}
+        setNewHour={setNewHour}
+        newMinute={newMinute}
+        setNewMinute={setNewMinute}
+        newDays={newDays}
+        setNewDays={setNewDays}
+        newLabel={newLabel}
+        setNewLabel={setNewLabel}
+        onAdd={handleAdd}
       />
     </div>
   );

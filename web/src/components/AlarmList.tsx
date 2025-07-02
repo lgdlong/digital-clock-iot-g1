@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+// components/AlarmList.tsx
+import { Alarm } from "@/types/alarm.dto";
+import { useState } from "react";
 
-type Alarm = {
-  id: number;
-  datetime: string; // ISO 8601
-  enabled: boolean;
-};
+const weekdays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 
 export default function AlarmList({
   alarms,
@@ -12,58 +10,55 @@ export default function AlarmList({
   onDelete,
 }: {
   alarms: Alarm[];
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
+  onToggle: (id: string) => void;
+  onDelete: (id: string) => void;
 }) {
-  const [pendingDelete, setPendingDelete] = useState<number | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
-  const showTime = (dt: string) => {
-    try {
-      return new Date(dt).toLocaleTimeString("vi-VN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      });
-    } catch (error) {
-      console.error("Error parsing datetime:", dt, error);
-      return "--:--";
-    }
-  };
+  const showTime = (h: number, m: number) =>
+    `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
+
+  const showDays = (ds: number[]) =>
+    ds.length === 7 ? "Cả tuần" : ds.map((d) => weekdays[d]).join(", ");
 
   return (
     <ul className="list-group mb-4">
       {alarms.map((alarm) => (
         <li
           className="list-group-item d-flex align-items-center bg-dark text-white border-0 mb-2 shadow-sm"
-          key={alarm.id}
+          key={alarm._id}
           style={{
             borderRadius: 14,
-            fontSize: 22,
+            fontSize: 20,
             justifyContent: "space-between",
-            padding: "16px 20px",
+            padding: "14px 18px",
           }}
         >
-          <span>
-            <b>{showTime(alarm.datetime)}</b>
-            <span style={{ fontSize: 12, color: "#aaa", marginLeft: 8 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <b>{showTime(alarm.hour, alarm.minute)}</b>
+            <span style={{ fontSize: 13, color: "#aaa", marginLeft: 8 }}>
+              {alarm.label && `· ${alarm.label}`}
               {alarm.enabled ? "" : " (Tắt)"}
             </span>
-          </span>
+            <div style={{ fontSize: 13, color: "#cfcfcf", marginTop: 2 }}>
+              {showDays(alarm.daysOfWeek)}
+            </div>
+          </div>
           <div className="d-flex align-items-center gap-2">
             <div className="form-check form-switch">
               <input
                 className="form-check-input"
                 type="checkbox"
                 checked={alarm.enabled}
-                onChange={() => onToggle(alarm.id)}
+                onChange={() => onToggle(alarm._id)}
                 style={{ width: 38, height: 22 }}
                 aria-label={`${
                   alarm.enabled ? "Tắt" : "Bật"
-                } báo thức ${showTime(alarm.datetime)}`}
-                id={`alarm-toggle-${alarm.id}`}
+                } báo thức ${showTime(alarm.hour, alarm.minute)}`}
+                id={`alarm-toggle-${alarm._id}`}
               />
             </div>
-            {pendingDelete === alarm.id ? (
+            {pendingDelete === alarm._id ? (
               <button
                 className="btn btn-sm btn-danger"
                 style={{
@@ -75,7 +70,7 @@ export default function AlarmList({
                 }}
                 onClick={() => {
                   setPendingDelete(null);
-                  onDelete(alarm.id);
+                  onDelete(alarm._id);
                 }}
                 title="Xác nhận xoá"
               >
@@ -90,7 +85,7 @@ export default function AlarmList({
                   height: 32,
                   padding: 0,
                 }}
-                onClick={() => setPendingDelete(alarm.id)}
+                onClick={() => setPendingDelete(alarm._id)}
                 title="Xoá"
               >
                 &times;
