@@ -100,18 +100,18 @@ export async function PATCH(request: NextRequest) {
         { returnDocument: "after" }
       );
 
-    if (!result) {
+    if (!result.value) {
       return NextResponse.json({ error: "Alarm not found" }, { status: 404 });
     }
 
     // Return the updated alarm with _id as string
     const updatedAlarm: Alarm = {
-      hour: result.hour,
-      minute: result.minute,
-      enabled: result.enabled,
-      daysOfWeek: result.daysOfWeek,
-      label: result.label,
-      _id: result._id.toString(),
+      hour: result.value.hour,
+      minute: result.value.minute,
+      enabled: result.value.enabled,
+      daysOfWeek: result.value.daysOfWeek,
+      label: result.value.label,
+      _id: result.value._id.toString(),
     };
 
     return NextResponse.json(updatedAlarm);
