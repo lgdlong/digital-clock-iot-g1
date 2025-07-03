@@ -4,6 +4,7 @@ import { connectDB } from "@/config/db-config";
 import { ObjectId } from "mongodb";
 import type { Alarm } from "@/types/alarm.dto";
 
+// Interface định nghĩa dữ liệu yêu cầu cập nhật báo thức
 interface UpdateAlarmRequest {
   _id: string;
   hour?: number;
@@ -13,6 +14,7 @@ interface UpdateAlarmRequest {
   label?: string;
 }
 
+// Hàm kiểm tra tính hợp lệ của dữ liệu đầu vào
 function validateUpdateAlarmData(data: unknown): data is UpdateAlarmRequest {
   if (typeof data !== "object" || data === null) return false;
 
@@ -41,7 +43,7 @@ export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
 
-    // Validate request data
+    // Kiểm tra tính hợp lệ của dữ liệu yêu cầu
     if (!validateUpdateAlarmData(body)) {
       return NextResponse.json(
         {
@@ -54,7 +56,7 @@ export async function PATCH(request: NextRequest) {
 
     const db = await connectDB();
 
-    // Validate ObjectId format
+    // Kiểm tra định dạng ObjectId
     let objectId: ObjectId;
     try {
       objectId = new ObjectId(body._id);
@@ -65,7 +67,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    // Prepare update object (remove _id from update fields)
+    // Chuẩn bị trường dữ liệu để cập nhật
     const updateFields: Partial<Omit<Alarm, "_id">> = {
       hour: body.hour,
       minute: body.minute,
@@ -74,7 +76,7 @@ export async function PATCH(request: NextRequest) {
       label: body.label,
     };
 
-    // Only update fields that are provided
+    // Bỏ qua các trường không có giá trị
     const updateDoc: Record<string, unknown> = {};
     if (updateFields.hour !== undefined) updateDoc.hour = updateFields.hour;
     if (updateFields.minute !== undefined)
@@ -85,6 +87,7 @@ export async function PATCH(request: NextRequest) {
       updateDoc.enabled = updateFields.enabled;
     if (updateFields.label !== undefined) updateDoc.label = updateFields.label;
 
+    // Không có trường hợp lệ nào để cập nhật
     if (Object.keys(updateDoc).length === 0) {
       return NextResponse.json(
         { error: "No valid fields to update" },
@@ -92,31 +95,35 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const result = await db
-      .collection("alarms")
-      .findOneAndUpdate(
-        { _id: objectId },
-        { $set: updateDoc },
-        { returnDocument: "after" }
-      );
+    // Tiến hành cập nhật báo thức
+    const result = await db.collection("alarms").findOneAndUpdate(
+      { _id: objectId },
+      { $set: updateDoc },
+      { returnDocument: "after" } // trả về document sau khi cập nhật
+    );
 
-    if (!result || !result.value) {
+    // Xử lý kết quả trả về từ driver MongoDB (hỗ trợ cả phiên bản cũ và mới)
+    const doc = result && result.value ? result.value : result;
+
+    if (!doc) {
+      // Không tìm thấy báo thức để cập nhật
       return NextResponse.json({ error: "Alarm not found" }, { status: 404 });
     }
 
-    // Return the updated alarm with _id as string
+    // Trả về báo thức đã cập nhật
     const updatedAlarm: Alarm = {
-      hour: result.value.hour,
-      minute: result.value.minute,
-      enabled: result.value.enabled,
-      daysOfWeek: result.value.daysOfWeek,
-      label: result.value.label,
-      _id: result.value._id.toString(),
+      hour: doc.hour,
+      minute: doc.minute,
+      enabled: doc.enabled,
+      daysOfWeek: doc.daysOfWeek,
+      label: doc.label,
+      _id: doc._id.toString(),
     };
 
     return NextResponse.json(updatedAlarm);
   } catch (error) {
     console.error("Error updating alarm:", error);
+    // Xảy ra lỗi trong quá trình xử lý
     return NextResponse.json(
       { error: "Failed to update alarm" },
       { status: 500 }
