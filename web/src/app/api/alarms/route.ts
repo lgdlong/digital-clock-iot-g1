@@ -12,8 +12,6 @@ export async function GET() {
       .sort({ hour: 1, minute: 1 }) // Sắp xếp theo giờ, phút tăng dần
       .toArray();
 
-    // Log all alarms from DB
-    console.log("[GET /api/alarms] All alarms from DB:", alarms);
 
     // Chuyển _id ObjectId về string (nếu dùng type Alarm với _id: string)
     const alarmsTransformed = alarms.map((alarm) => ({
