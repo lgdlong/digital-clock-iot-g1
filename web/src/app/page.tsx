@@ -41,7 +41,6 @@ export default function Home() {
             'ws://broker.hivemq.com:8000/mqtt'
           ]
         : [
-            'wss://broker.hivemq.com:8884/mqtt',
             'wss://broker.emqx.io:8084/mqtt',
             'wss://test.mosquitto.org:8081',
             'wss://broker.hivemq.com:8000/mqtt'
