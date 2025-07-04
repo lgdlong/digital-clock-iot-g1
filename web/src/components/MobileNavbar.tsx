@@ -10,21 +10,21 @@ const navs = [
     label: "Home",
     icon: <i className="bi bi-house" />,
   },
-  {
-    href: "/set-time",
-    label: "Đặt giờ",
-    icon: <i className="bi bi-clock" />,
-  },
+  // {
+  //   href: "/set-time",
+  //   label: "Đặt giờ",
+  //   icon: <i className="bi bi-clock" />,
+  // },
   {
     href: "/alarm",
     label: "Báo thức",
     icon: <i className="bi bi-alarm" />,
   },
-  {
-    href: "/api-docs",
-    label: "API Docs",
-    icon: <i className="bi bi-file-text" />,
-  },
+  // {
+  //   href: "/api-docs",
+  //   label: "API Docs",
+  //   icon: <i className="bi bi-file-text" />,
+  // },
   {
     href: "/settings",
     label: "Cài đặt",
