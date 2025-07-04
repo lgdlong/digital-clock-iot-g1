@@ -15,6 +15,59 @@ function validateDeleteAlarmData(data: unknown): data is DeleteAlarmRequest {
   return typeof obj._id === "string" && obj._id.length > 0;
 }
 
+/**
+ * @swagger
+ * /api/delete-alarm:
+ *   delete:
+ *     summary: Delete an alarm
+ *     description: Delete an existing alarm by its ID
+ *     tags:
+ *       - Alarms
+ *     parameters:
+ *       - in: query
+ *         name: _id
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Alarm ID to delete (can also be provided in request body)
+ *         example: "60f1b2b3b3b3b3b3b3b3b3b3"
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               _id:
+ *                 type: string
+ *                 description: Alarm ID to delete
+ *                 example: "60f1b2b3b3b3b3b3b3b3b3b3"
+ *     responses:
+ *       200:
+ *         description: Alarm deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Success'
+ *       400:
+ *         description: Invalid request or alarm ID format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Alarm not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export async function DELETE(request: NextRequest) {
   try {
     const url = new URL(request.url);

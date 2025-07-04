@@ -9,15 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-react": "^5.18.0",
     "@vvo/tzdb": "^6.176.0",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
     "luxon": "^3.6.1",
     "mongodb": "^6.17.0",
+    "mqtt": "^5.13.1",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-react": "^5.26.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

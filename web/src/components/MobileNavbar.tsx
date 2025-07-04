@@ -21,6 +21,11 @@ const navs = [
     icon: <i className="bi bi-alarm" />,
   },
   {
+    href: "/api-docs",
+    label: "API Docs",
+    icon: <i className="bi bi-file-text" />,
+  },
+  {
     href: "/settings",
     label: "Cài đặt",
     icon: <i className="bi bi-gear" />,
