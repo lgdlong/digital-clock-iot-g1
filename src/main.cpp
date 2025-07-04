@@ -28,10 +28,11 @@ WiFiManager wifiManager;
 Preferences preferences;
 
 // MQTT Variables
-const char* mqttServer = "broker.emqx.io";  // Thử EMQX thay vì HiveMQ
-const int mqttPort = 1883;  // TCP port for ESP32
-const char* mqttUser = "";  // Empty for public broker
-const char* mqttPassword = "";  // Empty for public broker
+const char* mqttServers[] = {"broker.emqx.io", "test.mosquitto.org"};
+const int mqttPort = 1883;
+const char* mqttUser = "";
+const char* mqttPassword = "";
+int currentBrokerIndex = 0;
 const char* timePublishTopic = "clock/time";
 const char* resetSubscribeTopic = "clock/reset";
 WiFiClient espClient;
@@ -585,15 +586,14 @@ void publishCurrentTime() {
 }
 
 void connectMQTT() {
+  int retry = 0;
   while (!mqttClient.connected() && WiFi.status() == WL_CONNECTED) {
     Serial.print("Attempting MQTT connection to ");
-    Serial.print(mqttServer);
+    Serial.print(mqttServers[currentBrokerIndex]);
     Serial.print(":");
     Serial.print(mqttPort);
     Serial.print("...");
-    
     String clientId = "ESP32Clock-" + String(random(0xffff), HEX);
-    
     if (mqttClient.connect(clientId.c_str(), mqttUser, mqttPassword)) {
       Serial.println(" connected!");
       Serial.println("Client ID: " + clientId);
@@ -605,6 +605,15 @@ void connectMQTT() {
       Serial.print(mqttClient.state());
       Serial.println(" try again in 5 seconds");
       delay(5000);
+      retry++;
+      if (retry >= 3 && currentBrokerIndex == 0) {
+        Serial.println("Switching to backup MQTT broker: test.mosquitto.org");
+        currentBrokerIndex = 1;
+        retry = 0;
+      } else if (retry >= 3 && currentBrokerIndex == 1) {
+        Serial.println("All MQTT brokers failed. Will keep retrying...");
+        retry = 0;
+      }
     }
   }
 }
@@ -717,7 +726,7 @@ void setup() {
     Serial.println("✓ WiFi connected: " + WiFi.localIP().toString());
     
     // Initialize MQTT
-    mqttClient.setServer(mqttServer, mqttPort);
+    mqttClient.setServer(mqttServers[currentBrokerIndex], mqttPort);
     mqttClient.setCallback(mqttCallback);
     
     fetchWeatherData();
