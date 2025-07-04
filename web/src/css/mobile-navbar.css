@@ -8,7 +8,7 @@ i {
 
 .navbar.fixed-bottom {
   min-height: 56px;
-  background-color: var(--color-bg-navbar) !important;
+  background-color: #000000 !important;
   border-top: 1px solid var(--color-border) !important;
   box-shadow: none !important;
   padding: 10px 0 !important;
