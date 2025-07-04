@@ -14,7 +14,9 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [connectionError, setConnectionError] = useState<string>("");
   const [lastMqttUpdate, setLastMqttUpdate] = useState<number>(0);
+  const [esp32Online, setEsp32Online] = useState(false);
   const nextAlarm = "06:30";
+  const [hasSentInitialReset, setHasSentInitialReset] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -24,167 +26,118 @@ export default function Home() {
     if (!isMounted) return;
 
     let reconnectTimer: NodeJS.Timeout;
-    let client: mqtt.MqttClient;
+    let client: mqtt.MqttClient | null = null;
+    let destroyed = false;
 
     const connectMQTT = () => {
+      if (destroyed) return;
       console.log('🔄 Đang kết nối tới ESP32 qua MQTT...');
       setConnectionError("");
-      
-      // Kết nối WebSocket cho browser
-      // Thử các MQTT broker khác nhau
-      const mqttUrls = [
-        'wss://broker.hivemq.com:8884/mqtt',  // HiveMQ SSL
-        'wss://broker.emqx.io:8084/mqtt',     // EMQX public
-        'wss://test.mosquitto.org:8081',      // Mosquitto test
-        'wss://broker.hivemq.com:8000/mqtt'   // HiveMQ WebSocket (fallback)
-      ];
-      
+      const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+      const mqttUrls = isLocal
+        ? [
+            'ws://broker.emqx.io:8083/mqtt',
+            'ws://test.mosquitto.org:8080',
+            'ws://broker.hivemq.com:8000/mqtt'
+          ]
+        : [
+            'wss://broker.hivemq.com:8884/mqtt',
+            'wss://broker.emqx.io:8084/mqtt',
+            'wss://test.mosquitto.org:8081',
+            'wss://broker.hivemq.com:8000/mqtt'
+          ];
       let currentUrlIndex = 0;
-      
+
       const tryConnect = () => {
+        if (destroyed) return;
         if (currentUrlIndex >= mqttUrls.length) {
           console.error('❌ Tất cả MQTT brokers đều không kết nối được');
           setIsOnline(false);
           setConnectionError("Không thể kết nối tới MQTT broker nào");
           return;
         }
-        
         const mqttUrl = mqttUrls[currentUrlIndex];
         console.log(`🔄 Thử kết nối MQTT: ${mqttUrl}`);
-        
         client = mqtt.connect(mqttUrl, {
           clientId: `WebApp-${Math.random().toString(16).slice(2, 8)}`,
-          connectTimeout: 15000, // Tăng timeout lên 15s
+          connectTimeout: 15000,
           keepalive: 60,
           clean: true,
           reconnectPeriod: 0,
         });
-        
         client.on('connect', () => {
+          if (destroyed) return;
           console.log(`✅ Đã kết nối MQTT broker: ${mqttUrl}`);
           setIsOnline(true);
           setConnectionError("");
-          
-          // Subscribe để nhận thời gian từ ESP32
-          client.subscribe('clock/time', (err) => {
+          setHasSentInitialReset(false);
+          client!.subscribe('clock/time', (err) => {
             if (err) {
               console.error('❌ Lỗi subscribe:', err);
               setConnectionError("Không thể subscribe topic thời gian");
             } else {
               console.log('📡 Đã subscribe topic clock/time');
-              
-              // Gửi lệnh để ESP32 publish thời gian ngay
-              client.publish('clock/reset', 'reset');
-              console.log('📤 Đã gửi lệnh reset tới ESP32');
             }
           });
         });
-
+        client.on('message', (topic: string, message: any) => {
+          if (topic === 'clock/time') {
+            const timeFromESP32 = message.toString();
+            console.log('⏰ Nhận từ ESP32:', timeFromESP32);
+            const timeRegex = /^\d{2}:\d{2}:\d{2}$/;
+            if (timeRegex.test(timeFromESP32)) {
+              setCurrentTime(timeFromESP32);
+              setLastMqttUpdate(Date.now());
+              console.log('[DEBUG] Đã cập nhật lastMqttUpdate:', new Date().toLocaleTimeString());
+              setConnectionError("");
+            } else {
+              setConnectionError(`Dữ liệu giờ từ ESP32 không hợp lệ: ${timeFromESP32}`);
+              console.warn('[DEBUG] Dữ liệu ESP32 không hợp lệ:', timeFromESP32);
+            }
+          }
+        });
         client.on('error', (error: Error) => {
+          if (destroyed) return;
           console.error(`❌ Lỗi MQTT với ${mqttUrl}:`, error);
-          currentUrlIndex++;
+          setIsOnline(false);
+          setConnectionError(`Lỗi kết nối: ${error.message}`);
           if (client) {
             client.removeAllListeners();
-            client.end();
+            client.end(true);
+            client = null;
           }
-          setTimeout(tryConnect, 2000); // Thử broker tiếp theo sau 2s
+          currentUrlIndex++;
+          reconnectTimer = setTimeout(tryConnect, 2000);
         });
-
         client.on('close', () => {
+          if (destroyed) return;
           console.log(`🔌 MQTT đã ngắt kết nối: ${mqttUrl}`);
           setIsOnline(false);
-          
-          // Auto reconnect với broker hiện tại
-          setTimeout(() => {
-            if (currentUrlIndex < mqttUrls.length) {
-              tryConnect();
-            }
-          }, 3000);
+          if (client) {
+            client.removeAllListeners();
+            client.end(true);
+            client = null;
+          }
+          reconnectTimer = setTimeout(tryConnect, 3000);
         });
-
         client.on('offline', () => {
+          if (destroyed) return;
           console.log(`📡 MQTT offline: ${mqttUrl}`);
           setIsOnline(false);
           setConnectionError("Mất kết nối internet");
         });
+        setMqttClient(client);
       };
-      
       tryConnect();
-      
-      client.on('connect', () => {
-        console.log('✅ Đã kết nối MQTT broker');
-        setIsOnline(true);
-        setConnectionError("");
-        
-        // Subscribe để nhận thời gian từ ESP32
-        client.subscribe('clock/time', (err) => {
-          if (err) {
-            console.error('❌ Lỗi subscribe:', err);
-            setConnectionError("Không thể subscribe topic thời gian");
-          } else {
-            console.log('📡 Đã subscribe topic clock/time');
-            
-            // Gửi lệnh để ESP32 publish thời gian ngay
-            client.publish('clock/reset', 'reset');
-            console.log('📤 Đã gửi lệnh reset tới ESP32');
-          }
-        });
-      });
-
-      client.on('message', (topic: string, message: any) => {
-        if (topic === 'clock/time') {
-          const timeFromESP32 = message.toString();
-          console.log('⏰ Nhận từ ESP32:', timeFromESP32);
-          // Kiểm tra định dạng HH:MM:SS
-          const timeRegex = /^\d{2}:\d{2}:\d{2}$/;
-          if (timeRegex.test(timeFromESP32)) {
-            setCurrentTime(timeFromESP32);
-            setConnectionError("");
-          } else {
-            setConnectionError(`Dữ liệu giờ từ ESP32 không hợp lệ: ${timeFromESP32}`);
-            // Không cập nhật currentTime nếu sai định dạng
-          }
-        }
-      });
-
-      client.on('error', (error: Error) => {
-        console.error('❌ Lỗi MQTT:', error);
-        setIsOnline(false);
-        setConnectionError(`Lỗi kết nối: ${error.message}`);
-        
-        // Auto reconnect sau 5 giây
-        reconnectTimer = setTimeout(() => {
-          if (client) client.end();
-          connectMQTT();
-        }, 5000);
-      });
-
-      client.on('close', () => {
-        console.log('🔌 MQTT đã ngắt kết nối');
-        setIsOnline(false);
-        
-        // Auto reconnect sau 3 giây
-        reconnectTimer = setTimeout(() => {
-          connectMQTT();
-        }, 3000);
-      });
-
-      client.on('offline', () => {
-        console.log('📡 MQTT offline');
-        setIsOnline(false);
-        setConnectionError("Mất kết nối internet");
-      });
-
-      setMqttClient(client);
     };
-
     connectMQTT();
-
     return () => {
+      destroyed = true;
       if (reconnectTimer) clearTimeout(reconnectTimer);
       if (client) {
         client.removeAllListeners();
         client.end(true);
+        client = null;
       }
     };
   }, [isMounted]);
@@ -218,6 +171,15 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, [isMounted, currentTime]);
+
+  // Gửi reset khi connect thành công lần đầu (chỉ 1 lần)
+  useEffect(() => {
+    if (isOnline && mqttClient && !hasSentInitialReset) {
+      mqttClient.publish('clock/reset', 'reset');
+      setHasSentInitialReset(true);
+      console.log('📤 Đã gửi lệnh reset tới ESP32 (chỉ 1 lần khi connect)');
+    }
+  }, [isOnline, mqttClient, hasSentInitialReset]);
 
   const handleResetTime = () => {
     if (mqttClient && mqttClient.connected) {
@@ -254,6 +216,24 @@ export default function Home() {
     });
   };
 
+  // Debug: log trạng thái online/offline của ESP32
+  useEffect(() => {
+    const checkEsp32Online = setInterval(() => {
+      if (lastMqttUpdate && Date.now() - lastMqttUpdate < 30000) {
+        if (!esp32Online) {
+          console.log('[DEBUG] ESP32 chuyển sang ONLINE');
+        }
+        setEsp32Online(true);
+      } else {
+        if (esp32Online) {
+          console.log('[DEBUG] ESP32 chuyển sang OFFLINE');
+        }
+        setEsp32Online(false);
+      }
+    }, 2000);
+    return () => clearInterval(checkEsp32Online);
+  }, [lastMqttUpdate, esp32Online]);
+
   return (
     <div className="container py-5">
       {/* Component hiển thị thời gian ESP32 mới */}
@@ -280,7 +260,8 @@ export default function Home() {
       {/* Component clock display truyền thống (backup) */}
       <ClockDisplay time={isMounted ? currentTime : "00:00:00"} />
       
-      <DeviceStatus online={isMounted ? isOnline : false} />
+      {/* Cập nhật trạng thái thiết bị ESP32 thực sự */}
+      <DeviceStatus online={esp32Online} />
       <NextAlarm alarmTime={nextAlarm} />
       
       <div className="my-3 text-center">
@@ -304,9 +285,13 @@ export default function Home() {
               <h6 className="card-title">🔧 Debug Info</h6>
               <small className="text-muted">
                 <div>MQTT Connected: {isOnline ? '✅' : '❌'}</div>
+                <div>ESP32 Online: {esp32Online ? '✅' : '❌'}</div>
                 <div>Current Time: {currentTime}</div>
                 <div>Last Update: {lastMqttUpdate ? new Date(lastMqttUpdate).toLocaleTimeString() : 'Chưa có'}</div>
                 <div>Connection Error: {connectionError || 'Không có'}</div>
+                {(!esp32Online && lastMqttUpdate) && (
+                  <div className="text-danger">[DEBUG] Đã nhận dữ liệu từ ESP32 nhưng vẫn offline. lastMqttUpdate: {new Date(lastMqttUpdate).toLocaleTimeString()}</div>
+                )}
               </small>
             </div>
           </div>
