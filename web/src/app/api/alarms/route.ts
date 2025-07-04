@@ -3,6 +3,30 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/config/db-config";
 import type { Alarm } from "@/types/alarm.dto";
 
+/**
+ * @swagger
+ * /api/alarms:
+ *   get:
+ *     summary: Get all alarms
+ *     description: Retrieve all alarms from the database, sorted by hour and minute
+ *     tags:
+ *       - Alarms
+ *     responses:
+ *       200:
+ *         description: List of all alarms
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Alarm'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export async function GET() {
   try {
     const db = await connectDB();

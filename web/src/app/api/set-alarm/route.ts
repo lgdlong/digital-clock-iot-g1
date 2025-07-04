@@ -32,6 +32,46 @@ function validateAlarmData(data: unknown): data is CreateAlarmRequest {
   );
 }
 
+/**
+ * @swagger
+ * /api/set-alarm:
+ *   post:
+ *     summary: Create a new alarm
+ *     description: Create a new alarm with specified time, days, and settings
+ *     tags:
+ *       - Alarms
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AlarmCreate'
+ *           example:
+ *             hour: 7
+ *             minute: 30
+ *             daysOfWeek: [1, 2, 3, 4, 5]
+ *             enabled: true
+ *             label: "Wake up"
+ *     responses:
+ *       201:
+ *         description: Alarm created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Alarm'
+ *       400:
+ *         description: Invalid alarm data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

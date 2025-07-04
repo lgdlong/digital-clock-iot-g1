@@ -39,6 +39,85 @@ function validateUpdateAlarmData(data: unknown): data is UpdateAlarmRequest {
   );
 }
 
+/**
+ * @swagger
+ * /api/update-alarm:
+ *   patch:
+ *     summary: Update an existing alarm
+ *     description: Update specific fields of an existing alarm. Only provided fields will be updated.
+ *     tags:
+ *       - Alarms
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - _id
+ *             properties:
+ *               _id:
+ *                 type: string
+ *                 description: Unique identifier of the alarm to update
+ *                 example: "60f1b2b3b3b3b3b3b3b3b3b3"
+ *               hour:
+ *                 type: integer
+ *                 minimum: 0
+ *                 maximum: 23
+ *                 description: Hour of the alarm (24-hour format)
+ *                 example: 8
+ *               minute:
+ *                 type: integer
+ *                 minimum: 0
+ *                 maximum: 59
+ *                 description: Minute of the alarm
+ *                 example: 0
+ *               daysOfWeek:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                   minimum: 0
+ *                   maximum: 6
+ *                 description: Days of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
+ *                 example: [1, 2, 3, 4, 5]
+ *               enabled:
+ *                 type: boolean
+ *                 description: Whether the alarm is enabled
+ *                 example: false
+ *               label:
+ *                 type: string
+ *                 description: Label for the alarm
+ *                 example: "Work alarm"
+ *           example:
+ *             _id: "60f1b2b3b3b3b3b3b3b3b3b3"
+ *             hour: 8
+ *             enabled: false
+ *     responses:
+ *       200:
+ *         description: Alarm updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Alarm'
+ *       400:
+ *         description: Invalid request data or alarm ID format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Alarm not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();

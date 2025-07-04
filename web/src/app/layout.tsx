@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
-      <body className="text-white">
+    <html lang="vi" suppressHydrationWarning>
+      <body className="text-white" suppressHydrationWarning>
         <header className="text-center p-3 fs-4 fw-bold">
           Tên thiết bị: <span className="text-primary">SmartClock001</span>
         </header>
