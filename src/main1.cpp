@@ -155,7 +155,7 @@ struct WeatherConfig
   char cityName[32] = "Thu Duc";
   char countryCode[8] = "VN";
   bool enabled = false;
-  int updateInterval = 600; // seconds
+  int updateInterval = 120; // seconds
 } weatherConfig;
 
 // Weather Data
@@ -164,7 +164,7 @@ struct WeatherData
   float temperature = 0.0;
   int humidity = 0;
   String description = "N/A";
-  String city = "Thủ Đức";
+  String city = "Thu Duc";
   bool dataValid = false;
   unsigned long lastUpdate = 0;
   int errorCount = 0;
@@ -172,16 +172,16 @@ struct WeatherData
 
 // City Options for Vietnam
 const char *vietnamCities[][2] = {
-    {"Thu Duc", "Thủ Đức"},
-    {"Ho Chi Minh City", "TP. Hồ Chí Minh"},
-    {"Hanoi", "Hà Nội"},
-    {"Da Nang", "Đà Nẵng"},
-    {"Can Tho", "Cần Thơ"},
-    {"Hai Phong", "Hải Phòng"},
-    {"Bien Hoa", "Biên Hòa"},
+    {"Thu Duc", "Thu Duc"},
+    {"Ho Chi Minh City", "TP. Ho Chi Minh"},
+    {"Hanoi", "Ha Noi"},
+    {"Da Nang", "Da Nang"},
+    {"Can Tho", "Can Tho"},
+    {"Hai Phong", "Hai Phong"},
+    {"Bien Hoa", "Bien Hoa"},
     {"Nha Trang", "Nha Trang"},
-    {"Vung Tau", "Vũng Tàu"},
-    {"Hue", "Huế"}};
+    {"Vung Tau", "Vung Tau"},
+    {"Hue", "Hue"}};
 
 // LCD Display State
 String currentLCDLine1 = "";
@@ -244,7 +244,7 @@ void clearAllData()
 float convertAdcToTemperature(int adcValue)
 {
   // Convert ADC reading to temperature for LM35 sensor
-  // LM35: 10mV/°C, linear output
+  // LM35: 10mV/C, linear output
   if (adcValue == 0)
     return 25.0; // Default temperature
 
@@ -252,10 +252,10 @@ float convertAdcToTemperature(int adcValue)
   float voltage = (adcValue / 4095.0) * 3.3;
 
   // LM35: 10mV per degree Celsius
-  // Temperature = Voltage / 0.01V per °C
+  // Temperature = Voltage / 0.01V per C
   float tempC = voltage / 0.01;
 
-  // Reasonable range check for LM35 (-55°C to +150°C, but typically 2°C to 100°C)
+  // Reasonable range check for LM35 (-55C to +150C, but typically 2C to 100C)
   if (tempC < -10 || tempC > 100)
   {
     Serial.println("Warning: Temperature out of range: " + String(tempC) + "C");
@@ -424,7 +424,7 @@ void displayClock()
 
     if (weather.dataValid)
     {
-      snprintf(line1, sizeof(line1), "%s %.1f°C",
+      snprintf(line1, sizeof(line1), "%s %.1fC",
                weather.city.substring(0, 8).c_str(), weather.temperature);
       snprintf(line2, sizeof(line2), "%s %d%%",
                weather.description.substring(0, 10).c_str(), weather.humidity);
@@ -432,7 +432,7 @@ void displayClock()
     else
     {
       strcpy(line1, "Thoi Tiet");
-      strcpy(line2, "Khong co du lieu");
+      strcpy(line2, "Dang bao tri");
     }
 
     updateLCDContent(String(line1), String(line2));
@@ -766,29 +766,29 @@ String generateWebInterface()
   html += "<div class='header'>";
   html += "<h1>🕐 Smart Clock v5.1</h1>";
   html += "<div class='clock-display'>" + String(now.hour()) + ":" + (now.minute() < 10 ? "0" : "") + String(now.minute()) + "</div>";
-  html += "<div class='subtitle'>📅 " + String(now.day()) + "/" + String(now.month()) + "/" + String(now.year()) + " | 🌡️ " + String(currentTemp, 1) + "°C</div>";
+  html += "<div class='subtitle'>📅 " + String(now.day()) + "/" + String(now.month()) + "/" + String(now.year()) + " | 🌡️ " + String(currentTemp, 1) + "C</div>";
   html += "</div>";
 
   // LCD Display
   html += "<div class='card'>";
-  html += "<h3>📺 Màn hình LCD (Chế độ " + String(lcdDisplayMode == 0 ? "Đồng hồ" : "Thời tiết") + ")</h3>";
+  html += "<h3>📺 Man hinh LCD (Che do " + String(lcdDisplayMode == 0 ? "Dong ho" : "Thoi tiet") + ")</h3>";
   html += "<div class='lcd'>";
-  html += "Dòng 1: " + currentLCDLine1 + "<br>";
-  html += "Dòng 2: " + currentLCDLine2;
+  html += "Dong 1: " + currentLCDLine1 + "<br>";
+  html += "Dong 2: " + currentLCDLine2;
   html += "</div>";
-  html += "<small style='opacity: 0.8;'>Tự động chuyển đổi mỗi 60 giây</small>";
+  html += "<small style='opacity: 0.8;'>Tu dong chuyen doi moi 60 giay</small>";
   html += "</div>";
 
   html += "<div class='grid'>";
 
   // Enhanced Hardware Status
   html += "<div class='card'>";
-  html += "<h3>⚙️ Trạng thái phần cứng</h3>";
+  html += "<h3>⚙️ Trang thai phan cung</h3>";
   html += "<div style='display: flex; flex-wrap: wrap; gap: 10px;'>";
   html += "<div class='status " + String(hw.lcdOK ? "ok'>📺 LCD" : "error'>📺 LCD") + "</div>";
   html += "<div class='status " + String(hw.rtcOK ? "ok'>🕐 RTC" : "error'>🕐 RTC") + "</div>";
   html += "<div class='status " + String(hw.wifiOK ? "ok'>📶 WiFi" : "error'>📶 WiFi") + "</div>";
-  html += "<div class='status " + String(hw.tempOK ? "ok'>🌡️ Nhiệt độ" : "error'>🌡️ Nhiệt độ") + "</div>";
+  html += "<div class='status " + String(hw.tempOK ? "ok'>🌡️ Nhiet do" : "error'>🌡️ Nhiet do") + "</div>";
   html += "<div class='status " + String(hw.buzzerOK ? "ok'>🔊 Loa" : "error'>🔊 Loa") + "</div>";
   html += "<div class='status " + String(hw.ledOK ? "ok'>💡 LED" : "error'>💡 LED") + "</div>";
   html += "</div>";
@@ -796,13 +796,13 @@ String generateWebInterface()
 
   // Weather Information
   html += "<div class='card'>";
-  html += "<h3>🌤️ Thông tin thời tiết</h3>";
+  html += "<h3>🌤️ Thong tin thoi tiet</h3>";
   html += "<div class='weather-info'>";
   if (weather.dataValid)
   {
-    html += "<div class='weather-temp'>" + String(weather.temperature, 1) + "°C</div>";
+    html += "<div class='weather-temp'>" + String(weather.temperature, 1) + "C</div>";
     html += "<div>" + weather.description + "</div>";
-    html += "<div>Độ ẩm: " + String(weather.humidity) + "%</div>";
+    html += "<div>Do am: " + String(weather.humidity) + "%</div>";
     html += "<div>📍 " + weather.city + "</div>";
     if (weather.errorCount > 0)
     {
@@ -811,23 +811,23 @@ String generateWebInterface()
   }
   else
   {
-    html += "<div style='opacity: 0.6;'>Chưa có dữ liệu thời tiết</div>";
-    html += "<div style='font-size: 0.8rem; margin-top: 10px;'>💡 Cấu hình API key bên dưới</div>";
+    html += "<div style='opacity: 0.6;'>Chua co du lieu thoi tiet</div>";
+    html += "<div style='font-size: 0.8rem; margin-top: 10px;'>💡 Cau hinh API key ben duoi</div>";
   }
   html += "</div>";
   html += "</div>";
 
   // Weather Configuration
   html += "<div class='card'>";
-  html += "<h3>⚙️ Cấu hình thời tiết</h3>";
+  html += "<h3>⚙️ Cau hinh thoi tiet</h3>";
   html += "<form action='/weather-config' method='POST'>";
   html += "<div class='form-group'>";
   html += "<label>🔑 OpenWeather API Key:</label>";
-  html += "<input type='text' name='api_key' value='" + String(weatherConfig.apiKey) + "' placeholder='Nhập API key từ openweathermap.org' maxlength='63'>";
-  html += "<small style='opacity: 0.8; font-size: 0.8rem;'>💡 Đăng ký miễn phí tại <a href='https://openweathermap.org/api' target='_blank' style='color: #FFD700;'>openweathermap.org</a></small>";
+  html += "<input type='text' name='api_key' value='" + String(weatherConfig.apiKey) + "' placeholder='Nhap API key tu openweathermap.org' maxlength='63'>";
+  html += "<small style='opacity: 0.8; font-size: 0.8rem;'>💡 Dang ky mien phi tai <a href='https://openweathermap.org/api' target='_blank' style='color: #FFD700;'>openweathermap.org</a></small>";
   html += "</div>";
   html += "<div class='form-group'>";
-  html += "<label>🏙️ Chọn thành phố:</label>";
+  html += "<label>🏙️ Chon thanh pho:</label>";
   html += "<select name='city_name' style='width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white;'>";
 
   // Add city options
@@ -840,17 +840,18 @@ String generateWebInterface()
   html += "</select>";
   html += "</div>";
   html += "<div class='form-group'>";
-  html += "<label>🔄 Cập nhật mỗi (phút):</label>";
-  html += "<input type='number' name='update_interval' value='" + String(weatherConfig.updateInterval / 60) + "' min='5' max='60' placeholder='10'>";
+  html += "<label>🔄 Cap nhat moi (phut):</label>";
+  html += "<input type='number' name='update_interval' value='" + String(weatherConfig.updateInterval / 60) + "' min='1' max='60' placeholder='2'>";
   html += "</div>";
   html += "<div class='form-group' style='display: flex; align-items: center; gap: 10px;'>";
   html += "<input type='checkbox' name='enabled' id='weather_enabled' " + String(weatherConfig.enabled ? "checked" : "") + " style='transform: scale(1.2);'>";
-  html += "<label for='weather_enabled'>🌤️ Bật thời tiết thực</label>";
+  html += "<label for='weather_enabled'>🌤️ Bat thoi tiet thuc</label>";
   html += "</div>";
   html += "<div style='margin: 10px 0; font-size: 0.85rem; opacity: 0.8;'>";
-  html += "💡 <strong>Ghi chú:</strong> API key phải được cấu hình và checkbox này phải được tích để lấy dữ liệu thời tiết thật";
+  html += "💡 <strong>Ghi chu:</strong> API key phai duoc cau hinh va checkbox nay phai duoc tich de lay du lieu thoi tiet that";
   html += "</div>";
-  html += "<button type='submit' class='btn btn-success'>💾 Lưu cấu hình</button>";
+  html += "<button type='submit' class='btn btn-success'>💾 Luu cau hinh</button>";
+  html += "<button type='button' onclick=\"refreshWeather()\" class='btn'>🔄 Lam moi thoi tiet</button>";
   html += "</form>";
   html += "</div>";
 
@@ -858,11 +859,11 @@ String generateWebInterface()
 
   // Enhanced Alarm Management
   html += "<div class='card'>";
-  html += "<h3>⏰ Quản lý báo thức thông minh</h3>";
+  html += "<h3>⏰ Quan ly bao thuc thong minh</h3>";
   html += "<form action='/set-alarm' method='POST' style='margin-bottom: 30px;'>";
   html += "<div class='grid grid-2'>";
   html += "<div class='form-group'>";
-  html += "<label>⏰ Giờ báo thức:</label>";
+  html += "<label>⏰ Gio bao thuc:</label>";
   html += "<input type='number' name='hour' min='0' max='23' placeholder='VD: 7' required>";
   html += "</div>";
   html += "<div class='form-group'>";
@@ -875,7 +876,7 @@ String generateWebInterface()
   html += "<input type='text' name='label' placeholder='VD: Thức dậy đi làm' maxlength='30'>";
   html += "</div>";
   html += "<div class='form-group'>";
-  html += "<label>📅 Chọn ngày trong tuần:</label>";
+  html += "<label>📅 Chon ngay trong tuan:</label>";
   html += "<div class='checkbox-grid'>";
   String days[] = {"Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"};
   for (int i = 0; i < 7; i++)
@@ -924,7 +925,7 @@ String generateWebInterface()
   }
   else
   {
-    html += "<div style='text-align: center; opacity: 0.6; padding: 20px;'>Chưa có báo thức nào</div>";
+    html += "<div style='text-align: center; opacity: 0.6; padding: 20px;'>Chua co bao thuc nao</div>";
   }
   html += "</div>";
 
@@ -962,7 +963,7 @@ String generateWebInterface()
 
   // WiFi Configuration
   html += "<div class='card'>";
-  html += "<h3>📶 Cấu hình mạng WiFi</h3>";
+  html += "<h3>📶 Cau hinh mang WiFi</h3>";
   html += "<div style='margin: 15px 0;'>";
   html += "<div>🌐 SSID hiện tại: <strong>" + String(WiFi.SSID()) + "</strong></div>";
   html += "<div>📍 Địa chỉ IP: <strong>" + WiFi.localIP().toString() + "</strong></div>";
@@ -977,7 +978,7 @@ String generateWebInterface()
   html += "<label>🔒 Mật khẩu Hotspot:</label>";
   html += "<input type='password' name='hotspot_password' value='" + String(config.hotspotPassword) + "' maxlength='31' placeholder='8+ ký tự'>";
   html += "</div>";
-  html += "<button type='submit' class='btn'>💾 Cập nhật WiFi</button>";
+  html += "<button type='submit' class='btn'>💾 Cap nhat WiFi</button>";
   html += "<button type='button' onclick=\"resetWiFi()\" class='btn btn-danger'>🔄 Reset WiFi</button>";
   html += "</form>";
   html += "</div>";
@@ -1001,9 +1002,10 @@ String generateWebInterface()
   html += "<script>";
   html += "function deleteAlarm(index){if(confirm('🗑️ Bạn có chắc muốn xóa báo thức này?')){fetch('/delete-alarm?index='+index,{method:'POST'}).then(()=>location.reload());}}";
   html += "function stopTimer(){if(confirm('⏹️ Dừng đếm ngược?')){fetch('/stop-timer',{method:'POST'}).then(()=>updateStatus());}}";
-  html += "function resetWiFi(){if(confirm('🔄 Reset cấu hình WiFi và khởi động lại?')){fetch('/reset-wifi',{method:'POST'});}}";
-  html += "function restart(){if(confirm('🔄 Khởi động lại thiết bị?')){fetch('/restart',{method:'POST'});}}";
-  html += "function factoryReset(){if(confirm('⚠️ Khôi phục cài đặt gốc? Tất cả dữ liệu sẽ bị xóa!\\n\\nHành động này không thể hoàn tác!')){fetch('/factory-reset',{method:'POST'});}}";
+  html += "function resetWiFi(){if(confirm('🔄 Reset cau hinh WiFi va khoi dong lai?')){fetch('/reset-wifi',{method:'POST'});}}";
+  html += "function restart(){if(confirm('🔄 Khoi dong lai thiet bi?')){fetch('/restart',{method:'POST'});}}";
+  html += "function factoryReset(){if(confirm('⚠️ Khoi phuc cai dat goc? Tat ca du lieu se bi xoa!\\n\\nHanh dong nay khong the hoan tac!')){fetch('/factory-reset',{method:'POST'});}}";
+  html += "function refreshWeather(){fetch('/refresh-weather',{method:'POST'}).then(()=>updateStatus());}}";
 
   // Real-time update function
   html += "function updateStatus(){";
@@ -1029,14 +1031,14 @@ String generateWebInterface()
   html += "if(el.classList.contains('subtitle')){";
   html += "const now=new Date();";
   html += "const date=now.getDate().toString().padStart(2,'0')+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getFullYear();";
-  html += "el.innerHTML='📅 '+date+' | 🌡️ '+data.temperature.toFixed(1)+'°C';";
+  html += "el.innerHTML='📅 '+date+' | 🌡️ '+data.temperature.toFixed(1)+'C';";
   html += "}";
   html += "});";
 
   // Update weather info
   html += "const weatherTemp=document.querySelector('.weather-temp');";
   html += "if(weatherTemp && data.weather.valid){";
-  html += "weatherTemp.innerHTML=data.weather.temp.toFixed(1)+'°C';";
+  html += "weatherTemp.innerHTML=data.weather.temp.toFixed(1)+'C';";
   html += "}";
 
   // Update hardware status
@@ -1046,7 +1048,7 @@ String generateWebInterface()
   html += "if(text.includes('LCD')){el.className='status '+(data.hardware.lcd?'ok':'error');}";
   html += "else if(text.includes('RTC')){el.className='status '+(data.hardware.rtc?'ok':'error');}";
   html += "else if(text.includes('WiFi')){el.className='status '+(data.hardware.wifi?'ok':'error');}";
-  html += "else if(text.includes('Nhiệt độ')){el.className='status '+(data.hardware.temp?'ok':'error');}";
+  html += "else if(text.includes('Nhiet do')){el.className='status '+(data.hardware.temp?'ok':'error');}";
   html += "else if(text.includes('Loa')){el.className='status '+(data.hardware.buzzer?'ok':'error');}";
   html += "else if(text.includes('LED')){el.className='status '+(data.hardware.led?'ok':'error');}";
   html += "});";
@@ -1192,6 +1194,17 @@ void setupWebServer()
     server.sendHeader("Location", "/");
     server.send(302); });
 
+  // Manual weather refresh
+  server.on("/refresh-weather", HTTP_POST, []()
+            {
+    // Reset weather data to force immediate refresh
+    weather.lastUpdate = 0;
+    weather.errorCount = 0;
+    weather.dataValid = false;
+    
+    server.send(200, "text/plain", "Weather refresh triggered");
+    Serial.println("Manual weather refresh triggered"); });
+
   // Status API for real-time updates
   server.on("/status", HTTP_GET, []()
             {
@@ -1290,7 +1303,7 @@ void loadWeatherConfig()
   strncpy(weatherConfig.countryCode, countryCode.c_str(), sizeof(weatherConfig.countryCode) - 1);
 
   weatherConfig.enabled = preferences.getBool("enabled", false);
-  weatherConfig.updateInterval = preferences.getInt("updateInterval", 600);
+  weatherConfig.updateInterval = preferences.getInt("updateInterval", 120);
 
   preferences.end();
 }
@@ -1563,12 +1576,12 @@ void fetchWeatherData()
     Serial.println("Using weather simulation...");
     // Fallback to simulation if no API key or WiFi
     unsigned long now = millis();
-    if (now - weather.lastUpdate > 600000)
-    {                                                    // Update every 10 minutes
+    if (now - weather.lastUpdate > 60000)
+    {                                                    // Update every 1 minute
       weather.temperature = currentTemp + random(-3, 4); // Simulate outdoor temp
       weather.humidity = random(40, 90);
-      weather.description = "Mô phỏng";
-      weather.city = "Thủ Đức";
+      weather.description = "Mo phong";
+      weather.city = "Thu Duc";
       weather.dataValid = true;
       weather.lastUpdate = now;
       weather.errorCount = 0;
@@ -1578,6 +1591,16 @@ void fetchWeatherData()
   }
 
   unsigned long now = millis();
+
+  // Reset error count periodically to prevent permanent blocking
+  static unsigned long lastErrorReset = 0;
+  if (now - lastErrorReset > 10 * 60 * 1000)
+  { // Reset errors every 10 minutes
+    weather.errorCount = 0;
+    lastErrorReset = now;
+    Serial.println("Weather error count reset");
+  }
+
   if (now - weather.lastUpdate < weatherConfig.updateInterval * 1000)
     return;
 
@@ -1619,7 +1642,7 @@ void fetchWeatherData()
       weather.lastUpdate = now;
       weather.errorCount = 0;
 
-      Serial.println("Weather updated: " + weather.city + " " + String(weather.temperature, 1) + "°C");
+      Serial.println("Weather updated: " + weather.city + " " + String(weather.temperature, 1) + "C");
     }
     else
     {
@@ -1645,10 +1668,10 @@ void fetchWeatherData()
   http.end();
 
   // If too many errors, disable for a while
-  if (weather.errorCount > 5)
+  if (weather.errorCount > 3)
   {
-    weather.lastUpdate = now + (30 * 60 * 1000); // Wait 30 minutes before retry
-    Serial.println("Too many weather API errors. Waiting 30 minutes...");
+    weather.lastUpdate = now + (1 * 60 * 1000); // Wait 1 minute before retry
+    Serial.println("Too many weather API errors. Waiting 1 minute...");
   }
 }
 
