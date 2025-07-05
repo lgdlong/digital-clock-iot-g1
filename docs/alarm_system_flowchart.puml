@@ -1,0 +1,135 @@
+@startuml Smart_Clock_Alarm_System_Flowchart
+!theme plain
+title Smart Clock v5.0 - Alarm System Logic Flowchart
+
+start
+
+:System Boot;
+:Load Alarms from EEPROM;
+note right
+  - Read alarm count
+  - Load alarm configurations
+  - Validate alarm data
+end note
+
+:Main Loop Alarm Check;
+
+while (System Running?) is (Yes)
+  
+  :Get Current Time from RTC;
+  
+  :Check All Configured Alarms;
+  note right: Loop through all alarms (up to 5)
+  
+  partition "Alarm Checking Logic" {
+    :For Each Alarm;
+    
+    if (Alarm Enabled?) then (Yes)
+      if (Current Day Matches Alarm Schedule?) then (Yes)
+        if (Current Time Matches Alarm Time?) then (Yes)
+          :Trigger Alarm;
+          note right
+            - Set system state to STATE_ALARM
+            - Activate buzzer on GPIO 25
+            - Turn on LED indicator
+            - Start alarm timer
+          end note
+        else (No)
+          :Continue to Next Alarm;
+        endif
+      else (No)
+        :Continue to Next Alarm;
+      endif
+    else (No)
+      :Continue to Next Alarm;
+    endif
+  }
+  
+  if (Alarm Currently Active?) then (Yes)
+    
+    partition "Active Alarm Handling" {
+      :Update Alarm Display;
+      note right
+        - Blink alarm message
+        - Show alarm label
+        - Visual feedback on LCD
+      end note
+      
+      :Check Button Status;
+      note right
+        Two methods:
+        1. Interrupt-based (buttonInterrupt)
+        2. Polling (handleButton)
+      end note
+      
+      if (Button Pressed?) then (Yes)
+        :Stop Alarm Immediately;
+        note right
+          - Turn off buzzer
+          - Turn off LED
+          - Clear alarm state
+          - Return to normal operation
+        end note
+        :Switch to STATE_NORMAL;
+      else (No)
+        :Check Alarm Duration;
+        if (5 Minutes Elapsed?) then (Yes)
+          :Auto-Stop Alarm;
+          note right: Prevent continuous alarm
+          :Switch to STATE_NORMAL;
+        else (No)
+          :Continue Alarm;
+        endif
+      endif
+    }
+    
+  else (No)
+    :Normal Operation;
+  endif
+  
+  :Handle Web Interface Alarm Requests;
+  note right
+    - Add new alarm
+    - Delete existing alarm
+    - Update alarm settings
+    - Enable/disable alarms
+  end note
+  
+  if (Alarm Configuration Changed?) then (Yes)
+    :Save Alarms to EEPROM;
+    note right: Persist changes for next boot
+  else (No)
+    :Continue;
+  endif
+
+endwhile (No)
+
+:System Shutdown;
+:Save Final Alarm State;
+
+stop
+
+' Button Interrupt Handler (Parallel Process)
+start
+:Button Interrupt Triggered;
+note right
+  GPIO 26 interrupt on falling edge
+  IRAM_ATTR buttonInterrupt()
+end note
+
+:Debounce Check;
+if (Valid Button Press?) then (Yes)
+  if (Alarm Active?) then (Yes)
+    :Stop Buzzer Immediately;
+    note right: Turn off GPIO 25
+    :Set Stop Flag;
+  else (No)
+    :Handle Other Button Functions;
+  endif
+else (No)
+  :Ignore False Trigger;
+endif
+
+stop
+
+@enduml

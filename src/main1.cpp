@@ -401,7 +401,7 @@ void displayClock()
   {
     // Mode 0: Clock + Temperature
     char line1[17];
-    snprintf(line1, sizeof(line1), "%02d:%02d:%02d %4.1f°C",
+    snprintf(line1, sizeof(line1), "%02d:%02d:%02d %4.1fC",
              rtcNow.hour(), rtcNow.minute(), rtcNow.second(), currentTemp);
 
     char line2[17];

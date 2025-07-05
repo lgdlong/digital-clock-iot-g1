@@ -1,0 +1,86 @@
+@startuml
+start
+
+:Power on / Restart;
+
+:Check if first boot;
+if (First boot?) then (Yes)
+    :Set up default settings;
+endif
+
+:Initialize hardware (screen, sensors, button, clock);
+
+:Connect to WiFi or start hotspot for setup;
+:Restore settings from memory;
+
+:Enter Normal Operation;
+
+while (System powered on?)
+  :Display time, date, temperature, weather;
+
+  :Read temperature every 5s;
+  :Fetch weather data periodically;
+
+  :Handle web interface requests (alarms, timer, settings...);
+
+  :Monitor WiFi status;
+  if (WiFi lost?) then (Yes)
+    :Switch to hotspot mode;
+    :Display WiFi error;
+  endif
+
+  :Check button state (every 50ms);
+
+  if (Button short press?) then (Yes)
+    if (Alarm ringing?) then (Yes)
+      :Stop alarm;
+      :Return to normal display;
+    else
+      if (Timer alert active?) then (Yes)
+        :Stop timer alert;
+        :Return to normal display;
+      else
+        if (Menu showing?) then (Yes)
+          :Exit menu;
+          :Return to normal display;
+        endif
+      endif
+    endif
+  endif
+
+  if (Button long press ≥5s?) then (Yes)
+    :Factory reset all settings and data;
+    :Restart device;
+    stop
+  endif
+
+  if (Alarm time reached?) then (Yes)
+    :Switch to Alarm state;
+    :Ring buzzer and LED;
+    :Wait for user to stop alarm or auto-stop (5 min);
+    :Stop alarm;
+    :Return to normal display;
+  endif
+
+  if (Timer finished?) then (Yes)
+    :Switch to Countdown alert;
+    :Activate buzzer/LED for 5s;
+    :Wait for user to stop timer or auto-stop (5s);
+    :Return to normal display;
+  endif
+
+  if (User opens menu?) then (Yes)
+    :Show menu (options/settings);
+    :Wait for selection or auto-exit after 10s;
+    :Return to normal display;
+  endif
+
+  if (Sensor error?) then (Yes)
+    :Display hardware error;
+    :Continue normal operation with error status;
+  endif
+
+endwhile
+
+stop
+@enduml

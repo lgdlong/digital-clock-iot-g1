@@ -1,0 +1,220 @@
+@startuml Smart_Clock_Hardware_Control_Flowchart
+!theme plain
+title Smart Clock v5.0 - Hardware Control & Buzzer Logic Flowchart
+
+start
+
+:System Initialization;
+
+partition "Hardware Setup" {
+  :Initialize GPIO Pins;
+  note right
+    GPIO 12 - LED_PIN (OUTPUT)
+    GPIO 25 - BUZZER_PIN (OUTPUT)
+    GPIO 26 - BUTTON_PIN (INPUT_PULLUP)
+    GPIO 34 - NTC_PIN (ANALOG INPUT)
+  end note
+  
+  :Setup I2C Communication;
+  note right
+    LCD Display (0x27)
+    RTC Module (DS1307)
+  end note
+  
+  :Attach Button Interrupt;
+  note right
+    attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), 
+                   buttonInterrupt, FALLING)
+  end note
+  
+  :Test Hardware Components;
+  note right
+    - LCD backlight test
+    - RTC communication check
+    - Temperature sensor validation
+    - Button response test
+  end note
+}
+
+:Enter Main Hardware Control Loop;
+
+while (System Running?) is (Yes)
+  
+  partition "Temperature Monitoring" {
+    :Read ADC from GPIO 34;
+    :Convert to Temperature;
+    note right
+      float convertAdcToTemperature(int adcValue)
+      - Apply calibration formula
+      - Validate range (0-100°C)
+      - Update min/max values
+    end note
+    :Update Temperature Display;
+  }
+  
+  partition "Button Handling" {
+    :Poll Button State (GPIO 26);
+    note right: Backup method for button detection
+    
+    if (Button Pressed?) then (Yes)
+      :Start Debounce Timer;
+      :Measure Press Duration;
+      
+      if (Press Duration < 100ms?) then (Yes)
+        :Ignore (Debounce);
+      elseif (Press Duration < 5s?) then (Normal Press)
+        if (Alarm Active?) then (Yes)
+          :Stop Alarm;
+          note right
+            - Turn off buzzer (GPIO 25)
+            - Turn off LED (GPIO 12)
+            - Clear alarm state
+          end note
+        else (No)
+          :Handle Menu Navigation;
+        endif
+      else (Long Press ≥ 5s)
+        :Trigger Factory Reset;
+        note right
+          - Clear all EEPROM data
+          - Reset WiFi settings
+          - Restart system
+        end note
+      endif
+    else (No)
+      :Continue Normal Operation;
+    endif
+  }
+  
+  partition "Alarm Hardware Control" {
+    if (Alarm Triggered?) then (Yes)
+      :Activate Buzzer (GPIO 25);
+      note right
+        digitalWrite(BUZZER_PIN, HIGH)
+        Generate alarm tone
+      end note
+      
+      :Activate LED (GPIO 12);
+      note right
+        digitalWrite(LED_PIN, HIGH)
+        Visual alarm indicator
+      end note
+      
+      :Start Alarm Timer;
+      
+      while (Alarm Active?) is (Yes)
+        :Check Stop Conditions;
+        
+        if (Button Pressed OR 5min Timeout?) then (Yes)
+          :Deactivate Buzzer;
+          note right: digitalWrite(BUZZER_PIN, LOW)
+          :Deactivate LED;
+          note right: digitalWrite(LED_PIN, LOW)
+          :Clear Alarm State;
+        else (No)
+          :Continue Alarm Pattern;
+          note right
+            - Maintain buzzer output
+            - Blink LED pattern
+            - Update LCD display
+          end note
+        endif
+      endwhile (No)
+      
+    else (No)
+      :Normal Hardware State;
+      note right
+        - Buzzer OFF (GPIO 25 = LOW)
+        - LED OFF (GPIO 12 = LOW)
+        - Normal LCD display
+      end note
+    endif
+  }
+  
+  partition "LCD Control" {
+    :Check Display Mode;
+    
+    switch (Current Display Mode?)
+      case (Clock Mode)
+        :Display Time & Date;
+        :Display Temperature;
+        
+      case (Weather Mode)
+        :Display Weather Data;
+        :Display Temperature;
+        
+      case (Alarm Mode)
+        :Blink Alarm Message;
+        :Display Alarm Label;
+        
+      case (Countdown Mode)
+        :Display Timer;
+        :Show Remaining Time;
+        
+      case (Menu Mode)
+        :Display Menu Options;
+        
+    endswitch
+    
+    :Update LCD Content;
+    note right
+      Only update if content changed
+      to prevent LCD flickering
+    end note
+  }
+
+endwhile (No)
+
+:System Shutdown;
+:Turn Off All Hardware;
+
+stop
+
+' Interrupt Handler (Parallel Process)
+start
+:Button Interrupt (GPIO 26);
+note right
+  Hardware interrupt on falling edge
+  IRAM_ATTR buttonInterrupt()
+end note
+
+:Enter Interrupt Service Routine;
+
+:Quick Debounce Check;
+note right
+  Check if enough time passed
+  since last interrupt
+end note
+
+if (Valid Interrupt?) then (Yes)
+  if (System in Alarm State?) then (Yes)
+    :Immediate Buzzer Stop;
+    note right
+      digitalWrite(BUZZER_PIN, LOW)
+      Fastest possible response
+    end note
+    :Set Global Stop Flag;
+    note right
+      Flag for main loop to
+      complete alarm shutdown
+    end note
+  else (No)
+    :Set Button Press Flag;
+    note right
+      For main loop to handle
+      other button functions
+    end note
+  endif
+else (No)
+  :Ignore False Trigger;
+endif
+
+:Exit Interrupt;
+note right
+  Keep ISR as short as possible
+  for system stability
+end note
+
+stop
+
+@enduml

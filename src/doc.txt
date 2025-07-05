@@ -1,0 +1,210 @@
+/*
+ * SMART CLOCK v5.0 - FUNCTION DOCUMENTATION
+ * File: main1.cpp
+ * Date: July 5, 2025
+ * Description: Complete function prototype documentation for Smart Clock system
+ */
+
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+// Check if this is the first boot of the device
+// Use case: Initialize default settings on first startup
+bool checkFirstBoot();
+
+// Clear all stored data (EEPROM, preferences, variables)
+// Use case: Factory reset or system cleanup
+void clearAllData();
+
+// Convert ADC reading from temperature sensor to Celsius
+// Use case: Read temperature from LM35/NTC sensor on GPIO 34
+float convertAdcToTemperature(int adcValue);
+
+// Perform complete factory reset and restart device
+// Use case: Reset all settings to defaults when button held 5+ seconds
+void factoryReset();
+
+// ==========================================
+// HARDWARE FUNCTIONS
+// ==========================================
+
+// Initialize all hardware components (LCD, RTC, sensors, pins)
+// Use case: Setup hardware during system boot
+void initializeHardware();
+
+// Read current temperature from sensor and update min/max values
+// Use case: Periodic temperature monitoring every 5 seconds
+void readTemperature();
+
+// ==========================================
+// DISPLAY FUNCTIONS
+// ==========================================
+
+// Update LCD content only if changed (prevents flickering)
+// Use case: Efficient LCD updates with content comparison
+void updateLCDContent(String line1, String line2);
+
+// Display current time, date, temperature, and status
+// Use case: Main clock display mode (switches between clock/weather every 60s)
+void displayClock();
+
+// Display countdown timer with remaining time
+// Use case: Show active timer countdown on LCD
+void displayCountdown();
+
+// Display simple menu interface
+// Use case: Show menu options, auto-exit after 10 seconds
+void displayMenu();
+
+// ==========================================
+// ALARM & TIMER SYSTEM
+// ==========================================
+
+// Trigger an alarm by index and set system to alarm state
+// Use case: Activate alarm when scheduled time matches current time
+void triggerAlarm(int index);
+
+// Stop all alarms and timers, turn off buzzer/LED
+// Use case: Stop alarm when button pressed or timeout reached
+void stopAlarm();
+
+// Handle alarm display with blinking pattern and auto-stop
+// Use case: Visual/audio alarm indication with 5-minute timeout
+void updateAlarmDisplay();
+
+// Check all alarms against current time and trigger if match
+// Use case: Continuous alarm monitoring in main loop
+void checkAlarms();
+
+// ==========================================
+// BUTTON HANDLING
+// ==========================================
+
+// Handle button press with debouncing and multiple functions
+// Use case: Process button for alarm stop, factory reset (5s hold), menu navigation
+void handleButton();
+
+// Interrupt service routine for immediate buzzer shutoff
+// Use case: Instant alarm stop when button pressed (hardware interrupt)
+void IRAM_ATTR buttonInterrupt();
+
+// ==========================================
+// WEB INTERFACE
+// ==========================================
+
+// Generate complete HTML web interface with real-time updates
+// Use case: Provide web-based control panel for clock configuration
+String generateWebInterface();
+
+// Setup all web server endpoints and routing
+// Use case: Initialize HTTP server for remote configuration
+void setupWebServer();
+
+// ==========================================
+// CONFIGURATION MANAGEMENT
+// ==========================================
+
+// Load device configuration from EEPROM
+// Use case: Restore settings on boot (device name, WiFi credentials)
+void loadConfiguration();
+
+// Save current configuration to EEPROM
+// Use case: Persist settings when changed via web interface
+void saveConfiguration();
+
+// Save all alarms to EEPROM
+// Use case: Persist alarm settings when added/modified
+void saveAlarms();
+
+// Load weather configuration from preferences
+// Use case: Restore weather API settings on boot
+void loadWeatherConfig();
+
+// Save weather configuration to preferences
+// Use case: Persist weather settings when changed
+void saveWeatherConfig();
+
+// ==========================================
+// NETWORK FUNCTIONS
+// ==========================================
+
+// Setup WiFi connection with WiFiManager (captive portal)
+// Use case: Connect to WiFi or create hotspot for configuration
+void setupWiFi();
+
+// Fetch weather data from OpenWeather API
+// Use case: Get real-time weather information or use simulation
+void fetchWeatherData();
+
+// ==========================================
+// MAIN FUNCTIONS
+// ==========================================
+
+// Initialize entire system (hardware, WiFi, web server)
+// Use case: System startup and initialization
+void setup();
+
+// Main system loop with state machine
+// Use case: Continuous operation handling all system states
+void loop();
+
+// ==========================================
+// SYSTEM STATES
+// ==========================================
+/*
+STATE_BOOT      - Initial startup state
+STATE_NORMAL    - Normal clock operation
+STATE_ALARM     - Active alarm state
+STATE_COUNTDOWN - Timer countdown active
+STATE_INFO      - Information display
+STATE_ERROR     - Error state
+STATE_MENU      - Menu navigation
+*/
+
+// ==========================================
+// KEY FEATURES SUMMARY
+// ==========================================
+/*
+1. DISPLAY SYSTEM:
+   - 16x2 LCD with I2C interface
+   - Dual display modes (Clock/Weather)
+   - Auto-switching every 60 seconds
+
+2. ALARM SYSTEM:
+   - Up to 5 configurable alarms
+   - Weekly schedule support
+   - Web-based management
+   - 5-minute auto-stop
+
+3. TIMER SYSTEM:
+   - Countdown timer with custom labels
+   - 5-second alarm when finished
+   - Web-based control
+
+4. BUTTON CONTROL:
+   - Immediate alarm stop (interrupt-based)
+   - Factory reset (5-second hold)
+   - Debounced input handling
+
+5. WEB INTERFACE:
+   - Real-time status updates
+   - Alarm management
+   - Weather configuration
+   - WiFi settings
+
+6. WEATHER SYSTEM:
+   - OpenWeather API integration
+   - Simulation fallback
+   - Error handling and retry logic
+
+7. STORAGE:
+   - EEPROM for alarms and config
+   - Preferences for weather settings
+   - First boot detection
+
+8. CONNECTIVITY:
+   - WiFiManager for easy setup
+   - Captive portal configuration
+   - Hotspot fallback mode
+*/

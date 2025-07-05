@@ -1,0 +1,134 @@
+@startuml Smart_Clock_Main_Logic_Flowchart
+!theme plain
+title Smart Clock v5.0 - Main Service Logic Flowchart
+
+start
+
+:System Power On;
+
+:setup() - System Initialization;
+note right
+  - Initialize Hardware (LCD, RTC, Sensors)
+  - Load Configuration from EEPROM
+  - Setup WiFi with Manager
+  - Setup Web Server
+  - Load Weather Config
+  - Setup Button Interrupt
+end note
+
+:Enter Main Loop;
+
+while (System Running?) is (Yes)
+  
+  :Handle Web Server Requests;
+  note right: Process HTTP requests from web interface
+  
+  :Handle Button Input;
+  note right
+    - Check for button press
+    - Handle debouncing
+    - Immediate buzzer stop via interrupt
+    - Long press for factory reset
+  end note
+  
+  :Read Temperature Sensor;
+  note right: Update current, min, max temperature values
+  
+  :State Machine Processing;
+  
+  switch (Current State?)
+    case (STATE_BOOT)
+      :Initialize System;
+      :Switch to STATE_NORMAL;
+      
+    case (STATE_NORMAL)
+      :Display Clock/Weather;
+      note right
+        Auto-switch every 60 seconds:
+        - Clock Mode: Time, Date, Temperature
+        - Weather Mode: Weather data from API
+      end note
+      
+      :Check Alarms;
+      note right: Compare current time with all configured alarms
+      
+      if (Alarm Triggered?) then (Yes)
+        :Trigger Alarm;
+        :Switch to STATE_ALARM;
+      else (No)
+        :Continue Normal Operation;
+      endif
+      
+    case (STATE_ALARM)
+      :Update Alarm Display;
+      note right
+        - Blink alarm message on LCD
+        - Activate buzzer on GPIO 25
+        - Turn on LED indicator
+      end note
+      
+      if (Button Pressed OR 5min Timeout?) then (Yes)
+        :Stop Alarm;
+        :Switch to STATE_NORMAL;
+      else (No)
+        :Continue Alarm;
+      endif
+      
+    case (STATE_COUNTDOWN)
+      :Display Countdown;
+      note right: Show remaining timer time MM:SS
+      
+      if (Timer Finished?) then (Yes)
+        :Trigger 5-second Alert;
+        :Switch to STATE_NORMAL;
+      else (No)
+        :Update Countdown Display;
+      endif
+      
+    case (STATE_MENU)
+      :Display Menu;
+      note right: Simple menu interface
+      
+      if (10 Second Timeout?) then (Yes)
+        :Switch to STATE_NORMAL;
+      else (No)
+        :Handle Menu Navigation;
+      endif
+      
+    case (STATE_ERROR)
+      :Display Error Message;
+      :Attempt Recovery;
+      :Switch to STATE_NORMAL;
+      
+  endswitch
+  
+  :Weather Data Management;
+  note right
+    Periodic weather updates:
+    - Fetch from OpenWeather API
+    - Use simulation if API fails
+    - Handle errors and retries
+  end note
+  
+  :Configuration Management;
+  note right
+    - Save alarms to EEPROM when changed
+    - Save device config when updated
+    - Handle web interface requests
+  end note
+  
+  :Hardware Monitoring;
+  note right
+    - Check component status
+    - Update system health indicators
+    - Handle hardware errors
+  end note
+
+endwhile (No)
+
+:System Shutdown;
+note right: Save critical data before power off
+
+stop
+
+@enduml
