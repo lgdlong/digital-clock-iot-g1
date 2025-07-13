@@ -1,114 +1,114 @@
-# Smart Clock v5.0 - Technical Documentation
+# Smart Clock v5.0 - Tài liệu kỹ thuật
 
-## 📚 Table of Contents
+## 📚 Mục lục
 
-### 🎯 [1. High-Level Overview](#high-level-overview)
-- [Main Responsibilities](#main-responsibilities)
-- [Key Features](#key-features)
-- [System Capabilities](#system-capabilities)
+### 🎯 [1. Tổng quan cấp cao](#high-level-overview)
+- [Trách nhiệm chính](#main-responsibilities)
+- [Tính năng chính](#key-features)
+- [Khả năng hệ thống](#system-capabilities)
 
-### 🏗️ [2. Architecture & Program Flow](#architecture--program-flow)
-- [Initialization Flow](#initialization-flow-setup---lines-1450-1523)
-- [Main Loop Flow](#main-loop-flow-loop---lines-1525-1591)
-- [State Machine Overview](#state-machine-lines-1578-1590)
-- [System Integration](#system-integration)
+### 🏗️ [2. Kiến trúc & Luồng chương trình](#architecture--program-flow)
+- [Luồng khởi tạo](#initialization-flow-setup---lines-1450-1523)
+- [Luồng lặp chính](#main-loop-flow-loop---lines-1525-1591)
+- [Máy trạng thái Overview](#state-machine-lines-1578-1590)
+- [Tích hợp hệ thống](#system-integration)
 
-### 🔧 [3. Global Variables & Data Structures](#global-variables--data-structures)
-- [Hardware Pin Definitions](#hardware-pin-definitions-lines-57-61)
-- [Hardware Objects](#hardware-objects-lines-63-67)
-- [System State Variables](#system-state-variables-lines-69-80)
-- [Configuration Structures](#configuration-structures)
-  - [Device Configuration](#device-configuration-lines-82-88)
-  - [Hardware Status](#hardware-status-lines-91-101)
-  - [Alarm System](#alarm-system-lines-118-135)
-  - [Countdown Timer](#countdown-timer-lines-137-147)
-  - [Weather Configuration](#weather-configuration-lines-149-156)
-  - [Weather Data](#weather-data-lines-158-167)
-- [Display & Sensor Variables](#temperature--display-variables-lines-114-116-184-188)
-- [Memory Layout Constants](#memory-layout-constants-lines-190-194)
+### 🔧 [3. Global Variables & Cấu trúc dữ liệu](#global-variables--data-structures)
+- [Định nghĩa chân phần cứng](#hardware-pin-definitions-lines-57-61)
+- [Đối tượng phần cứng](#hardware-objects-lines-63-67)
+- [Biến trạng thái hệ thống](#system-state-variables-lines-69-80)
+- [Cấu trúc cấu hình](#configuration-structures)
+  - [Cấu hình thiết bị](#device-configuration-lines-82-88)
+  - [Trạng thái phần cứng](#hardware-status-lines-91-101)
+  - [Hệ thống báo thức](#alarm-system-lines-118-135)
+  - [Bộ đếm ngược](#countdown-timer-lines-137-147)
+  - [Cấu hình thời tiết](#weather-configuration-lines-149-156)
+  - [Dữ liệu thời tiết](#weather-data-lines-158-167)
+- [Biến hiển thị & cảm biến](#temperature--display-variables-lines-114-116-184-188)
+- [Hằng số bố trí bộ nhớ](#memory-layout-constants-lines-190-194)
 
-### 📖 [4. Function Reference](#function-reference)
-- [Utility Functions](#utility-functions)
+### 📖 [4. Tham chiếu hàm](#function-reference)
+- [Hàm tiện ích](#utility-functions)
   - [checkFirstBoot()](#checkfirstboot-lines-200-212)
   - [clearAllData()](#clearalldata-lines-214-234)
   - [convertAdcToTemperature()](#convertadctotemperatureint-adcvalue-lines-236-255)
   - [factoryReset()](#factoryreset-lines-257-267)
-- [Hardware Functions](#hardware-functions)
+- [Hàm phần cứng](#hardware-functions)
   - [initializeHardware()](#initializehardware-lines-272-340)
   - [readTemperature()](#readtemperature-lines-342-351)
-- [Display Functions](#display-functions)
+- [Hàm hiển thị](#display-functions)
   - [updateLCDContent()](#updatelcdcontentstring-line1-string-line2-lines-356-370)
   - [displayClock()](#displayclock-lines-372-427)
   - [displayCountdown()](#displaycountdown-lines-429-455)
   - [displayMenu()](#displaymenu-lines-457-467)
-- [Alarm & Timer System](#alarm--timer-system)
+- [Hệ thống báo thức & bộ đếm](#alarm--timer-system)
   - [triggerAlarm()](#triggeralarmint-index-lines-472-479)
   - [stopAlarm()](#stopalarm-lines-481-491)
   - [updateAlarmDisplay()](#updatealarmdisplay-lines-493-524)
-- [Button Handling System](#button-handling-system)
+- [Hệ thống xử lý nút nhấn](#button-handling-system)
   - [handleButton()](#handlebutton-lines-529-593)
   - [buttonInterrupt()](#buttoninterrupt-lines-600-619)
-- [Web Interface](#web-interface)
+- [Giao diện web](#web-interface)
   - [generateWebInterface()](#generatewebinterface-lines-624-995)
-- [Web Server Endpoints](#web-server-endpoints)
+- [Các endpoint máy chủ web](#web-server-endpoints)
   - [setupWebServer()](#setupwebserver-lines-1000-1213)
   - [API Endpoints List](#api-endpoints-reference)
-- [Configuration Management](#configuration-management)
+- [Quản lý cấu hình](#configuration-management)
   - [loadConfiguration()](#loadconfiguration-lines-1218-1237)
   - [saveConfiguration()](#saveconfiguration-lines-1239-1244)
   - [saveAlarms()](#savealarms-lines-1246-1253)
   - [loadWeatherConfig()](#loadweatherconfig-lines-1255-1270)
   - [saveWeatherConfig()](#saveweatherconfig-lines-1272-1286)
-- [Network Functions](#network-functions)
+- [Hàm mạng](#network-functions)
   - [setupWiFi()](#setupwifi-lines-1291-1311)
-- [Main System Functions](#main-system-functions)
+- [Hàm hệ thống chính](#main-system-functions)
   - [setup()](#setup-lines-1316-1388)
   - [loop()](#loop-lines-1390-1456)
-- [Weather Functions](#weather-functions)
+- [Hàm thời tiết](#weather-functions)
   - [fetchWeatherData()](#fetchweatherdata-lines-1461-1555)
   - [checkAlarms()](#checkalarms-lines-1557-1574)
 
-### ⚙️ [5. Hardware Configuration](#hardware-configuration)
-- [Pin Assignments](#pin-assignments)
-- [External Components](#external-components)
-- [Hardware Requirements](#hardware-requirements)
-- [Connection Diagrams](#connection-diagrams)
+### ⚙️ [5. Cấu hình phần cứng](#hardware-configuration)
+- [Phân công chân](#pin-assignments)
+- [Linh kiện bên ngoài](#external-components)
+- [Yêu cầu phần cứng](#hardware-requirements)
+- [Sơ đồ kết nối](#connection-diagrams)
 
-### 🌐 [6. Web Interface](#web-interface)
-- [Features Overview](#features)
-- [UI Components](#ui-components)
+### 🌐 [6. Giao diện web](#web-interface)
+- [Tổng quan tính năng](#features)
+- [Thành phần giao diện](#ui-components)
 - [Configuration Sections](#configuration-sections)
-- [Real-time Updates](#real-time-updates)
-- [JavaScript Functions](#javascript-functions)
+- [Cập nhật thời gian thực](#real-time-updates)
+- [Hàm JavaScript](#javascript-functions)
 
-### 🔄 [7. State Machine](#state-machine)
-- [State Definitions](#state-definitions)
-- [State Transitions](#states-and-transitions)
-- [State Handlers](#state-handlers-lines-1578-1590)
-- [State Flow Diagram](#state-flow-diagram)
+### 🔄 [7. Máy trạng thái](#state-machine)
+- [Định nghĩa trạng thái](#state-definitions)
+- [Chuyển đổi trạng thái](#states-and-transitions)
+- [Xử lý trạng thái](#state-handlers-lines-1578-1590)
+- [Sơ đồ luồng trạng thái](#state-flow-diagram)
 
-### ⚠️ [8. Complex/Tricky Sections](#complextricky-sections)
+### ⚠️ [8. Các phần phức tạp](#complextricky-sections)
 - [Button Interrupt System](#1-button-interrupt-system-lines-529-619)
 - [Weather API with Error Recovery](#2-weather-api-with-error-recovery-lines-1461-1555)
 - [LCD Display Mode Switching](#3-lcd-display-mode-switching-lines-372-427)
 - [Timer with 5-Second Alarm](#4-timer-with-5-second-alarm-lines-1542-1568)
 - [EEPROM vs Preferences Storage](#5-eeprom-vs-preferences-storage-lines-1218-1286)
 
-### 💾 [9. EEPROM Memory Layout](#eeprom-memory-layout)
-- [Memory Map](#memory-map)
-- [Storage Details](#storage-details)
-- [Data Structures](#data-structures-in-memory)
-- [Backup & Recovery](#backup--recovery)
+### 💾 [9. Bố trí bộ nhớ EEPROM](#eeprom-memory-layout)
+- [Bản đồ bộ nhớ](#memory-map)
+- [Chi tiết lưu trữ](#storage-details)
+- [Cấu trúc dữ liệu](#data-structures-in-memory)
+- [Sao lưu & phục hồi](#backup--recovery)
 
-### 🌍 [10. Network & API Integration](#network--api-integration)
-- [WiFi Management](#wifi-management)
+### 🌍 [10. Tích hợp mạng & API](#network--api-integration)
+- [Quản lý WiFi](#wifi-management)
 - [OpenWeatherMap API](#openweathermap-api)
 - [Web Server Configuration](#web-server)
-- [Security Considerations](#security-considerations)
+- [Các cân nhắc bảo mật](#security-considerations)
 
 ---
 
-## High-Level Overview
+## Tổng quan cấp cao
 
 The `main1.cpp` file (1698 lines) implements a **comprehensive IoT Smart Clock system** for ESP32 microcontroller. This is a standalone device that combines multiple functionalities:
 
@@ -122,7 +122,7 @@ The `main1.cpp` file (1698 lines) implements a **comprehensive IoT Smart Clock s
 - **LCD display** (16x2) with automatic mode switching
 - **Hardware status monitoring** and error reporting
 
-### Main Responsibilities:
+### Trách nhiệm chính:
 1. **Real-time clock display** and time management
 2. **Alarm scheduling and triggering** with audio/visual alerts
 3. **Weather data fetching** and display
@@ -130,7 +130,7 @@ The `main1.cpp` file (1698 lines) implements a **comprehensive IoT Smart Clock s
 5. **Configuration persistence** using EEPROM and Preferences
 6. **Network management** including WiFi setup and hotspot mode
 
-### Key Features:
+### Tính năng chính:
 - **Interrupt-driven button handling** for immediate alarm shutoff
 - **Dual-mode WiFi** (Station + Access Point simultaneously)
 - **Automatic LCD mode switching** between clock and weather display
@@ -139,7 +139,7 @@ The `main1.cpp` file (1698 lines) implements a **comprehensive IoT Smart Clock s
 - **Multi-language support** (Vietnamese with emoji icons)
 - **Factory reset capability** via long button press or web interface
 
-### System Capabilities:
+### Khả năng hệ thống:
 - **Maximum 5 simultaneous alarms** with weekly scheduling
 - **Weather updates** every 2 minutes (configurable 1-60 minutes)
 - **Temperature monitoring** with min/max tracking
@@ -149,12 +149,12 @@ The `main1.cpp` file (1698 lines) implements a **comprehensive IoT Smart Clock s
 
 ---
 
-## Architecture & Program Flow
+## Kiến trúc & Luồng chương trình
 
-### Initialization Flow (setup() - Lines 1450-1523)
+### Luồng khởi tạo (setup() - Lines 1450-1523)
 ```
 Serial Setup → Hardware Init → First Boot Check → Load Configs → 
-WiFi Setup → Web Server → Weather Data → State Machine Start
+WiFi Setup → Web Server → Weather Data → Máy trạng thái Start
 ```
 
 **Detailed Sequence:**
@@ -166,12 +166,12 @@ WiFi Setup → Web Server → Weather Data → State Machine Start
 6. **WiFi Setup** with auto-configuration portal
 7. **Web Server Startup** with all endpoints
 8. **Initial Weather Fetch** (if enabled and connected)
-9. **State Machine Initialization** to STATE_NORMAL
+9. **Máy trạng thái Initialization** to STATE_NORMAL
 
-### Main Loop Flow (loop() - Lines 1525-1591)
+### Luồng lặp chính (loop() - Lines 1525-1591)
 ```
 Web Server Handle → Temperature Reading → Timer Alarm Check → 
-Button Handling → Hardware Status → Weather Update → State Machine
+Button Handling → Hardware Status → Weather Update → Máy trạng thái
 ```
 
 **Loop Cycle (100ms):**
@@ -179,11 +179,11 @@ Button Handling → Hardware Status → Weather Update → State Machine
 2. **Temperature Reading** - Every 5 seconds from LM35 sensor
 3. **Timer Alarm Handling** - 5-second alert with fast blinking
 4. **Button Processing** - Every 50ms with debouncing
-5. **Hardware Status Updates** - WiFi connection monitoring
-6. **Weather Data Updates** - Periodic API calls or simulation
-7. **State Machine Execution** - Display and functionality control
+5. **Trạng thái phần cứng Updates** - WiFi connection monitoring
+6. **Dữ liệu thời tiết Updates** - Periodic API calls or simulation
+7. **Máy trạng thái Execution** - Display and functionality control
 
-### State Machine (Lines 1578-1590)
+### Máy trạng thái (Lines 1578-1590)
 The system operates on a finite state machine with these states:
 - `STATE_BOOT` - Initial startup
 - `STATE_NORMAL` - Normal clock operation
@@ -193,7 +193,7 @@ The system operates on a finite state machine with these states:
 - `STATE_INFO` - Information display
 - `STATE_ERROR` - Error state
 
-### System Integration
+### Tích hợp hệ thống
 The system integrates multiple subsystems:
 - **Hardware Layer** - GPIO, I2C, ADC, Interrupts
 - **Network Layer** - WiFi, HTTP Server, API Client
@@ -203,9 +203,9 @@ The system integrates multiple subsystems:
 
 ---
 
-## Global Variables & Data Structures
+## Global Variables & Cấu trúc dữ liệu
 
-### Hardware Pin Definitions (Lines 57-61)
+### Định nghĩa chân phần cứng (Lines 57-61)
 ```cpp
 #define LED_PIN 12        // Status LED
 #define BUZZER_PIN 25     // Alarm buzzer
@@ -213,7 +213,7 @@ The system integrates multiple subsystems:
 #define NTC_PIN 34        // Temperature sensor (LM35)
 ```
 
-### Hardware Objects (Lines 63-67)
+### Đối tượng phần cứng (Lines 63-67)
 ```cpp
 LiquidCrystal_I2C LCD(0x27, 16, 2);  // I2C LCD display
 RTC_DS1307 rtc;                      // Real-time clock module
@@ -222,15 +222,15 @@ WiFiManager wifiManager;             // WiFi configuration manager
 Preferences preferences;             // ESP32 NVS storage
 ```
 
-### System State Variables (Lines 69-80)
+### Biến trạng thái hệ thống (Lines 69-80)
 ```cpp
 SystemState currentState = STATE_BOOT;  // Current system state
 unsigned long stateStartTime = 0;       // State transition timestamp
 ```
 
-### Configuration Structures
+### Cấu trúc cấu hình
 
-#### Device Configuration (Lines 82-88)
+#### Cấu hình thiết bị (Lines 82-88)
 ```cpp
 struct DeviceConfig {
   char deviceName[64] = "Smart Clock v5.0";
@@ -240,7 +240,7 @@ struct DeviceConfig {
 } config;
 ```
 
-#### Hardware Status (Lines 91-101)
+#### Trạng thái phần cứng (Lines 91-101)
 ```cpp
 struct HardwareStatus {
   bool lcdOK = false;     // LCD display status
@@ -253,7 +253,7 @@ struct HardwareStatus {
 } hw;
 ```
 
-#### Alarm System (Lines 118-135)
+#### Hệ thống báo thức (Lines 118-135)
 ```cpp
 struct Alarm {
   int hour = -1;                    // Alarm hour (0-23)
@@ -270,7 +270,7 @@ bool alarmActive = false;          // Currently alarming flag
 int activeAlarmIndex = -1;         // Index of active alarm
 ```
 
-#### Countdown Timer (Lines 137-147)
+#### Bộ đếm ngược (Lines 137-147)
 ```cpp
 struct CountdownTimer {
   unsigned long duration = 0;        // Timer duration in seconds
@@ -283,7 +283,7 @@ struct CountdownTimer {
 } timer;
 ```
 
-#### Weather Configuration (Lines 149-156)
+#### Cấu hình thời tiết (Lines 149-156)
 ```cpp
 struct WeatherConfig {
   char apiKey[64] = "";              // OpenWeatherMap API key
@@ -294,7 +294,7 @@ struct WeatherConfig {
 } weatherConfig;
 ```
 
-#### Weather Data (Lines 158-167)
+#### Dữ liệu thời tiết (Lines 158-167)
 ```cpp
 struct WeatherData {
   float temperature = 0.0;           // Current temperature
@@ -319,7 +319,7 @@ int lcdDisplayMode = 0;             // Display mode (0: Clock, 1: Weather)
 unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 ```
 
-### Memory Layout Constants (Lines 190-194)
+### Hằng số bố trí bộ nhớ (Lines 190-194)
 ```cpp
 #define EEPROM_SIZE 1024
 #define CONFIG_ADDR 0      // Device config storage address
@@ -329,9 +329,9 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 
 ---
 
-## Function Reference
+## Tham chiếu hàm
 
-### Utility Functions
+### Hàm tiện ích
 
 #### `checkFirstBoot()` (Lines 200-212)
 - **Purpose**: Detects first-time device startup
@@ -365,7 +365,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
   - Restarts ESP32
 - **Usage**: Triggered by long button press (5 seconds)
 
-### Hardware Functions
+### Hàm phần cứng
 
 #### `initializeHardware()` (Lines 272-340)
 - **Purpose**: Initialize all hardware components and test functionality
@@ -381,7 +381,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **Side Effects**: Updates `currentTemp`, `minTemp`, `maxTemp` global variables
 - **Called**: Every 5 seconds in main loop (Lines 1532-1540)
 
-### Display Functions
+### Hàm hiển thị
 
 #### `updateLCDContent(String line1, String line2)` (Lines 356-370)
 - **Purpose**: Update LCD display with new content (only if changed)
@@ -405,7 +405,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 #### `displayMenu()` (Lines 457-467)
 - **Purpose**: Simple menu display with auto-exit after 10 seconds
 
-### Alarm & Timer System
+### Hệ thống báo thức & bộ đếm
 
 #### `triggerAlarm(int index)` (Lines 472-479)
 - **Purpose**: Activate alarm for specific alarm index
@@ -427,7 +427,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **Auto-stop**: After 5 minutes (Line 521)
 - **Complex Note**: Handles both regular alarms and timer alarms
 
-### Button Handling System
+### Hệ thống xử lý nút nhấn
 
 #### `handleButton()` (Lines 529-593)
 - **Purpose**: Complex button handling with multiple functions
@@ -445,7 +445,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **Debouncing**: 50ms minimum interval between interrupts
 - **Complex Note**: ISR must be minimal and fast
 
-### Web Interface
+### Giao diện web
 
 #### `generateWebInterface()` (Lines 624-995)
 - **Purpose**: Generate complete HTML web interface
@@ -458,7 +458,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **Size**: ~371 lines of HTML/CSS/JavaScript generation
 - **Complex Note**: Large function handling complete web UI
 
-### Web Server Endpoints
+### Các endpoint máy chủ web
 
 #### `setupWebServer()` (Lines 1000-1213)
 - **Purpose**: Configure all HTTP endpoints
@@ -530,7 +530,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 }
 ```
 
-### Configuration Management
+### Quản lý cấu hình
 
 #### `loadConfiguration()` (Lines 1218-1237)
 - **Purpose**: Load device settings from EEPROM
@@ -553,7 +553,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **Purpose**: Save weather configuration to Preferences
 - **Debug**: Includes console output for verification
 
-### Network Functions
+### Hàm mạng
 
 #### `setupWiFi()` (Lines 1291-1311)
 - **Purpose**: Initialize WiFi with auto-configuration portal
@@ -563,7 +563,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **Auto-config**: Uses WiFiManager for easy setup
 - **Fallback**: Creates hotspot for manual configuration
 
-### Main System Functions
+### Hàm hệ thống chính
 
 #### `setup()` (Lines 1316-1388)
 - **Purpose**: Complete system initialization
@@ -590,9 +590,9 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
   5. Hardware status updates
   6. Weather data updates
   7. State machine execution
-- **State Machine**: Handles display and functionality based on current state
+- **Máy trạng thái**: Handles display and functionality based on current state
 
-### Weather Functions
+### Hàm thời tiết
 
 #### `fetchWeatherData()` (Lines 1461-1555)
 - **Purpose**: Fetch weather data from OpenWeatherMap API
@@ -613,9 +613,9 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 
 ---
 
-## Hardware Configuration
+## Cấu hình phần cứng
 
-### Pin Assignments
+### Phân công chân
 - **GPIO 12**: Status LED (output)
 - **GPIO 25**: Buzzer (output) 
 - **GPIO 26**: User button (input with pull-up + interrupt)
@@ -623,7 +623,7 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **I2C**: LCD display (address 0x27)
 - **I2C**: RTC DS1307 module
 
-### External Components
+### Linh kiện bên ngoài
 - **16x2 LCD Display**: I2C interface for status display
 - **DS1307 RTC**: Real-time clock with battery backup
 - **LM35 Temperature Sensor**: Analog temperature measurement
@@ -631,14 +631,14 @@ unsigned long lastLCDModeChange = 0; // Mode switch timestamp
 - **LED**: Visual status indicator
 - **Button**: User input with hardware interrupt
 
-### Hardware Requirements
+### Yêu cầu phần cứng
 - **ESP32 Development Board** (minimum 4MB flash)
 - **3.3V Power Supply** (minimum 500mA capacity)
 - **I2C Pull-up Resistors** (4.7kΩ for SDA/SCL if not built-in)
 - **Button Pull-up Resistor** (10kΩ, or use internal pull-up)
 - **LM35 Decoupling Capacitor** (100nF ceramic + 10µF electrolytic)
 
-### Connection Diagrams
+### Sơ đồ kết nối
 ```
 ESP32 Pin Connections:
 GPIO12 ────[220Ω]────LED────GND
@@ -664,17 +664,17 @@ GND    ────GND────LCD_GND, RTC_GND
 
 ---
 
-## Web Interface
+## Giao diện web
 
 ### Features
 - **Responsive Design**: Works on desktop and mobile
-- **Real-time Updates**: JavaScript polls `/status` endpoint every 2 seconds
+- **Cập nhật thời gian thực**: JavaScript polls `/status` endpoint every 2 seconds
 - **Modern UI**: CSS gradients, animations, and card-based layout
 - **Multi-language**: Vietnamese interface with emoji icons
 
-### UI Components
+### Thành phần giao diện
 - **Header Section**: Large clock display with date and temperature
-- **Hardware Status Cards**: Real-time component status with color indicators
+- **Trạng thái phần cứng Cards**: Real-time component status with color indicators
 - **Weather Information**: Current conditions with error tracking
 - **Configuration Forms**: Tabbed interface for different settings
 - **Alarm Management**: Add/edit/delete alarms with weekly scheduling
@@ -682,14 +682,14 @@ GND    ────GND────LCD_GND, RTC_GND
 - **Device Controls**: Restart and factory reset options
 
 ### Configuration Sections
-1. **Hardware Status**: Real-time component status
-2. **Weather Configuration**: API key, city selection, update interval
+1. **Trạng thái phần cứng**: Real-time component status
+2. **Cấu hình thời tiết**: API key, city selection, update interval
 3. **Alarm Management**: Add/remove alarms with weekly scheduling
-4. **Countdown Timer**: Start/stop timer with custom labels
+4. **Bộ đếm ngược**: Start/stop timer with custom labels
 5. **WiFi Configuration**: Network settings and hotspot config
 6. **Device Control**: Restart and factory reset options
 
-### Real-time Updates
+### Cập nhật thời gian thực
 **Update Mechanism**: JavaScript `setInterval()` calls `/status` endpoint every 2 seconds
 **Updated Elements**:
 - Clock display (HH:MM format)
@@ -700,7 +700,7 @@ GND    ────GND────LCD_GND, RTC_GND
 - Timer countdown
 - Alarm status
 
-### JavaScript Functions
+### Hàm JavaScript
 **Core Functions** (Lines 1067-1088):
 - `deleteAlarm(index)` - Remove alarm with confirmation
 - `stopTimer()` - Stop active timer with confirmation
@@ -728,9 +728,9 @@ function updateStatus() {
 
 ---
 
-## State Machine
+## Máy trạng thái
 
-### State Definitions
+### Định nghĩa trạng thái
 ```cpp
 enum SystemState {
   STATE_BOOT,       // Initial startup and hardware initialization
@@ -754,13 +754,13 @@ STATE_COUNTDOWN → STATE_NORMAL (timer finished/stopped)
 STATE_MENU → STATE_NORMAL (timeout or button press)
 ```
 
-### State Handlers (Lines 1578-1590)
+### Xử lý trạng thái (Lines 1578-1590)
 - **STATE_NORMAL**: Display clock and check alarms
 - **STATE_COUNTDOWN**: Display timer countdown
 - **STATE_ALARM**: Handle alarm display with blinking
 - **STATE_MENU**: Show menu with auto-exit
 
-### State Flow Diagram
+### Sơ đồ luồng trạng thái
 ```
 ┌─────────────┐
 │ STATE_BOOT  │
@@ -790,7 +790,7 @@ STATE_MENU → STATE_NORMAL (timeout or button press)
 
 ---
 
-## Complex/Tricky Sections
+## Các phần phức tạp
 
 ### 1. Button Interrupt System (Lines 529-619)
 **Complexity**: Dual-mode button handling with interrupt and polling
@@ -835,22 +835,22 @@ STATE_MENU → STATE_NORMAL (timeout or button press)
 
 ---
 
-## EEPROM Memory Layout
+## Bố trí bộ nhớ EEPROM
 
-### Memory Map
+### Bản đồ bộ nhớ
 ```
-Address 0-399:    Device Configuration (DeviceConfig struct)
-Address 400-799:  Alarm System Data (count + Alarm array)
+Address 0-399:    Cấu hình thiết bị (DeviceConfig struct)
+Address 400-799:  Hệ thống báo thức Data (count + Alarm array)
 Address 800-1023: Timer Data (CountdownTimer struct)
 ```
 
-### Storage Details
+### Chi tiết lưu trữ
 - **Device Config**: Name, hotspot SSID/password, validity flag
 - **Alarm Data**: Count (4 bytes) + up to 5 Alarm structures
 - **Timer Data**: Duration, state, label for persistence across reboots
 - **Weather Config**: Stored separately in ESP32 Preferences (NVS)
 
-### Data Structures in Memory
+### Cấu trúc dữ liệu in Memory
 
 **DeviceConfig Structure (88 bytes):**
 ```cpp
@@ -883,7 +883,7 @@ struct Alarm {
 };
 ```
 
-### Backup & Recovery
+### Sao lưu & phục hồi
 - **Validation**: `configValid` flag prevents loading corrupted data
 - **Fallback**: Default values used if EEPROM data invalid
 - **Factory Reset**: Clears all EEPROM + Preferences storage
@@ -891,9 +891,9 @@ struct Alarm {
 
 ---
 
-## Network & API Integration
+## Tích hợp mạng & API
 
-### WiFi Management
+### Quản lý WiFi
 - **WiFiManager**: Automatic configuration portal
 - **Dual Mode**: Station + Access Point simultaneously
 - **Fallback**: Hotspot-only mode if WiFi connection fails
@@ -913,7 +913,7 @@ struct Alarm {
 - **Content**: HTML, JSON, and plain text responses
 - **Security**: Basic form validation, no authentication
 
-### Security Considerations
+### Các cân nhắc bảo mật
 - **No Authentication**: Web interface is open to all network users
 - **Local Network Only**: Server only accessible on local WiFi network
 - **Input Validation**: Basic form validation and length limits
