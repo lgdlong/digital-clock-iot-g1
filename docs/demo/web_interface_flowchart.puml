@@ -1,0 +1,272 @@
+@startuml Smart_Clock_Web_Interface_Flowchart
+!theme plain
+title Smart Clock v5.0 - Web Interface Logic Flowchart
+
+start
+
+:System Boot;
+:Setup WiFi Connection;
+note right
+  setupWiFi() function:
+  - Use WiFiManager for easy setup
+  - Create captive portal if needed
+  - Support AP+STA mode
+  - Fallback to hotspot mode
+end note
+
+:Initialize Web Server;
+note right
+  setupWebServer() function:
+  - Setup HTTP server on port 80
+  - Configure all route handlers
+  - Enable CORS for API calls
+end note
+
+:Register Web Routes;
+
+partition "Web Server Route Setup" {
+  :Main Interface Route;
+  note right
+    GET "/" - generateWebInterface()
+    Returns complete HTML page
+  end note
+  
+  :API Routes;
+  note right
+    POST "/set-alarm" - Add/Update alarm
+    POST "/delete-alarm" - Remove alarm
+    POST "/set-timer" - Start countdown timer
+    POST "/stop-timer" - Stop countdown timer
+    POST "/factory-reset" - Reset system
+    POST "/save-wifi" - WiFi configuration
+    POST "/save-weather" - Weather settings
+  end note
+  
+  :Status Routes;
+  note right
+    GET "/status" - System status JSON
+    GET "/alarms" - Current alarms JSON
+    GET "/weather" - Weather data JSON
+  end note
+}
+
+:Start Web Server;
+
+while (System Running?) is (Yes)
+  
+  :Handle Client Requests;
+  note right: server.handleClient()
+  
+  if (HTTP Request Received?) then (Yes)
+    
+    :Parse Request;
+    note right
+      - Extract method (GET/POST)
+      - Parse URL and parameters
+      - Read request body if present
+    end note
+    
+    switch (Request Type?)
+      
+      case (GET /)
+        :Generate Web Interface;
+        note right
+          String generateWebInterface()
+          - Create complete HTML page
+          - Include CSS styling
+          - Add JavaScript for real-time updates
+          - Responsive design for mobile
+        end note
+        
+        :Send HTML Response;
+        note right
+          - Set content type to text/html
+          - Send 200 OK status
+          - Include all page assets
+        end note
+        
+      case (POST /set-alarm)
+        :Parse Alarm Data;
+        note right
+          - Extract time, days, label
+          - Validate input parameters
+          - Check alarm slot availability
+        end note
+        
+        if (Valid Alarm Data?) then (Yes)
+          :Add/Update Alarm;
+          :Save to EEPROM;
+          :Send Success Response;
+        else (No)
+          :Send Error Response;
+        endif
+        
+      case (POST /delete-alarm)
+        :Parse Alarm Index;
+        
+        if (Valid Index?) then (Yes)
+          :Remove Alarm;
+          :Update EEPROM;
+          :Send Success Response;
+        else (No)
+          :Send Error Response;
+        endif
+        
+      case (POST /set-timer)
+        :Parse Timer Data;
+        note right
+          - Extract duration and label
+          - Validate time format
+          - Check timer availability
+        end note
+        
+        if (Valid Timer Data?) then (Yes)
+          :Start Countdown Timer;
+          :Switch to STATE_COUNTDOWN;
+          :Send Success Response;
+        else (No)
+          :Send Error Response;
+        endif
+        
+      case (POST /stop-timer)
+        :Stop Active Timer;
+        :Switch to STATE_NORMAL;
+        :Send Success Response;
+        
+      case (POST /factory-reset)
+        :Trigger Factory Reset;
+        note right
+          - Clear all EEPROM data
+          - Reset WiFi settings
+          - Restart system
+        end note
+        :Send Reset Response;
+        
+      case (POST /save-wifi)
+        :Parse WiFi Settings;
+        
+        if (Valid WiFi Data?) then (Yes)
+          :Update WiFi Configuration;
+          :Restart WiFi Connection;
+          :Send Success Response;
+        else (No)
+          :Send Error Response;
+        endif
+        
+      case (POST /save-weather)
+        :Parse Weather Config;
+        note right
+          - API key validation
+          - City name check
+          - Update interval validation
+        end note
+        
+        if (Valid Weather Data?) then (Yes)
+          :Update Weather Configuration;
+          :Save to Preferences;
+          :Trigger Weather Update;
+          :Send Success Response;
+        else (No)
+          :Send Error Response;
+        endif
+        
+      case (GET /status)
+        :Collect System Status;
+        note right
+          - Current time and date
+          - Temperature readings
+          - Alarm status
+          - WiFi connection info
+          - Hardware status
+        end note
+        
+        :Send JSON Response;
+        
+      case (GET /alarms)
+        :Collect Alarm Data;
+        note right
+          - All configured alarms
+          - Active/inactive status
+          - Next alarm time
+        end note
+        
+        :Send JSON Response;
+        
+      case (GET /weather)
+        :Collect Weather Data;
+        note right
+          - Current weather info
+          - Temperature, humidity
+          - Weather description
+          - Last update time
+        end note
+        
+        :Send JSON Response;
+        
+      case (404 Not Found)
+        :Send 404 Error;
+        
+    endswitch
+    
+  else (No)
+    :Continue Processing;
+  endif
+  
+  :Handle Real-time Updates;
+  note right
+    JavaScript on client side
+    polls status every 2 seconds
+    for real-time display updates
+  end note
+
+endwhile (No)
+
+:Stop Web Server;
+
+stop
+
+' Client-Side JavaScript Logic (Parallel Process)
+start
+:Web Page Loaded;
+
+:Initialize JavaScript;
+note right
+  - Setup event listeners
+  - Configure form handlers
+  - Start status polling
+end note
+
+:Start Status Polling;
+
+while (Page Active?) is (Yes)
+  
+  :Fetch Status Data;
+  note right
+    GET /status
+    Every 2 seconds
+  end note
+  
+  :Update Display Elements;
+  note right
+    - Current time
+    - Temperature
+    - Alarm status
+    - System status
+  end note
+  
+  :Handle User Interactions;
+  note right
+    - Form submissions
+    - Button clicks
+    - Input validation
+  end note
+  
+  :Wait 2 Seconds;
+  
+endwhile (No)
+
+:Page Unloaded;
+
+stop
+
+@enduml
