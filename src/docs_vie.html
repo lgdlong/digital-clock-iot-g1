@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Smart Clock v5&period;0 - T&agrave;i li&#x1ec7;u k&#x1ef9; thu&#x1ead;t</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension zhuangtongfa.material-theme */
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body {
+  box-sizing: border-box;
+  min-width: 200px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote {
+  background-color: initial;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
+  color: initial;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body code {
+  color: inherit;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre code {
+  color: initial;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body code > div, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body code > div, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body code > div, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body code > div {
+  background: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table td {
+  border: 1px solid rgba(171, 178, 191, 0.5) !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body.showEditorSelection .code-active-line:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body.showEditorSelection .code-active-line:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body.showEditorSelection .code-active-line:before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body.showEditorSelection .code-active-line:before {
+  border-left: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body.showEditorSelection .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body.showEditorSelection .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body.showEditorSelection .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body.showEditorSelection .code-line:hover:before {
+  border-left: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body.showEditorSelection .code-line .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body.showEditorSelection .code-line .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body.showEditorSelection .code-line .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body.showEditorSelection .code-line .code-line:hover:before {
+  border-left: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+/* Generated from 'node_modules/github-markdown-css/github-markdown.css' */
+@font-face {
+  font-family: octicons-link;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format("woff");
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: rgb(171, 178, 191);
+  line-height: 1.5;
+  word-wrap: break-word;
+  background: #282c34;
+  padding-top: 20px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c {
+  color: #6a737d;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s .pl-v {
+  color: #005cc5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-en {
+  color: #6f42c1;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s .pl-s1 {
+  color: #24292e;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ent, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ent, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ent, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ent {
+  color: #22863a;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-k, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-k, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-k, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-k {
+  color: #d73a49;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-sra, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-sra, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-sra, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-sra {
+  color: #032f62;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-smw, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-smw, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-smw, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-smw {
+  color: #e36209;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-bu, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-bu, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-bu, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-bu {
+  color: #b31d28;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ii, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ii, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ii, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c2::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c2::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c2::before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c2::before {
+  content: "^M";
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-cce {
+  font-weight: bold;
+  color: #22863a;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ml, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ml, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ml, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ml {
+  color: #735c0f;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ms, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ms, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ms, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ms {
+  font-weight: bold;
+  color: #005cc5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mi, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mi, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mi, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mb, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mb, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mb, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mb {
+  font-weight: bold;
+  color: #24292e;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-md, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-md, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-md, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mi1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mi1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mi1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mc, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mc, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mc, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mi2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mi2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mi2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mdr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mdr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mdr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mdr {
+  font-weight: bold;
+  color: #6f42c1;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ba, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ba, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ba, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ba {
+  color: #586069;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sg, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sg, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sg, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sg {
+  color: #959da5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-corl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-corl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-corl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .octicon {
+  display: inline-block;
+  vertical-align: text-top;
+  fill: currentColor;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a {
+  background-color: transparent;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:hover {
+  outline-width: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body strong {
+  font-weight: inherit;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body strong {
+  font-weight: bolder;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 {
+  margin: 0.67em 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img {
+  border-style: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body input {
+  font: inherit;
+  margin: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body input {
+  overflow: visible;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body [type=checkbox], .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body [type=checkbox], .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body [type=checkbox], .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body *, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body *, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body *, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body * {
+  box-sizing: border-box;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body input {
+  font-family: inherit;
+  line-height: inherit;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a {
+  color: #528bff;
+  text-decoration: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:hover {
+  text-decoration: underline;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body strong {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr::before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr::before {
+  display: table;
+  content: "";
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr::after, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body th {
+  padding: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2 {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3 {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4 {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5 {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote {
+  margin: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ol {
+  list-style-type: lower-roman;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dd {
+  margin-left: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .octicon {
+  vertical-align: text-bottom;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-0, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-0, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-0, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-0 {
+  padding-left: 0 !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-1 {
+  padding-left: 4px !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-2 {
+  padding-left: 8px !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-3 {
+  padding-left: 16px !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-4 {
+  padding-left: 24px !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-5 {
+  padding-left: 32px !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-6 {
+  padding-left: 40px !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body::before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body::before {
+  display: table;
+  content: "";
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body::after, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body > *:first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body > *:first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body > *:first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body > *:first-child {
+  margin-top: 0 !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body > *:last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body > *:last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body > *:last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body > *:last-child {
+  margin-bottom: 0 !important;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:not([href]), .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:not([href]), .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:not([href]), .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .anchor {
+  float: left;
+  padding-right: 4px;
+  margin-left: -20px;
+  line-height: 1;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .anchor:focus, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .anchor:focus, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .anchor:focus, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .anchor:focus {
+  outline: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote {
+  /* padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5; */
+  padding: 8.5px 17px;
+  margin: 1.5em 0;
+  color: #7c879c;
+  border-color: #4b5362;
+  border-width: 4px;
+  border-left: 5px solid #4b5362;
+  background: transparent;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote > :first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote > :first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote > :first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote > :first-child {
+  margin-top: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote > :last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote > :last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote > :last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: solid 1px #c6cbd1;
+  border-bottom-color: #959da5;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #959da5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: rgb(240, 240, 240);
+  border-bottom: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6:hover .anchor {
+  text-decoration: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 {
+  padding-bottom: 0.3em;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2 {
+  padding-bottom: 0.3em;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
+  color: #6a737d;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol {
+  padding-left: 2em;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body li, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body li, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body li, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body li {
+  word-wrap: break-all;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body li > p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body li > p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body li > p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body li > p {
+  margin-top: 16px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body li + li, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body li + li, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body li + li, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body li + li {
+  margin-top: 0.25em;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl {
+  padding: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl dt, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl dt, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl dt, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-style: italic;
+  font-weight: 600;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl dd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table th {
+  font-weight: 700;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table td {
+  padding: 6px 13px;
+  /* border: 1px solid #dfe2e5; */
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img {
+  max-width: 100%;
+  box-sizing: content-box;
+  display: inline-block;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img[align=right], .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img[align=right], .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img[align=right], .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img[align=right] {
+  padding-left: 20px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img[align=left], .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img[align=left], .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img[align=left], .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img[align=left] {
+  padding-right: 20px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  background-color: #3a3f4b;
+  border-radius: 3px;
+  color: white;
+  margin: 0 1px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
+  word-wrap: normal;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre > code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre > code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre > code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre > code {
+  padding: 0;
+  margin: 0;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .highlight, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .highlight, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .highlight, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .highlight {
+  margin-bottom: 16px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
+  padding: 16px;
+  overflow: auto;
+  line-height: 1.45;
+  /* background-color: #f6f8fa; */
+  border-radius: 3px;
+  background-color: #31363f;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+  color: rgb(171, 178, 191);
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .full-commit .btn-outline:not(:disabled):hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .full-commit .btn-outline:not(:disabled):hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .full-commit .btn-outline:not(:disabled):hover, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: solid 1px #d1d5da;
+  border-bottom-color: #c6cbd1;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #c6cbd1;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body :checked + .radio-label, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body :checked + .radio-label, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body :checked + .radio-label, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body :checked + .radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .task-list-item {
+  list-style-type: none;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .task-list-item + .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .task-list-item + .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .task-list-item + .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .task-list-item input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .task-list-item input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .task-list-item input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .task-list-item input {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
+  border-bottom-color: #eee;
+}
+
+/*
+
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #282c34
+mono-1:  #abb2bf
+mono-2:  #818896
+mono-3:  #5c6370
+hue-1:   #56b6c2
+hue-2:   #61aeee
+hue-3:   #c678dd
+hue-4:   #98c379
+hue-5:   #e06c75
+hue-5-2: #be5046
+hue-6:   #d19a66
+hue-6-2: #e6c07b
+
+*/
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-comment,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-quote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-comment,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-quote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-comment,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-quote, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-comment,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-doctag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-keyword,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-formula, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-doctag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-keyword,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-formula, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-doctag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-keyword,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-formula, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-doctag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-keyword,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-formula {
+  color: #c678dd;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-section,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-name,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-tag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-deletion,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-subst, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-section,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-name,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-tag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-deletion,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-subst, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-section,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-name,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-tag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-deletion,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-subst, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-section,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-name,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-tag,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-deletion,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-subst {
+  color: #e06c75;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-literal, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-literal, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-literal, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-literal {
+  color: #56b6c2;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-string,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-regexp,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-addition,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-attribute,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-meta-string, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-string,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-regexp,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-addition,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-attribute,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-meta-string, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-string,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-regexp,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-addition,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-attribute,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-meta-string, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-string,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-regexp,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-addition,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-attribute,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-meta-string {
+  color: #98c379;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-built_in,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-class .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-built_in,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-class .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-built_in,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-class .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-built_in,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-class .hljs-title {
+  color: #e6c07b;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-template-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-type,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-class,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-pseudo,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-number, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-template-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-type,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-class,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-pseudo,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-number, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-template-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-type,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-class,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-pseudo,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-number, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-template-variable,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-type,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-class,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-attr,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-pseudo,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-number {
+  color: #d19a66;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-symbol,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-bullet,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-link,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-meta,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-id,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-symbol,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-bullet,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-link,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-meta,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-id,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-symbol,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-bullet,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-link,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-meta,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-id,
+.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-symbol,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-bullet,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-link,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-meta,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-id,
+.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-title {
+  color: #61aeee;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-emphasis, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-emphasis, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-emphasis, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-emphasis {
+  font-style: italic;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-strong {
+  font-weight: bold;
+}
+.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-link {
+  text-decoration: underline;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="smart-clock-v50---tài-liệu-kỹ-thuật">Smart Clock v5.0 - Tài liệu kỹ thuật</h1>
+<h2 id="-mục-lục">📚 Mục lục</h2>
+<h3 id="-1-tổng-quan-cấp-cao">🎯 <a href="#high-level-overview">1. Tổng quan cấp cao</a></h3>
+<ul>
+<li><a href="#main-responsibilities">Trách nhiệm chính</a></li>
+<li><a href="#key-features">Tính năng chính</a></li>
+<li><a href="#system-capabilities">Khả năng hệ thống</a></li>
+</ul>
+<h3 id="️-2-kiến-trúc--luồng-chương-trình">🏗️ <a href="#architecture--program-flow">2. Kiến trúc &amp; Luồng chương trình</a></h3>
+<ul>
+<li><a href="#initialization-flow-setup---lines-1450-1523">Luồng khởi tạo</a></li>
+<li><a href="#main-loop-flow-loop---lines-1525-1591">Luồng lặp chính</a></li>
+<li><a href="#state-machine-lines-1578-1590">Máy trạng thái Overview</a></li>
+<li><a href="#system-integration">Tích hợp hệ thống</a></li>
+</ul>
+<h3 id="-3-global-variables--cấu-trúc-dữ-liệu">🔧 <a href="#global-variables--data-structures">3. Global Variables &amp; Cấu trúc dữ liệu</a></h3>
+<ul>
+<li><a href="#hardware-pin-definitions-lines-57-61">Định nghĩa chân phần cứng</a></li>
+<li><a href="#hardware-objects-lines-63-67">Đối tượng phần cứng</a></li>
+<li><a href="#system-state-variables-lines-69-80">Biến trạng thái hệ thống</a></li>
+<li><a href="#configuration-structures">Cấu trúc cấu hình</a>
+<ul>
+<li><a href="#device-configuration-lines-82-88">Cấu hình thiết bị</a></li>
+<li><a href="#hardware-status-lines-91-101">Trạng thái phần cứng</a></li>
+<li><a href="#alarm-system-lines-118-135">Hệ thống báo thức</a></li>
+<li><a href="#countdown-timer-lines-137-147">Bộ đếm ngược</a></li>
+<li><a href="#weather-configuration-lines-149-156">Cấu hình thời tiết</a></li>
+<li><a href="#weather-data-lines-158-167">Dữ liệu thời tiết</a></li>
+</ul>
+</li>
+<li><a href="#temperature--display-variables-lines-114-116-184-188">Biến hiển thị &amp; cảm biến</a></li>
+<li><a href="#memory-layout-constants-lines-190-194">Hằng số bố trí bộ nhớ</a></li>
+</ul>
+<h3 id="-4-tham-chiếu-hàm">📖 <a href="#function-reference">4. Tham chiếu hàm</a></h3>
+<ul>
+<li><a href="#utility-functions">Hàm tiện ích</a>
+<ul>
+<li><a href="#checkfirstboot-lines-200-212">checkFirstBoot()</a></li>
+<li><a href="#clearalldata-lines-214-234">clearAllData()</a></li>
+<li><a href="#convertadctotemperatureint-adcvalue-lines-236-255">convertAdcToTemperature()</a></li>
+<li><a href="#factoryreset-lines-257-267">factoryReset()</a></li>
+</ul>
+</li>
+<li><a href="#hardware-functions">Hàm phần cứng</a>
+<ul>
+<li><a href="#initializehardware-lines-272-340">initializeHardware()</a></li>
+<li><a href="#readtemperature-lines-342-351">readTemperature()</a></li>
+</ul>
+</li>
+<li><a href="#display-functions">Hàm hiển thị</a>
+<ul>
+<li><a href="#updatelcdcontentstring-line1-string-line2-lines-356-370">updateLCDContent()</a></li>
+<li><a href="#displayclock-lines-372-427">displayClock()</a></li>
+<li><a href="#displaycountdown-lines-429-455">displayCountdown()</a></li>
+<li><a href="#displaymenu-lines-457-467">displayMenu()</a></li>
+</ul>
+</li>
+<li><a href="#alarm--timer-system">Hệ thống báo thức &amp; bộ đếm</a>
+<ul>
+<li><a href="#triggeralarmint-index-lines-472-479">triggerAlarm()</a></li>
+<li><a href="#stopalarm-lines-481-491">stopAlarm()</a></li>
+<li><a href="#updatealarmdisplay-lines-493-524">updateAlarmDisplay()</a></li>
+</ul>
+</li>
+<li><a href="#button-handling-system">Hệ thống xử lý nút nhấn</a>
+<ul>
+<li><a href="#handlebutton-lines-529-593">handleButton()</a></li>
+<li><a href="#buttoninterrupt-lines-600-619">buttonInterrupt()</a></li>
+</ul>
+</li>
+<li><a href="#web-interface">Giao diện web</a>
+<ul>
+<li><a href="#generatewebinterface-lines-624-995">generateWebInterface()</a></li>
+</ul>
+</li>
+<li><a href="#web-server-endpoints">Các endpoint máy chủ web</a>
+<ul>
+<li><a href="#setupwebserver-lines-1000-1213">setupWebServer()</a></li>
+<li><a href="#api-endpoints-reference">API Endpoints List</a></li>
+</ul>
+</li>
+<li><a href="#configuration-management">Quản lý cấu hình</a>
+<ul>
+<li><a href="#loadconfiguration-lines-1218-1237">loadConfiguration()</a></li>
+<li><a href="#saveconfiguration-lines-1239-1244">saveConfiguration()</a></li>
+<li><a href="#savealarms-lines-1246-1253">saveAlarms()</a></li>
+<li><a href="#loadweatherconfig-lines-1255-1270">loadWeatherConfig()</a></li>
+<li><a href="#saveweatherconfig-lines-1272-1286">saveWeatherConfig()</a></li>
+</ul>
+</li>
+<li><a href="#network-functions">Hàm mạng</a>
+<ul>
+<li><a href="#setupwifi-lines-1291-1311">setupWiFi()</a></li>
+</ul>
+</li>
+<li><a href="#main-system-functions">Hàm hệ thống chính</a>
+<ul>
+<li><a href="#setup-lines-1316-1388">setup()</a></li>
+<li><a href="#loop-lines-1390-1456">loop()</a></li>
+</ul>
+</li>
+<li><a href="#weather-functions">Hàm thời tiết</a>
+<ul>
+<li><a href="#fetchweatherdata-lines-1461-1555">fetchWeatherData()</a></li>
+<li><a href="#checkalarms-lines-1557-1574">checkAlarms()</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="️-5-cấu-hình-phần-cứng">⚙️ <a href="#hardware-configuration">5. Cấu hình phần cứng</a></h3>
+<ul>
+<li><a href="#pin-assignments">Phân công chân</a></li>
+<li><a href="#external-components">Linh kiện bên ngoài</a></li>
+<li><a href="#hardware-requirements">Yêu cầu phần cứng</a></li>
+<li><a href="#connection-diagrams">Sơ đồ kết nối</a></li>
+</ul>
+<h3 id="-6-giao-diện-web">🌐 <a href="#web-interface">6. Giao diện web</a></h3>
+<ul>
+<li><a href="#features">Tổng quan tính năng</a></li>
+<li><a href="#ui-components">Thành phần giao diện</a></li>
+<li><a href="#configuration-sections">Configuration Sections</a></li>
+<li><a href="#real-time-updates">Cập nhật thời gian thực</a></li>
+<li><a href="#javascript-functions">Hàm JavaScript</a></li>
+</ul>
+<h3 id="-7-máy-trạng-thái">🔄 <a href="#state-machine">7. Máy trạng thái</a></h3>
+<ul>
+<li><a href="#state-definitions">Định nghĩa trạng thái</a></li>
+<li><a href="#states-and-transitions">Chuyển đổi trạng thái</a></li>
+<li><a href="#state-handlers-lines-1578-1590">Xử lý trạng thái</a></li>
+<li><a href="#state-flow-diagram">Sơ đồ luồng trạng thái</a></li>
+</ul>
+<h3 id="️-8-các-phần-phức-tạp">⚠️ <a href="#complextricky-sections">8. Các phần phức tạp</a></h3>
+<ul>
+<li><a href="#1-button-interrupt-system-lines-529-619">Button Interrupt System</a></li>
+<li><a href="#2-weather-api-with-error-recovery-lines-1461-1555">Weather API with Error Recovery</a></li>
+<li><a href="#3-lcd-display-mode-switching-lines-372-427">LCD Display Mode Switching</a></li>
+<li><a href="#4-timer-with-5-second-alarm-lines-1542-1568">Timer with 5-Second Alarm</a></li>
+<li><a href="#5-eeprom-vs-preferences-storage-lines-1218-1286">EEPROM vs Preferences Storage</a></li>
+</ul>
+<h3 id="-9-bố-trí-bộ-nhớ-eeprom">💾 <a href="#eeprom-memory-layout">9. Bố trí bộ nhớ EEPROM</a></h3>
+<ul>
+<li><a href="#memory-map">Bản đồ bộ nhớ</a></li>
+<li><a href="#storage-details">Chi tiết lưu trữ</a></li>
+<li><a href="#data-structures-in-memory">Cấu trúc dữ liệu</a></li>
+<li><a href="#backup--recovery">Sao lưu &amp; phục hồi</a></li>
+</ul>
+<h3 id="-10-tích-hợp-mạng--api">🌍 <a href="#network--api-integration">10. Tích hợp mạng &amp; API</a></h3>
+<ul>
+<li><a href="#wifi-management">Quản lý WiFi</a></li>
+<li><a href="#openweathermap-api">OpenWeatherMap API</a></li>
+<li><a href="#web-server">Web Server Configuration</a></li>
+<li><a href="#security-considerations">Các cân nhắc bảo mật</a></li>
+</ul>
+<hr>
+<h2 id="tổng-quan-cấp-cao">Tổng quan cấp cao</h2>
+<p>The <code>main1.cpp</code> file (1698 lines) implements a <strong>comprehensive IoT Smart Clock system</strong> for ESP32 microcontroller. This is a standalone device that combines multiple functionalities:</p>
+<ul>
+<li><strong>Digital Clock</strong> with RTC (Real-Time Clock) support</li>
+<li><strong>Multi-alarm system</strong> (up to 5 alarms with weekly scheduling)</li>
+<li><strong>Countdown timer</strong> with 5-second alert notification</li>
+<li><strong>Weather information</strong> via OpenWeatherMap API</li>
+<li><strong>Temperature monitoring</strong> using LM35 sensor</li>
+<li><strong>Web-based configuration interface</strong> (responsive HTML/CSS/JavaScript)</li>
+<li><strong>WiFi connectivity</strong> with auto-configuration portal</li>
+<li><strong>LCD display</strong> (16x2) with automatic mode switching</li>
+<li><strong>Hardware status monitoring</strong> and error reporting</li>
+</ul>
+<h3 id="trách-nhiệm-chính">Trách nhiệm chính:</h3>
+<ol>
+<li><strong>Real-time clock display</strong> and time management</li>
+<li><strong>Alarm scheduling and triggering</strong> with audio/visual alerts</li>
+<li><strong>Weather data fetching</strong> and display</li>
+<li><strong>User interface</strong> via web browser and physical button</li>
+<li><strong>Configuration persistence</strong> using EEPROM and Preferences</li>
+<li><strong>Network management</strong> including WiFi setup and hotspot mode</li>
+</ol>
+<h3 id="tính-năng-chính">Tính năng chính:</h3>
+<ul>
+<li><strong>Interrupt-driven button handling</strong> for immediate alarm shutoff</li>
+<li><strong>Dual-mode WiFi</strong> (Station + Access Point simultaneously)</li>
+<li><strong>Automatic LCD mode switching</strong> between clock and weather display</li>
+<li><strong>Comprehensive error handling</strong> with recovery mechanisms</li>
+<li><strong>Real-time web interface</strong> with 2-second update intervals</li>
+<li><strong>Multi-language support</strong> (Vietnamese with emoji icons)</li>
+<li><strong>Factory reset capability</strong> via long button press or web interface</li>
+</ul>
+<h3 id="khả-năng-hệ-thống">Khả năng hệ thống:</h3>
+<ul>
+<li><strong>Maximum 5 simultaneous alarms</strong> with weekly scheduling</li>
+<li><strong>Weather updates</strong> every 2 minutes (configurable 1-60 minutes)</li>
+<li><strong>Temperature monitoring</strong> with min/max tracking</li>
+<li><strong>Countdown timers</strong> up to 999 minutes</li>
+<li><strong>Web interface</strong> accessible via any browser on the network</li>
+<li><strong>Non-volatile storage</strong> for all configurations and alarms</li>
+</ul>
+<hr>
+<h2 id="kiến-trúc--luồng-chương-trình">Kiến trúc &amp; Luồng chương trình</h2>
+<h3 id="luồng-khởi-tạo-setup---lines-1450-1523">Luồng khởi tạo (setup() - Lines 1450-1523)</h3>
+<pre><code>Serial Setup → Hardware Init → First Boot Check → Load Configs → 
+WiFi Setup → Web Server → Weather Data → Máy trạng thái Start
+</code></pre>
+<p><strong>Detailed Sequence:</strong></p>
+<ol>
+<li><strong>Serial Communication</strong> (115200 baud) for debugging</li>
+<li><strong>GPIO Configuration</strong> (LED, Buzzer, Button with interrupt)</li>
+<li><strong>Hardware Initialization</strong> and validation testing</li>
+<li><strong>First Boot Detection</strong> and data clearing if needed</li>
+<li><strong>Configuration Loading</strong> from EEPROM and Preferences</li>
+<li><strong>WiFi Setup</strong> with auto-configuration portal</li>
+<li><strong>Web Server Startup</strong> with all endpoints</li>
+<li><strong>Initial Weather Fetch</strong> (if enabled and connected)</li>
+<li><strong>Máy trạng thái Initialization</strong> to STATE_NORMAL</li>
+</ol>
+<h3 id="luồng-lặp-chính-loop---lines-1525-1591">Luồng lặp chính (loop() - Lines 1525-1591)</h3>
+<pre><code>Web Server Handle → Temperature Reading → Timer Alarm Check → 
+Button Handling → Hardware Status → Weather Update → Máy trạng thái
+</code></pre>
+<p><strong>Loop Cycle (100ms):</strong></p>
+<ol>
+<li><strong>Web Server Processing</strong> - Handle HTTP requests</li>
+<li><strong>Temperature Reading</strong> - Every 5 seconds from LM35 sensor</li>
+<li><strong>Timer Alarm Handling</strong> - 5-second alert with fast blinking</li>
+<li><strong>Button Processing</strong> - Every 50ms with debouncing</li>
+<li><strong>Trạng thái phần cứng Updates</strong> - WiFi connection monitoring</li>
+<li><strong>Dữ liệu thời tiết Updates</strong> - Periodic API calls or simulation</li>
+<li><strong>Máy trạng thái Execution</strong> - Display and functionality control</li>
+</ol>
+<h3 id="máy-trạng-thái-lines-1578-1590">Máy trạng thái (Lines 1578-1590)</h3>
+<p>The system operates on a finite state machine with these states:</p>
+<ul>
+<li><code>STATE_BOOT</code> - Initial startup</li>
+<li><code>STATE_NORMAL</code> - Normal clock operation</li>
+<li><code>STATE_ALARM</code> - Active alarm (audio/visual)</li>
+<li><code>STATE_COUNTDOWN</code> - Timer countdown display</li>
+<li><code>STATE_MENU</code> - Configuration menu</li>
+<li><code>STATE_INFO</code> - Information display</li>
+<li><code>STATE_ERROR</code> - Error state</li>
+</ul>
+<h3 id="tích-hợp-hệ-thống">Tích hợp hệ thống</h3>
+<p>The system integrates multiple subsystems:</p>
+<ul>
+<li><strong>Hardware Layer</strong> - GPIO, I2C, ADC, Interrupts</li>
+<li><strong>Network Layer</strong> - WiFi, HTTP Server, API Client</li>
+<li><strong>Storage Layer</strong> - EEPROM, NVS Preferences</li>
+<li><strong>Application Layer</strong> - Clock, Alarms, Weather, Web UI</li>
+<li><strong>User Interface</strong> - LCD Display, Web Browser, Physical Button</li>
+</ul>
+<hr>
+<h2 id="global-variables--cấu-trúc-dữ-liệu">Global Variables &amp; Cấu trúc dữ liệu</h2>
+<h3 id="định-nghĩa-chân-phần-cứng-lines-57-61">Định nghĩa chân phần cứng (Lines 57-61)</h3>
+<pre><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">define</span> LED_PIN 12        <span class="hljs-comment">// Status LED</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> BUZZER_PIN 25     <span class="hljs-comment">// Alarm buzzer</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> BUTTON_PIN 26     <span class="hljs-comment">// User input button</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> NTC_PIN 34        <span class="hljs-comment">// Temperature sensor (LM35)</span></span>
+</code></pre>
+<h3 id="đối-tượng-phần-cứng-lines-63-67">Đối tượng phần cứng (Lines 63-67)</h3>
+<pre><code class="language-cpp"><span class="hljs-function">LiquidCrystal_I2C <span class="hljs-title">LCD</span><span class="hljs-params">(<span class="hljs-number">0x27</span>, <span class="hljs-number">16</span>, <span class="hljs-number">2</span>)</span></span>;  <span class="hljs-comment">// I2C LCD display</span>
+RTC_DS1307 rtc;                      <span class="hljs-comment">// Real-time clock module</span>
+<span class="hljs-function">WebServer <span class="hljs-title">server</span><span class="hljs-params">(<span class="hljs-number">80</span>)</span></span>;                <span class="hljs-comment">// HTTP web server</span>
+WiFiManager wifiManager;             <span class="hljs-comment">// WiFi configuration manager</span>
+Preferences preferences;             <span class="hljs-comment">// ESP32 NVS storage</span>
+</code></pre>
+<h3 id="biến-trạng-thái-hệ-thống-lines-69-80">Biến trạng thái hệ thống (Lines 69-80)</h3>
+<pre><code class="language-cpp">SystemState currentState = STATE_BOOT;  <span class="hljs-comment">// Current system state</span>
+<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> stateStartTime = <span class="hljs-number">0</span>;       <span class="hljs-comment">// State transition timestamp</span>
+</code></pre>
+<h3 id="cấu-trúc-cấu-hình">Cấu trúc cấu hình</h3>
+<h4 id="cấu-hình-thiết-bị-lines-82-88">Cấu hình thiết bị (Lines 82-88)</h4>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">DeviceConfig</span> {
+  <span class="hljs-type">char</span> deviceName[<span class="hljs-number">64</span>] = <span class="hljs-string">&quot;Smart Clock v5.0&quot;</span>;
+  <span class="hljs-type">char</span> hotspotSSID[<span class="hljs-number">32</span>] = <span class="hljs-string">&quot;IOT_NHOM1&quot;</span>;
+  <span class="hljs-type">char</span> hotspotPassword[<span class="hljs-number">32</span>] = <span class="hljs-string">&quot;12345678&quot;</span>;
+  <span class="hljs-type">bool</span> configValid = <span class="hljs-literal">false</span>;
+} config;
+</code></pre>
+<h4 id="trạng-thái-phần-cứng-lines-91-101">Trạng thái phần cứng (Lines 91-101)</h4>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">HardwareStatus</span> {
+  <span class="hljs-type">bool</span> lcdOK = <span class="hljs-literal">false</span>;     <span class="hljs-comment">// LCD display status</span>
+  <span class="hljs-type">bool</span> rtcOK = <span class="hljs-literal">false</span>;     <span class="hljs-comment">// RTC module status</span>
+  <span class="hljs-type">bool</span> wifiOK = <span class="hljs-literal">false</span>;    <span class="hljs-comment">// WiFi connection status</span>
+  <span class="hljs-type">bool</span> tempOK = <span class="hljs-literal">false</span>;    <span class="hljs-comment">// Temperature sensor status</span>
+  <span class="hljs-type">bool</span> buzzerOK = <span class="hljs-literal">false</span>;  <span class="hljs-comment">// Buzzer functionality</span>
+  <span class="hljs-type">bool</span> ledOK = <span class="hljs-literal">false</span>;     <span class="hljs-comment">// LED functionality</span>
+  String lastError = <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-comment">// Last error message</span>
+} hw;
+</code></pre>
+<h4 id="hệ-thống-báo-thức-lines-118-135">Hệ thống báo thức (Lines 118-135)</h4>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Alarm</span> {
+  <span class="hljs-type">int</span> hour = <span class="hljs-number">-1</span>;                    <span class="hljs-comment">// Alarm hour (0-23)</span>
+  <span class="hljs-type">int</span> minute = <span class="hljs-number">-1</span>;                  <span class="hljs-comment">// Alarm minute (0-59)</span>
+  <span class="hljs-type">bool</span> enabled = <span class="hljs-literal">false</span>;             <span class="hljs-comment">// Alarm active status</span>
+  <span class="hljs-type">bool</span> daysOfWeek[<span class="hljs-number">7</span>] = {<span class="hljs-literal">false</span>};     <span class="hljs-comment">// Weekly schedule</span>
+  <span class="hljs-type">char</span> label[<span class="hljs-number">32</span>] = <span class="hljs-string">&quot;&quot;</span>;              <span class="hljs-comment">// Alarm description</span>
+};
+
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_ALARMS 5</span>
+Alarm alarms[MAX_ALARMS];          <span class="hljs-comment">// Array of alarm objects</span>
+<span class="hljs-type">int</span> alarmCount = <span class="hljs-number">0</span>;                <span class="hljs-comment">// Current number of alarms</span>
+<span class="hljs-type">bool</span> alarmActive = <span class="hljs-literal">false</span>;          <span class="hljs-comment">// Currently alarming flag</span>
+<span class="hljs-type">int</span> activeAlarmIndex = <span class="hljs-number">-1</span>;         <span class="hljs-comment">// Index of active alarm</span>
+</code></pre>
+<h4 id="bộ-đếm-ngược-lines-137-147">Bộ đếm ngược (Lines 137-147)</h4>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">CountdownTimer</span> {
+  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> duration = <span class="hljs-number">0</span>;        <span class="hljs-comment">// Timer duration in seconds</span>
+  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> startTime = <span class="hljs-number">0</span>;       <span class="hljs-comment">// Timer start timestamp</span>
+  <span class="hljs-type">bool</span> active = <span class="hljs-literal">false</span>;               <span class="hljs-comment">// Timer running flag</span>
+  <span class="hljs-type">bool</span> finished = <span class="hljs-literal">false</span>;             <span class="hljs-comment">// Timer completion flag</span>
+  <span class="hljs-type">char</span> label[<span class="hljs-number">32</span>] = <span class="hljs-string">&quot;Timer&quot;</span>;          <span class="hljs-comment">// Timer description</span>
+  <span class="hljs-type">bool</span> alarmTriggered = <span class="hljs-literal">false</span>;       <span class="hljs-comment">// 5-second alarm state</span>
+  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> alarmStartTime = <span class="hljs-number">0</span>;  <span class="hljs-comment">// Alarm start timestamp</span>
+} timer;
+</code></pre>
+<h4 id="cấu-hình-thời-tiết-lines-149-156">Cấu hình thời tiết (Lines 149-156)</h4>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">WeatherConfig</span> {
+  <span class="hljs-type">char</span> apiKey[<span class="hljs-number">64</span>] = <span class="hljs-string">&quot;&quot;</span>;              <span class="hljs-comment">// OpenWeatherMap API key</span>
+  <span class="hljs-type">char</span> cityName[<span class="hljs-number">32</span>] = <span class="hljs-string">&quot;Thu Duc&quot;</span>;     <span class="hljs-comment">// Target city name</span>
+  <span class="hljs-type">char</span> countryCode[<span class="hljs-number">8</span>] = <span class="hljs-string">&quot;VN&quot;</span>;        <span class="hljs-comment">// Country code</span>
+  <span class="hljs-type">bool</span> enabled = <span class="hljs-literal">false</span>;              <span class="hljs-comment">// Weather fetching enabled</span>
+  <span class="hljs-type">int</span> updateInterval = <span class="hljs-number">120</span>;          <span class="hljs-comment">// Update interval in seconds</span>
+} weatherConfig;
+</code></pre>
+<h4 id="dữ-liệu-thời-tiết-lines-158-167">Dữ liệu thời tiết (Lines 158-167)</h4>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">WeatherData</span> {
+  <span class="hljs-type">float</span> temperature = <span class="hljs-number">0.0</span>;           <span class="hljs-comment">// Current temperature</span>
+  <span class="hljs-type">int</span> humidity = <span class="hljs-number">0</span>;                  <span class="hljs-comment">// Humidity percentage</span>
+  String description = <span class="hljs-string">&quot;N/A&quot;</span>;       <span class="hljs-comment">// Weather description</span>
+  String city = <span class="hljs-string">&quot;Thu Duc&quot;</span>;          <span class="hljs-comment">// City name</span>
+  <span class="hljs-type">bool</span> dataValid = <span class="hljs-literal">false</span>;            <span class="hljs-comment">// Data validity flag</span>
+  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lastUpdate = <span class="hljs-number">0</span>;     <span class="hljs-comment">// Last update timestamp</span>
+  <span class="hljs-type">int</span> errorCount = <span class="hljs-number">0</span>;                <span class="hljs-comment">// API error counter</span>
+} weather;
+</code></pre>
+<h3 id="temperature--display-variables-lines-114-116-184-188">Temperature &amp; Display Variables (Lines 114-116, 184-188)</h3>
+<pre><code class="language-cpp"><span class="hljs-type">float</span> currentTemp = <span class="hljs-number">25.0</span>;           <span class="hljs-comment">// Current temperature reading</span>
+<span class="hljs-type">float</span> minTemp = <span class="hljs-number">999.0</span>;              <span class="hljs-comment">// Minimum recorded temperature</span>
+<span class="hljs-type">float</span> maxTemp = <span class="hljs-number">-999.0</span>;             <span class="hljs-comment">// Maximum recorded temperature</span>
+
+String currentLCDLine1 = <span class="hljs-string">&quot;&quot;</span>;        <span class="hljs-comment">// LCD first line content</span>
+String currentLCDLine2 = <span class="hljs-string">&quot;&quot;</span>;        <span class="hljs-comment">// LCD second line content</span>
+<span class="hljs-type">int</span> lcdDisplayMode = <span class="hljs-number">0</span>;             <span class="hljs-comment">// Display mode (0: Clock, 1: Weather)</span>
+<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lastLCDModeChange = <span class="hljs-number">0</span>; <span class="hljs-comment">// Mode switch timestamp</span>
+</code></pre>
+<h3 id="hằng-số-bố-trí-bộ-nhớ-lines-190-194">Hằng số bố trí bộ nhớ (Lines 190-194)</h3>
+<pre><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">define</span> EEPROM_SIZE 1024</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> CONFIG_ADDR 0      <span class="hljs-comment">// Device config storage address</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ALARM_ADDR 400     <span class="hljs-comment">// Alarms storage address  </span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> TIMER_ADDR 800     <span class="hljs-comment">// Timer storage address</span></span>
+</code></pre>
+<hr>
+<h2 id="tham-chiếu-hàm">Tham chiếu hàm</h2>
+<h3 id="hàm-tiện-ích">Hàm tiện ích</h3>
+<h4 id="checkfirstboot-lines-200-212"><code>checkFirstBoot()</code> (Lines 200-212)</h4>
+<ul>
+<li><strong>Purpose</strong>: Detects first-time device startup</li>
+<li><strong>Returns</strong>: <code>bool</code> - true if first boot, false otherwise</li>
+<li><strong>Side Effects</strong>: Sets firstBoot flag to false in preferences</li>
+<li><strong>Usage</strong>: Used in setup() to initialize default configurations</li>
+</ul>
+<h4 id="clearalldata-lines-214-234"><code>clearAllData()</code> (Lines 214-234)</h4>
+<ul>
+<li><strong>Purpose</strong>: Factory reset - clears all stored data</li>
+<li><strong>Side Effects</strong>:
+<ul>
+<li>Erases EEPROM content</li>
+<li>Clears preferences storage</li>
+<li>Resets global variables to defaults</li>
+</ul>
+</li>
+<li><strong>Usage</strong>: Called during factory reset or first boot</li>
+</ul>
+<h4 id="convertadctotemperatureint-adcvalue-lines-236-255"><code>convertAdcToTemperature(int adcValue)</code> (Lines 236-255)</h4>
+<ul>
+<li><strong>Purpose</strong>: Converts ADC reading to temperature for LM35 sensor</li>
+<li><strong>Input</strong>: <code>adcValue</code> - Raw ADC reading (0-4095)</li>
+<li><strong>Returns</strong>: <code>float</code> - Temperature in Celsius</li>
+<li><strong>Algorithm</strong>:
+<ul>
+<li>Converts ADC to voltage: <code>voltage = (adcValue/4095.0) * 3.3</code></li>
+<li>Converts to temperature: <code>tempC = voltage / 0.01</code> (LM35: 10mV/°C)</li>
+<li>Range validation: -10°C to 100°C</li>
+</ul>
+</li>
+<li><strong>Complex Note</strong>: Includes sensor calibration and error handling</li>
+</ul>
+<h4 id="factoryreset-lines-257-267"><code>factoryReset()</code> (Lines 257-267)</h4>
+<ul>
+<li><strong>Purpose</strong>: Complete system reset and restart</li>
+<li><strong>Side Effects</strong>:
+<ul>
+<li>Clears all storage</li>
+<li>Resets WiFi settings</li>
+<li>Restarts ESP32</li>
+</ul>
+</li>
+<li><strong>Usage</strong>: Triggered by long button press (5 seconds)</li>
+</ul>
+<h3 id="hàm-phần-cứng">Hàm phần cứng</h3>
+<h4 id="initializehardware-lines-272-340"><code>initializeHardware()</code> (Lines 272-340)</h4>
+<ul>
+<li><strong>Purpose</strong>: Initialize all hardware components and test functionality</li>
+<li><strong>Side Effects</strong>:
+<ul>
+<li>Sets up GPIO pins</li>
+<li>Tests LED/buzzer with startup sequence</li>
+<li>Initializes LCD, RTC, temperature sensor</li>
+<li>Updates hardware status flags</li>
+</ul>
+</li>
+<li><strong>Complex Note</strong>: Includes comprehensive hardware validation</li>
+</ul>
+<h4 id="readtemperature-lines-342-351"><code>readTemperature()</code> (Lines 342-351)</h4>
+<ul>
+<li><strong>Purpose</strong>: Read and update current temperature</li>
+<li><strong>Side Effects</strong>: Updates <code>currentTemp</code>, <code>minTemp</code>, <code>maxTemp</code> global variables</li>
+<li><strong>Called</strong>: Every 5 seconds in main loop (Lines 1532-1540)</li>
+</ul>
+<h3 id="hàm-hiển-thị">Hàm hiển thị</h3>
+<h4 id="updatelcdcontentstring-line1-string-line2-lines-356-370"><code>updateLCDContent(String line1, String line2)</code> (Lines 356-370)</h4>
+<ul>
+<li><strong>Purpose</strong>: Update LCD display with new content (only if changed)</li>
+<li><strong>Input</strong>: Two strings for LCD lines (max 16 chars each)</li>
+<li><strong>Side Effects</strong>: Updates global LCD state variables</li>
+<li><strong>Optimization</strong>: Only updates LCD if content actually changed</li>
+</ul>
+<h4 id="displayclock-lines-372-427"><code>displayClock()</code> (Lines 372-427)</h4>
+<ul>
+<li><strong>Purpose</strong>: Main clock display with automatic mode switching</li>
+<li><strong>Modes</strong>:
+<ul>
+<li>Mode 0: Time + Temperature + Status</li>
+<li>Mode 1: Weather Information</li>
+</ul>
+</li>
+<li><strong>Auto-switch</strong>: Every 60 seconds (Line 378)</li>
+<li><strong>Complex Logic</strong>: Dynamic status display based on system state</li>
+</ul>
+<h4 id="displaycountdown-lines-429-455"><code>displayCountdown()</code> (Lines 429-455)</h4>
+<ul>
+<li><strong>Purpose</strong>: Shows countdown timer on LCD</li>
+<li><strong>Logic</strong>: Calculates remaining time and triggers 5-second alarm on completion</li>
+<li><strong>Format</strong>: &quot;TIMER: MM:SS&quot; + timer label</li>
+</ul>
+<h4 id="displaymenu-lines-457-467"><code>displayMenu()</code> (Lines 457-467)</h4>
+<ul>
+<li><strong>Purpose</strong>: Simple menu display with auto-exit after 10 seconds</li>
+</ul>
+<h3 id="hệ-thống-báo-thức--bộ-đếm">Hệ thống báo thức &amp; bộ đếm</h3>
+<h4 id="triggeralarmint-index-lines-472-479"><code>triggerAlarm(int index)</code> (Lines 472-479)</h4>
+<ul>
+<li><strong>Purpose</strong>: Activate alarm for specific alarm index</li>
+<li><strong>Side Effects</strong>:
+<ul>
+<li>Sets alarm state variables</li>
+<li>Changes system state to STATE_ALARM</li>
+<li>Records alarm start time</li>
+</ul>
+</li>
+</ul>
+<h4 id="stopalarm-lines-481-491"><code>stopAlarm()</code> (Lines 481-491)</h4>
+<ul>
+<li><strong>Purpose</strong>: Stop active alarm and reset system</li>
+<li><strong>Side Effects</strong>:
+<ul>
+<li>Turns off buzzer/LED</li>
+<li>Resets alarm flags</li>
+<li>Returns to normal state</li>
+</ul>
+</li>
+</ul>
+<h4 id="updatealarmdisplay-lines-493-524"><code>updateAlarmDisplay()</code> (Lines 493-524)</h4>
+<ul>
+<li><strong>Purpose</strong>: Handle alarm visual/audio feedback with blinking pattern</li>
+<li><strong>Pattern</strong>: 500ms blink cycle with buzzer/LED</li>
+<li><strong>Auto-stop</strong>: After 5 minutes (Line 521)</li>
+<li><strong>Complex Note</strong>: Handles both regular alarms and timer alarms</li>
+</ul>
+<h3 id="hệ-thống-xử-lý-nút-nhấn">Hệ thống xử lý nút nhấn</h3>
+<h4 id="handlebutton-lines-529-593"><code>handleButton()</code> (Lines 529-593)</h4>
+<ul>
+<li><strong>Purpose</strong>: Complex button handling with multiple functions</li>
+<li><strong>Features</strong>:
+<ul>
+<li>Immediate buzzer shutoff</li>
+<li>Debounced input processing</li>
+<li>Long press detection (5s = factory reset)</li>
+<li>Interrupt coordination</li>
+</ul>
+</li>
+<li><strong>Complex Note</strong>: Dual-mode operation with interrupt backup</li>
+</ul>
+<h4 id="buttoninterrupt-lines-600-619"><code>buttonInterrupt()</code> (Lines 600-619)</h4>
+<ul>
+<li><strong>Purpose</strong>: Hardware interrupt for immediate buzzer control</li>
+<li><strong>Trigger</strong>: FALLING edge on BUTTON_PIN</li>
+<li><strong>Critical</strong>: Marked with <code>IRAM_ATTR</code> for interrupt execution</li>
+<li><strong>Debouncing</strong>: 50ms minimum interval between interrupts</li>
+<li><strong>Complex Note</strong>: ISR must be minimal and fast</li>
+</ul>
+<h3 id="giao-diện-web">Giao diện web</h3>
+<h4 id="generatewebinterface-lines-624-995"><code>generateWebInterface()</code> (Lines 624-995)</h4>
+<ul>
+<li><strong>Purpose</strong>: Generate complete HTML web interface</li>
+<li><strong>Returns</strong>: String containing full HTML document</li>
+<li><strong>Features</strong>:
+<ul>
+<li>Responsive CSS design</li>
+<li>Real-time JavaScript updates</li>
+<li>Form handling for all configurations</li>
+<li>Modern UI with gradients and animations</li>
+</ul>
+</li>
+<li><strong>Size</strong>: ~371 lines of HTML/CSS/JavaScript generation</li>
+<li><strong>Complex Note</strong>: Large function handling complete web UI</li>
+</ul>
+<h3 id="các-endpoint-máy-chủ-web">Các endpoint máy chủ web</h3>
+<h4 id="setupwebserver-lines-1000-1213"><code>setupWebServer()</code> (Lines 1000-1213)</h4>
+<ul>
+<li><strong>Purpose</strong>: Configure all HTTP endpoints</li>
+<li><strong>Endpoints</strong>:
+<ul>
+<li><code>/</code> - Main web interface</li>
+<li><code>/set-alarm</code> - Add new alarm</li>
+<li><code>/delete-alarm</code> - Remove alarm</li>
+<li><code>/set-timer</code> - Start countdown timer</li>
+<li><code>/stop-timer</code> - Stop timer</li>
+<li><code>/wifi-config</code> - WiFi settings</li>
+<li><code>/weather-config</code> - Weather API settings</li>
+<li><code>/refresh-weather</code> - Manual weather update</li>
+<li><code>/status</code> - JSON API for real-time data</li>
+<li><code>/restart</code> - Device restart</li>
+<li><code>/factory-reset</code> - Factory reset</li>
+</ul>
+</li>
+<li><strong>JSON API</strong>: Returns system status for real-time web updates</li>
+</ul>
+<h4 id="api-endpoints-reference">API Endpoints Reference</h4>
+<p><strong>GET Endpoints:</strong></p>
+<ul>
+<li><code>GET /</code> - Returns complete HTML web interface</li>
+<li><code>GET /status</code> - Returns JSON with system status, sensor data, and configuration</li>
+</ul>
+<p><strong>POST Endpoints:</strong></p>
+<ul>
+<li><code>POST /set-alarm</code> - Parameters: hour, minute, label, day0-day6 (checkboxes)</li>
+<li><code>POST /delete-alarm</code> - Parameters: index (alarm index to delete)</li>
+<li><code>POST /set-timer</code> - Parameters: minutes, label</li>
+<li><code>POST /stop-timer</code> - No parameters, stops active timer</li>
+<li><code>POST /wifi-config</code> - Parameters: hotspot_ssid, hotspot_password</li>
+<li><code>POST /weather-config</code> - Parameters: api_key, city_name, update_interval, enabled (checkbox)</li>
+<li><code>POST /refresh-weather</code> - No parameters, forces immediate weather update</li>
+<li><code>POST /restart</code> - No parameters, restarts ESP32</li>
+<li><code>POST /factory-reset</code> - No parameters, factory reset and restart</li>
+</ul>
+<p><strong>JSON Response Format (/status):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;temperature&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">25.5</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;weather&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;temp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">28.3</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;humidity&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">65</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Clear sky&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;city&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Thu Duc&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;valid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;errors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;lcd&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;line1&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;12:34:56  25.5C&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;line2&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;13/07/25 WIFI&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;mode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;hardware&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;lcd&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;rtc&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;wifi&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;temp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;buzzer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;led&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;timer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;active&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;remaining&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;alarms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;count&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;active&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="quản-lý-cấu-hình">Quản lý cấu hình</h3>
+<h4 id="loadconfiguration-lines-1218-1237"><code>loadConfiguration()</code> (Lines 1218-1237)</h4>
+<ul>
+<li><strong>Purpose</strong>: Load device settings from EEPROM</li>
+<li><strong>Loads</strong>: Device config, alarm count, alarm data, timer data</li>
+<li><strong>Fallback</strong>: Default values if data invalid</li>
+</ul>
+<h4 id="saveconfiguration-lines-1239-1244"><code>saveConfiguration()</code> (Lines 1239-1244)</h4>
+<ul>
+<li><strong>Purpose</strong>: Save device settings to EEPROM</li>
+<li><strong>Validation</strong>: Sets configValid flag before saving</li>
+</ul>
+<h4 id="savealarms-lines-1246-1253"><code>saveAlarms()</code> (Lines 1246-1253)</h4>
+<ul>
+<li><strong>Purpose</strong>: Persist alarm data to EEPROM</li>
+<li><strong>Format</strong>: Alarm count + array of Alarm structures</li>
+</ul>
+<h4 id="loadweatherconfig-lines-1255-1270"><code>loadWeatherConfig()</code> (Lines 1255-1270)</h4>
+<ul>
+<li><strong>Purpose</strong>: Load weather settings from Preferences (NVS)</li>
+<li><strong>Storage</strong>: Uses ESP32 Preferences library for non-volatile storage</li>
+</ul>
+<h4 id="saveweatherconfig-lines-1272-1286"><code>saveWeatherConfig()</code> (Lines 1272-1286)</h4>
+<ul>
+<li><strong>Purpose</strong>: Save weather configuration to Preferences</li>
+<li><strong>Debug</strong>: Includes console output for verification</li>
+</ul>
+<h3 id="hàm-mạng">Hàm mạng</h3>
+<h4 id="setupwifi-lines-1291-1311"><code>setupWiFi()</code> (Lines 1291-1311)</h4>
+<ul>
+<li><strong>Purpose</strong>: Initialize WiFi with auto-configuration portal</li>
+<li><strong>Modes</strong>:
+<ul>
+<li>Station + AP mode if connected to WiFi</li>
+<li>AP-only mode if WiFi fails</li>
+</ul>
+</li>
+<li><strong>Auto-config</strong>: Uses WiFiManager for easy setup</li>
+<li><strong>Fallback</strong>: Creates hotspot for manual configuration</li>
+</ul>
+<h3 id="hàm-hệ-thống-chính">Hàm hệ thống chính</h3>
+<h4 id="setup-lines-1316-1388"><code>setup()</code> (Lines 1316-1388)</h4>
+<ul>
+<li><strong>Purpose</strong>: Complete system initialization</li>
+<li><strong>Flow</strong>:
+<ol>
+<li>Serial communication setup</li>
+<li>GPIO configuration</li>
+<li>Hardware interrupt attachment</li>
+<li>Hardware initialization and testing</li>
+<li>First boot detection and data clearing</li>
+<li>Configuration loading</li>
+<li>WiFi setup and connection</li>
+<li>Web server startup</li>
+<li>Initial weather data fetch</li>
+<li>State machine initialization</li>
+</ol>
+</li>
+<li><strong>Critical</strong>: Button interrupt attached early (Line 1330)</li>
+</ul>
+<h4 id="loop-lines-1390-1456"><code>loop()</code> (Lines 1390-1456)</h4>
+<ul>
+<li><strong>Purpose</strong>: Main system loop with 100ms cycle time</li>
+<li><strong>Tasks</strong>:
+<ol>
+<li>Web server client handling</li>
+<li>Temperature reading (every 5s)</li>
+<li>Timer alarm handling (5-second alert)</li>
+<li>Button processing (every 50ms)</li>
+<li>Hardware status updates</li>
+<li>Weather data updates</li>
+<li>State machine execution</li>
+</ol>
+</li>
+<li><strong>Máy trạng thái</strong>: Handles display and functionality based on current state</li>
+</ul>
+<h3 id="hàm-thời-tiết">Hàm thời tiết</h3>
+<h4 id="fetchweatherdata-lines-1461-1555"><code>fetchWeatherData()</code> (Lines 1461-1555)</h4>
+<ul>
+<li><strong>Purpose</strong>: Fetch weather data from OpenWeatherMap API</li>
+<li><strong>Features</strong>:
+<ul>
+<li>Debug logging for troubleshooting</li>
+<li>Fallback to simulation mode</li>
+<li>Error count tracking and recovery</li>
+<li>HTTP request with timeout</li>
+<li>JSON parsing</li>
+<li>Error handling for common HTTP codes</li>
+</ul>
+</li>
+<li><strong>Complex Note</strong>: Includes simulation mode, error recovery, and API throttling</li>
+</ul>
+<h4 id="checkalarms-lines-1557-1574"><code>checkAlarms()</code> (Lines 1557-1574)</h4>
+<ul>
+<li><strong>Purpose</strong>: Check if any alarms should trigger</li>
+<li><strong>Logic</strong>: Compares current time with enabled alarms</li>
+<li><strong>Day Matching</strong>: Uses dayOfTheWeek() for weekly schedules</li>
+<li><strong>Timing</strong>: Only triggers within first 5 seconds of minute</li>
+</ul>
+<hr>
+<h2 id="cấu-hình-phần-cứng">Cấu hình phần cứng</h2>
+<h3 id="phân-công-chân">Phân công chân</h3>
+<ul>
+<li><strong>GPIO 12</strong>: Status LED (output)</li>
+<li><strong>GPIO 25</strong>: Buzzer (output)</li>
+<li><strong>GPIO 26</strong>: User button (input with pull-up + interrupt)</li>
+<li><strong>GPIO 34</strong>: Temperature sensor LM35 (analog input)</li>
+<li><strong>I2C</strong>: LCD display (address 0x27)</li>
+<li><strong>I2C</strong>: RTC DS1307 module</li>
+</ul>
+<h3 id="linh-kiện-bên-ngoài">Linh kiện bên ngoài</h3>
+<ul>
+<li><strong>16x2 LCD Display</strong>: I2C interface for status display</li>
+<li><strong>DS1307 RTC</strong>: Real-time clock with battery backup</li>
+<li><strong>LM35 Temperature Sensor</strong>: Analog temperature measurement</li>
+<li><strong>Buzzer</strong>: Audio alarm output</li>
+<li><strong>LED</strong>: Visual status indicator</li>
+<li><strong>Button</strong>: User input with hardware interrupt</li>
+</ul>
+<h3 id="yêu-cầu-phần-cứng">Yêu cầu phần cứng</h3>
+<ul>
+<li><strong>ESP32 Development Board</strong> (minimum 4MB flash)</li>
+<li><strong>3.3V Power Supply</strong> (minimum 500mA capacity)</li>
+<li><strong>I2C Pull-up Resistors</strong> (4.7kΩ for SDA/SCL if not built-in)</li>
+<li><strong>Button Pull-up Resistor</strong> (10kΩ, or use internal pull-up)</li>
+<li><strong>LM35 Decoupling Capacitor</strong> (100nF ceramic + 10µF electrolytic)</li>
+</ul>
+<h3 id="sơ-đồ-kết-nối">Sơ đồ kết nối</h3>
+<pre><code>ESP32 Pin Connections:
+GPIO12 ────[220Ω]────LED────GND
+GPIO25 ────BUZZER(+)   BUZZER(-)────GND
+GPIO26 ────BUTTON────GND (with 10kΩ pull-up to 3.3V)
+GPIO34 ────LM35(OUT)   LM35(GND)────GND   LM35(VCC)────3.3V
+GPIO21 ────SDA(I2C)────LCD_SDA, RTC_SDA
+GPIO22 ────SCL(I2C)────LCD_SCL, RTC_SCL
+3.3V   ────VCC────LCD_VCC, RTC_VCC
+GND    ────GND────LCD_GND, RTC_GND
+</code></pre>
+<p><strong>I2C Addressing:</strong></p>
+<ul>
+<li>LCD Display: 0x27 (PCF8574 I2C backpack)</li>
+<li>RTC DS1307: 0x68 (fixed address)</li>
+</ul>
+<p><strong>Power Consumption:</strong></p>
+<ul>
+<li>ESP32: ~240mA (WiFi active)</li>
+<li>LCD with backlight: ~20mA</li>
+<li>RTC DS1307: ~1.5mA</li>
+<li>LM35: ~60µA</li>
+<li>Total: ~260mA (excluding buzzer/LED during alarms)</li>
+</ul>
+<hr>
+<h2 id="giao-diện-web-1">Giao diện web</h2>
+<h3 id="features">Features</h3>
+<ul>
+<li><strong>Responsive Design</strong>: Works on desktop and mobile</li>
+<li><strong>Cập nhật thời gian thực</strong>: JavaScript polls <code>/status</code> endpoint every 2 seconds</li>
+<li><strong>Modern UI</strong>: CSS gradients, animations, and card-based layout</li>
+<li><strong>Multi-language</strong>: Vietnamese interface with emoji icons</li>
+</ul>
+<h3 id="thành-phần-giao-diện">Thành phần giao diện</h3>
+<ul>
+<li><strong>Header Section</strong>: Large clock display with date and temperature</li>
+<li><strong>Trạng thái phần cứng Cards</strong>: Real-time component status with color indicators</li>
+<li><strong>Weather Information</strong>: Current conditions with error tracking</li>
+<li><strong>Configuration Forms</strong>: Tabbed interface for different settings</li>
+<li><strong>Alarm Management</strong>: Add/edit/delete alarms with weekly scheduling</li>
+<li><strong>Timer Controls</strong>: Start/stop countdown with custom labels</li>
+<li><strong>Device Controls</strong>: Restart and factory reset options</li>
+</ul>
+<h3 id="configuration-sections">Configuration Sections</h3>
+<ol>
+<li><strong>Trạng thái phần cứng</strong>: Real-time component status</li>
+<li><strong>Cấu hình thời tiết</strong>: API key, city selection, update interval</li>
+<li><strong>Alarm Management</strong>: Add/remove alarms with weekly scheduling</li>
+<li><strong>Bộ đếm ngược</strong>: Start/stop timer with custom labels</li>
+<li><strong>WiFi Configuration</strong>: Network settings and hotspot config</li>
+<li><strong>Device Control</strong>: Restart and factory reset options</li>
+</ol>
+<h3 id="cập-nhật-thời-gian-thực">Cập nhật thời gian thực</h3>
+<p><strong>Update Mechanism</strong>: JavaScript <code>setInterval()</code> calls <code>/status</code> endpoint every 2 seconds
+<strong>Updated Elements</strong>:</p>
+<ul>
+<li>Clock display (HH:MM format)</li>
+<li>Temperature readings</li>
+<li>LCD content display</li>
+<li>Hardware status indicators</li>
+<li>Weather information</li>
+<li>Timer countdown</li>
+<li>Alarm status</li>
+</ul>
+<h3 id="hàm-javascript">Hàm JavaScript</h3>
+<p><strong>Core Functions</strong> (Lines 1067-1088):</p>
+<ul>
+<li><code>deleteAlarm(index)</code> - Remove alarm with confirmation</li>
+<li><code>stopTimer()</code> - Stop active timer with confirmation</li>
+<li><code>resetWiFi()</code> - Reset WiFi settings and restart</li>
+<li><code>restart()</code> - Restart device with confirmation</li>
+<li><code>factoryReset()</code> - Factory reset with double confirmation</li>
+<li><code>refreshWeather()</code> - Force immediate weather update</li>
+<li><code>updateStatus()</code> - Fetch and update all real-time data</li>
+</ul>
+<p><strong>Real-time Update Logic</strong>:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">updateStatus</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/status&#x27;</span>)
+    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r.<span class="hljs-title function_">json</span>())
+    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
+      <span class="hljs-comment">// Update clock display</span>
+      <span class="hljs-comment">// Update temperature displays</span>
+      <span class="hljs-comment">// Update hardware status</span>
+      <span class="hljs-comment">// Update weather info</span>
+      <span class="hljs-comment">// Update timer display</span>
+    })
+    .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Status update failed:&#x27;</span>, e));
+}
+</code></pre>
+<hr>
+<h2 id="máy-trạng-thái">Máy trạng thái</h2>
+<h3 id="định-nghĩa-trạng-thái">Định nghĩa trạng thái</h3>
+<pre><code class="language-cpp"><span class="hljs-keyword">enum</span> <span class="hljs-title class_">SystemState</span> {
+  STATE_BOOT,       <span class="hljs-comment">// Initial startup and hardware initialization</span>
+  STATE_NORMAL,     <span class="hljs-comment">// Normal operation with clock display</span>
+  STATE_ALARM,      <span class="hljs-comment">// Active alarm with audio/visual feedback  </span>
+  STATE_COUNTDOWN,  <span class="hljs-comment">// Timer countdown display</span>
+  STATE_INFO,       <span class="hljs-comment">// Information display mode</span>
+  STATE_ERROR,      <span class="hljs-comment">// Error state with diagnostics</span>
+  STATE_MENU        <span class="hljs-comment">// Configuration menu mode</span>
+};
+</code></pre>
+<h3 id="states-and-transitions">States and Transitions</h3>
+<pre><code>STATE_BOOT → STATE_NORMAL (after setup complete)
+STATE_NORMAL → STATE_ALARM (alarm triggered)
+STATE_NORMAL → STATE_COUNTDOWN (timer started)
+STATE_NORMAL → STATE_MENU (button press in some conditions)
+STATE_ALARM → STATE_NORMAL (alarm stopped)
+STATE_COUNTDOWN → STATE_NORMAL (timer finished/stopped)
+STATE_MENU → STATE_NORMAL (timeout or button press)
+</code></pre>
+<h3 id="xử-lý-trạng-thái-lines-1578-1590">Xử lý trạng thái (Lines 1578-1590)</h3>
+<ul>
+<li><strong>STATE_NORMAL</strong>: Display clock and check alarms</li>
+<li><strong>STATE_COUNTDOWN</strong>: Display timer countdown</li>
+<li><strong>STATE_ALARM</strong>: Handle alarm display with blinking</li>
+<li><strong>STATE_MENU</strong>: Show menu with auto-exit</li>
+</ul>
+<h3 id="sơ-đồ-luồng-trạng-thái">Sơ đồ luồng trạng thái</h3>
+<pre><code>┌─────────────┐
+│ STATE_BOOT  │
+└─────┬───────┘
+      │ setup() complete
+      ▼
+┌─────────────┐    alarm triggered    ┌─────────────┐
+│ STATE_NORMAL│◄────────────────────► │ STATE_ALARM │
+└─────┬───────┘                      └─────────────┘
+      │ timer started                         │
+      ▼                              alarm stopped
+┌─────────────┐    timer finished            │
+│STATE_COUNTDOWN│◄─────────────────────────────┘
+└─────────────┘
+      │ timer stopped
+      ▼
+┌─────────────┐
+│ STATE_NORMAL│
+└─────────────┘
+</code></pre>
+<p><strong>State Persistence</strong>: Current state and state start time are maintained globally
+<strong>State Timeouts</strong>:</p>
+<ul>
+<li>STATE_ALARM: Auto-stop after 5 minutes</li>
+<li>STATE_MENU: Auto-exit after 10 seconds
+<strong>State Priority</strong>: ALARM state has highest priority, can interrupt other states</li>
+</ul>
+<hr>
+<h2 id="các-phần-phức-tạp">Các phần phức tạp</h2>
+<h3 id="1-button-interrupt-system-lines-529-619">1. Button Interrupt System (Lines 529-619)</h3>
+<p><strong>Complexity</strong>: Dual-mode button handling with interrupt and polling
+<strong>Why Complex</strong>:</p>
+<ul>
+<li>Immediate buzzer shutoff requires interrupt</li>
+<li>Normal button functions need debouncing</li>
+<li>Coordination between ISR and main loop</li>
+<li>Long press detection for factory reset</li>
+</ul>
+<h3 id="2-weather-api-with-error-recovery-lines-1461-1555">2. Weather API with Error Recovery (Lines 1461-1555)</h3>
+<p><strong>Complexity</strong>: Multiple fallback mechanisms and error handling
+<strong>Why Complex</strong>:</p>
+<ul>
+<li>Network timeout handling</li>
+<li>JSON parsing with error detection</li>
+<li>API rate limiting and error counting</li>
+<li>Simulation mode fallback</li>
+<li>Periodic error reset to prevent permanent blocking</li>
+</ul>
+<h3 id="3-lcd-display-mode-switching-lines-372-427">3. LCD Display Mode Switching (Lines 372-427)</h3>
+<p><strong>Complexity</strong>: Automatic mode switching with different content formats
+<strong>Why Complex</strong>:</p>
+<ul>
+<li>Time-based mode switching (60-second intervals)</li>
+<li>Different data sources (RTC vs weather)</li>
+<li>Dynamic status indication</li>
+<li>String formatting with size constraints</li>
+</ul>
+<h3 id="4-timer-with-5-second-alarm-lines-1542-1568">4. Timer with 5-Second Alarm (Lines 1542-1568)</h3>
+<p><strong>Complexity</strong>: Separate alarm state within timer system
+<strong>Why Complex</strong>:</p>
+<ul>
+<li>Timer completion triggers separate 5-second alarm</li>
+<li>Fast blink pattern (250ms) different from regular alarms</li>
+<li>State coordination between timer and alarm systems</li>
+<li>Manual stop capability during alarm phase</li>
+</ul>
+<h3 id="5-eeprom-vs-preferences-storage-lines-1218-1286">5. EEPROM vs Preferences Storage (Lines 1218-1286)</h3>
+<p><strong>Complexity</strong>: Two different storage mechanisms
+<strong>Why Complex</strong>:</p>
+<ul>
+<li>EEPROM for structured data (config, alarms)</li>
+<li>Preferences for weather configuration</li>
+<li>Different APIs and error handling</li>
+<li>Migration and compatibility considerations</li>
+</ul>
+<hr>
+<h2 id="bố-trí-bộ-nhớ-eeprom">Bố trí bộ nhớ EEPROM</h2>
+<h3 id="bản-đồ-bộ-nhớ">Bản đồ bộ nhớ</h3>
+<pre><code>Address 0-399:    Cấu hình thiết bị (DeviceConfig struct)
+Address 400-799:  Hệ thống báo thức Data (count + Alarm array)
+Address 800-1023: Timer Data (CountdownTimer struct)
+</code></pre>
+<h3 id="chi-tiết-lưu-trữ">Chi tiết lưu trữ</h3>
+<ul>
+<li><strong>Device Config</strong>: Name, hotspot SSID/password, validity flag</li>
+<li><strong>Alarm Data</strong>: Count (4 bytes) + up to 5 Alarm structures</li>
+<li><strong>Timer Data</strong>: Duration, state, label for persistence across reboots</li>
+<li><strong>Weather Config</strong>: Stored separately in ESP32 Preferences (NVS)</li>
+</ul>
+<h3 id="cấu-trúc-dữ-liệu-in-memory">Cấu trúc dữ liệu in Memory</h3>
+<p><strong>DeviceConfig Structure (88 bytes):</strong></p>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">DeviceConfig</span> {
+  <span class="hljs-type">char</span> deviceName[<span class="hljs-number">64</span>];     <span class="hljs-comment">// 64 bytes - Device identifier</span>
+  <span class="hljs-type">char</span> hotspotSSID[<span class="hljs-number">32</span>];    <span class="hljs-comment">// 32 bytes - WiFi hotspot name  </span>
+  <span class="hljs-type">char</span> hotspotPassword[<span class="hljs-number">32</span>]; <span class="hljs-comment">// 32 bytes - WiFi hotspot password</span>
+  <span class="hljs-type">bool</span> configValid;        <span class="hljs-comment">// 1 byte - Validity flag</span>
+} config;
+</code></pre>
+<p><strong>Alarm Storage Layout:</strong></p>
+<pre><code>Bytes 400-403: int alarmCount (number of active alarms)
+Bytes 404-447: Alarm[0] structure (44 bytes)
+Bytes 448-491: Alarm[1] structure (44 bytes)
+Bytes 492-535: Alarm[2] structure (44 bytes)
+Bytes 536-579: Alarm[3] structure (44 bytes)
+Bytes 580-623: Alarm[4] structure (44 bytes)
+</code></pre>
+<p><strong>Alarm Structure (44 bytes each):</strong></p>
+<pre><code class="language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Alarm</span> {
+  <span class="hljs-type">int</span> hour;              <span class="hljs-comment">// 4 bytes - Hour (0-23)</span>
+  <span class="hljs-type">int</span> minute;            <span class="hljs-comment">// 4 bytes - Minute (0-59)</span>
+  <span class="hljs-type">bool</span> enabled;          <span class="hljs-comment">// 1 byte - Active flag</span>
+  <span class="hljs-type">bool</span> daysOfWeek[<span class="hljs-number">7</span>];    <span class="hljs-comment">// 7 bytes - Weekly schedule</span>
+  <span class="hljs-type">char</span> label[<span class="hljs-number">32</span>];        <span class="hljs-comment">// 32 bytes - Description text</span>
+};
+</code></pre>
+<h3 id="sao-lưu--phục-hồi">Sao lưu &amp; phục hồi</h3>
+<ul>
+<li><strong>Validation</strong>: <code>configValid</code> flag prevents loading corrupted data</li>
+<li><strong>Fallback</strong>: Default values used if EEPROM data invalid</li>
+<li><strong>Factory Reset</strong>: Clears all EEPROM + Preferences storage</li>
+<li><strong>Persistence</strong>: Data survives power cycles and firmware updates (if EEPROM layout unchanged)</li>
+</ul>
+<hr>
+<h2 id="tích-hợp-mạng--api">Tích hợp mạng &amp; API</h2>
+<h3 id="quản-lý-wifi">Quản lý WiFi</h3>
+<ul>
+<li><strong>WiFiManager</strong>: Automatic configuration portal</li>
+<li><strong>Dual Mode</strong>: Station + Access Point simultaneously</li>
+<li><strong>Fallback</strong>: Hotspot-only mode if WiFi connection fails</li>
+<li><strong>Auto-reconnect</strong>: Handled by ESP32 WiFi library</li>
+</ul>
+<h3 id="openweathermap-api">OpenWeatherMap API</h3>
+<ul>
+<li><strong>Endpoint</strong>: <code>http://api.openweathermap.org/data/2.5/weather</code></li>
+<li><strong>Parameters</strong>: City, country, API key, units (metric), language (Vietnamese)</li>
+<li><strong>Rate Limiting</strong>: Configurable update interval (default 2 minutes)</li>
+<li><strong>Error Handling</strong>: Timeout, HTTP errors, JSON parsing errors</li>
+<li><strong>Fallback</strong>: Simulation mode with random data</li>
+</ul>
+<h3 id="web-server">Web Server</h3>
+<ul>
+<li><strong>Port</strong>: 80 (HTTP)</li>
+<li><strong>Framework</strong>: ESP32 WebServer library</li>
+<li><strong>Endpoints</strong>: 11 different endpoints for configuration and control</li>
+<li><strong>Content</strong>: HTML, JSON, and plain text responses</li>
+<li><strong>Security</strong>: Basic form validation, no authentication</li>
+</ul>
+<h3 id="các-cân-nhắc-bảo-mật">Các cân nhắc bảo mật</h3>
+<ul>
+<li><strong>No Authentication</strong>: Web interface is open to all network users</li>
+<li><strong>Local Network Only</strong>: Server only accessible on local WiFi network</li>
+<li><strong>Input Validation</strong>: Basic form validation and length limits</li>
+<li><strong>Factory Reset Protection</strong>: Requires double confirmation</li>
+<li><strong>API Key Security</strong>: Stored in NVS, masked in web interface</li>
+<li><strong>Network Security</strong>: Relies on WiFi network security (WPA2/WPA3)</li>
+</ul>
+<p><strong>Recommendations for Production:</strong></p>
+<ul>
+<li>Add basic HTTP authentication</li>
+<li>Implement HTTPS with self-signed certificates</li>
+<li>Add rate limiting for API endpoints</li>
+<li>Implement session management</li>
+<li>Add CSRF protection for forms</li>
+</ul>
+<hr>
+<p>This documentation provides a comprehensive overview of the Smart Clock system. The code is well-structured with clear separation of concerns, though some functions (especially <code>generateWebInterface()</code> and <code>fetchWeatherData()</code>) are quite large and could benefit from refactoring into smaller functions.</p>
+
+            
+            
+        </body>
+        </html>
