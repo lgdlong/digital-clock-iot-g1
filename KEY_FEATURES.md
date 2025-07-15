@@ -11,8 +11,8 @@
 *  - [x] Hiển thị nhiệt độ lên màn hình **LCD 16x2 I2C**.
 3. **Lấy & hiển thị thông tin thời tiết ngoài trời** (Đang xử lý):
   
-*  - [ ] Kết nối Internet để lấy dữ liệu thời tiết (API OpenWeatherMap hoặc tương đương).
-*  - [ ] Hiển thị thông tin: nhiệt độ, độ ẩm, trạng thái thời tiết.
+*  - [x] Kết nối Internet để lấy dữ liệu thời tiết (API OpenWeatherMap hoặc tương đương).
+*  - [x] Hiển thị thông tin: nhiệt độ, độ ẩm, trạng thái thời tiết.
 4. **Báo thức thông minh** (Check sau)
   
 *  - [x] Đặt và cấu hình thời gian báo thức.
@@ -22,4 +22,4 @@
 
 * - [x] ESP32 chạy local web server.
 *  - [x] Cấu hình báo thức, thời gian, tên thiết bị, vị trí dự báo thời tiết qua giao diện web.
-*  - [ ] Lưu cấu hình vào EEPROM hoặc SPIFFS.
+*  - [x] Lưu cấu hình vào EEPROM hoặc SPIFFS.
