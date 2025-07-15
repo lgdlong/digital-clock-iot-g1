@@ -10,6 +10,8 @@
 #include <DNSServer.h>
 #include <Preferences.h>
 
+#define WEATHER_DEBUG_MODE 1
+#define WEATHER_DEBUG_INTERVAL 10
 // ==========================================
 // FORWARD DECLARATIONS
 // ==========================================
@@ -152,9 +154,8 @@ struct WeatherConfig
   char cityName[32] = "Thu Duc";
   char countryCode[8] = "VN";
   bool enabled = false;
-  int updateInterval = 120; // seconds
+  int updateInterval = 10; // seconds
 } weatherConfig;
-
 // Weather Data
 struct WeatherData
 {
@@ -192,6 +193,7 @@ unsigned long lastLCDModeChange = 0;
 #define CONFIG_ADDR 0
 #define ALARM_ADDR 400
 #define TIMER_ADDR 800
+#define WEATHER_UPDATE_INTERVAL 10 // seconds
 
 // ==========================================
 // UTILITY FUNCTIONS
@@ -421,10 +423,10 @@ void displayClock()
 
     if (weather.dataValid)
     {
-      snprintf(line1, sizeof(line1), "%s %.1fC",
+      snprintf(line1, sizeof(line1), "%s: %.1fC",
                weather.city.substring(0, 8).c_str(), weather.temperature);
-      snprintf(line2, sizeof(line2), "%s %d%%",
-               weather.description.substring(0, 10).c_str(), weather.humidity);
+      snprintf(line2, sizeof(line2), "%s: %d%%",
+               "Do am", weather.humidity);
     }
     else
     {
@@ -1178,7 +1180,7 @@ void setupWebServer()
             {
     strncpy(weatherConfig.apiKey, server.arg("api_key").c_str(), sizeof(weatherConfig.apiKey) - 1);
     strncpy(weatherConfig.cityName, server.arg("city_name").c_str(), sizeof(weatherConfig.cityName) - 1);
-    weatherConfig.updateInterval = server.arg("update_interval").toInt() * 60; // Convert minutes to seconds
+    weatherConfig.updateInterval = 10;
     weatherConfig.enabled = server.hasArg("enabled");
     
     saveWeatherConfig();
@@ -1300,7 +1302,8 @@ void loadWeatherConfig()
   strncpy(weatherConfig.countryCode, countryCode.c_str(), sizeof(weatherConfig.countryCode) - 1);
 
   weatherConfig.enabled = preferences.getBool("enabled", false);
-  weatherConfig.updateInterval = preferences.getInt("updateInterval", 120);
+
+  weatherConfig.updateInterval = 10;
 
   preferences.end();
 }
@@ -1313,7 +1316,7 @@ void saveWeatherConfig()
   preferences.putString("cityName", weatherConfig.cityName);
   preferences.putString("countryCode", weatherConfig.countryCode);
   preferences.putBool("enabled", weatherConfig.enabled);
-  preferences.putInt("updateInterval", weatherConfig.updateInterval);
+  preferences.putInt("updateInterval", 10);
 
   preferences.end();
 
@@ -1562,18 +1565,32 @@ void loop()
 
 void fetchWeatherData()
 {
-  // Debug weather config status
-  Serial.println("=== WEATHER CONFIG DEBUG ===");
-  Serial.println("WiFi OK: " + String(hw.wifiOK ? "Yes" : "No"));
-  Serial.println("Weather Enabled: " + String(weatherConfig.enabled ? "Yes" : "No"));
-  Serial.println("API Key Length: " + String(strlen(weatherConfig.apiKey)));
-  Serial.println("API Key: " + String(strlen(weatherConfig.apiKey) > 0 ? "***" : "EMPTY"));
+
+  // Throttle WEATHER CONFIG DEBUG to print only every 5 seconds
+  static unsigned long lastWeatherDebug = 0;
+  unsigned long now = millis();
+
+  if (now - lastWeatherDebug > 3000)
+  {
+
+    Serial.println("[CHECK] wifiOK = " + String(hw.wifiOK));
+    Serial.println("[CHECK] weatherConfig.enabled = " + String(weatherConfig.enabled));
+    Serial.println("[CHECK] apiKey length = " + String(strlen(weatherConfig.apiKey)));
+    Serial.println("[CHECK] time since last update = " + String(now - weather.lastUpdate));
+    Serial.println("[CHECK] update interval = " + String(weatherConfig.updateInterval * 1000));
+    //===============================
+    Serial.println("=== WEATHER CONFIG DEBUG ===");
+    Serial.println("WiFi OK: " + String(hw.wifiOK ? "Yes" : "No"));
+    Serial.println("Weather Enabled: " + String(weatherConfig.enabled ? "Yes" : "No"));
+    Serial.println("API Key Length: " + String(strlen(weatherConfig.apiKey)));
+    Serial.println("API Key: " + String(strlen(weatherConfig.apiKey) > 0 ? "***" : "EMPTY"));
+    lastWeatherDebug = now;
+  }
 
   if (!hw.wifiOK || !weatherConfig.enabled || strlen(weatherConfig.apiKey) == 0)
   {
     Serial.println("Using weather simulation...");
     // Fallback to simulation if no API key or WiFi
-    unsigned long now = millis();
     if (now - weather.lastUpdate > 60000)
     {                                                    // Update every 1 minute
       weather.temperature = currentTemp + random(-3, 4); // Simulate outdoor temp
@@ -1588,8 +1605,6 @@ void fetchWeatherData()
     return;
   }
 
-  unsigned long now = millis();
-
   // Reset error count periodically to prevent permanent blocking
   static unsigned long lastErrorReset = 0;
   if (now - lastErrorReset > 10 * 60 * 1000)
@@ -1599,8 +1614,15 @@ void fetchWeatherData()
     Serial.println("Weather error count reset");
   }
 
-  if (now - weather.lastUpdate < weatherConfig.updateInterval * 1000)
+  // each
+  if (now - weather.lastUpdate < weatherConfig.updateInterval * 5000)
+  {
+    if (now - lastWeatherDebug > 3000)
+    {
+      Serial.println("[DEBUG] Skipping weather update: waiting for interval (" + String(weatherConfig.updateInterval) + "s)");
+    }
     return;
+  }
 
   Serial.println("Fetching weather data from OpenWeather API...");
 
@@ -1608,23 +1630,24 @@ void fetchWeatherData()
   WiFiClient client;
 
   // Build OpenWeather API URL
-  String url = "http://api.openweathermap.org/data/2.5/weather";
-  url += "?q=" + String(weatherConfig.cityName) + "," + String(weatherConfig.countryCode);
-  url += "&appid=" + String(weatherConfig.apiKey);
-  url += "&units=metric";
-  url += "&lang=vi";
 
-  Serial.println("API URL: " + url);
+  String url = "http://api.openweathermap.org/data/2.5/weather?q=Thu%20Duc,VN&appid=9b8496f9657da84893a94b1cf4c74bd7&units=metric&lang=vi";
+
+  // Log API key and full URL for debugging
+  Serial.println("[DEBUG] OpenWeather API Key: " + String(weatherConfig.apiKey));
+  Serial.println("[DEBUG] Full API URL: " + url);
 
   http.begin(client, url);
   http.setTimeout(10000); // 10 second timeout
 
   int httpCode = http.GET();
+  Serial.println("HTTP status code: " + String(httpCode));
 
   if (httpCode == HTTP_CODE_OK)
   {
     String payload = http.getString();
-    Serial.println("Weather API Response: " + payload);
+    Serial.println("Weather API Response:");
+    Serial.println(payload);
 
     // Parse JSON response
     DynamicJsonDocument doc(1024);
