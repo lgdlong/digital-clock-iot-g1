@@ -399,7 +399,7 @@ void displayClock()
 
   if (lcdDisplayMode == 0)
   {
-    // Mode 0: Clock + Temperature
+    // Mode 0: ==== Clock + Temperature ====
     char line1[17];
     snprintf(line1, sizeof(line1), "%02d:%02d:%02d %4.1fC",
              rtcNow.hour(), rtcNow.minute(), rtcNow.second(), currentTemp);
@@ -418,7 +418,7 @@ void displayClock()
   }
   else
   {
-    // Mode 1: Weather Information
+    // Mode 1: ==== Weather Information ====
     char line1[17];
     char line2[17];
 
@@ -1335,6 +1335,8 @@ void setupWiFi()
   Serial.println("Setting up WiFi...");
 
   bool connected = wifiManager.autoConnect(config.hotspotSSID, config.hotspotPassword);
+  // Enable WiFi auto-reconnect
+  WiFi.setAutoReconnect(true);
 
   if (connected)
   {
@@ -1437,6 +1439,8 @@ void setup()
 
   Serial.println("Starting WiFi setup...");
   setupWiFi();
+  // Ensure auto-reconnect is enabled after setup
+  WiFi.setAutoReconnect(true);
 
   if (WiFi.status() == WL_CONNECTED)
   {
@@ -1461,6 +1465,7 @@ void setup()
   Serial.println("=== Setup Complete ===");
 }
 
+// =========== LOOP ===========
 void loop()
 {
   server.handleClient();
@@ -1481,7 +1486,7 @@ void loop()
   if (timer.alarmTriggered)
   {
     unsigned long alarmElapsed = millis() - timer.alarmStartTime;
-
+    
     if (alarmElapsed < 5000)
     { // 5 seconds alarm
       static unsigned long lastBlinkTimer = 0;
