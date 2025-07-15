@@ -80,10 +80,7 @@ enum SystemState
   STATE_BOOT,
   STATE_NORMAL,
   STATE_ALARM,
-  STATE_COUNTDOWN,
-  STATE_INFO,
-  STATE_ERROR,
-  STATE_MENU
+  STATE_COUNTDOWN
 };
 
 SystemState currentState = STATE_BOOT;
@@ -1486,7 +1483,7 @@ void loop()
   if (timer.alarmTriggered)
   {
     unsigned long alarmElapsed = millis() - timer.alarmStartTime;
-    
+
     if (alarmElapsed < 5000)
     { // 5 seconds alarm
       static unsigned long lastBlinkTimer = 0;
@@ -1553,10 +1550,6 @@ void loop()
 
   case STATE_ALARM:
     updateAlarmDisplay();
-    break;
-
-  case STATE_MENU:
-    displayMenu();
     break;
   }
 
