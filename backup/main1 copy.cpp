@@ -49,9 +49,6 @@ void setupWebServer();
 // Button handling
 void handleButton();
 
-// Interrupt handling for immediate buzzer shutoff
-void IRAM_ATTR buttonInterrupt();
-
 // Web interface
 String generateWebInterface();
 
@@ -64,7 +61,7 @@ String generateWebInterface();
 // Pin Definitions
 #define LED_PIN 12
 #define BUZZER_PIN 25
-#define BUTTON_PIN 26
+#define BUTTON_PIN 13
 #define NTC_PIN 34
 
 // Hardware Objects
@@ -109,10 +106,6 @@ struct HardwareStatus
   bool ledOK = false;
   String lastError = "";
 } hw;
-
-// Buzzer control variables for interrupt handling
-volatile bool buzzerStopRequested = false;
-volatile unsigned long lastInterruptTime = 0;
 
 // Temperature Data
 float currentTemp = 25.0;
@@ -560,58 +553,8 @@ void handleButton()
   static bool lastState = HIGH;
   static unsigned long pressStartTime = 0;
 
-  // Check if interrupt handler requested buzzer stop
-  if (buzzerStopRequested)
-  {
-    buzzerStopRequested = false;
-
-    // Handle the alarm state change
-    if (currentState == STATE_ALARM || alarmActive)
-    {
-      stopAlarm();
-      Serial.println("Alarm stopped by interrupt");
-    }
-
-    // Stop timer alarm if active
-    if (timer.alarmTriggered)
-    {
-      timer.alarmTriggered = false;
-      timer.finished = false;
-      Serial.println("Timer alarm stopped by interrupt");
-    }
-
-    return; // Exit early if interrupt handled the buzzer
-  }
-
   bool buttonState = digitalRead(BUTTON_PIN);
 
-  // Immediate buzzer shutoff check (non-interrupt backup)
-  if (buttonState == LOW)
-  {
-    // If buzzer is currently ON, turn it off immediately
-    if (digitalRead(BUZZER_PIN) == HIGH)
-    {
-      digitalWrite(BUZZER_PIN, LOW);
-      digitalWrite(LED_PIN, LOW);
-
-      if (currentState == STATE_ALARM || alarmActive)
-      {
-        stopAlarm();
-        Serial.println("Alarm stopped by button press");
-        return;
-      }
-
-      if (timer.alarmTriggered)
-      {
-        timer.alarmTriggered = false;
-        timer.finished = false;
-        Serial.println("Timer alarm stopped by button press");
-        return;
-      }
-    }
-  }
-
-  // Standard debounced button handling
   if (buttonState != lastState && millis() - lastPress > 50)
   {
     lastPress = millis();
@@ -652,35 +595,6 @@ void handleButton()
   }
 
   lastState = buttonState;
-}
-
-// ==========================================
-// INTERRUPT HANDLER FOR IMMEDIATE BUZZER CONTROL
-// ==========================================
-
-// Interrupt Service Routine for button press
-void IRAM_ATTR buttonInterrupt()
-{
-  unsigned long currentTime = millis();
-
-  // Simple debouncing - ignore interrupts within 50ms of the last one
-  if (currentTime - lastInterruptTime > 50)
-  {
-    lastInterruptTime = currentTime;
-
-    // Check if button is actually pressed (LOW due to INPUT_PULLUP)
-    if (digitalRead(BUTTON_PIN) == LOW)
-    {
-      // Immediately turn off buzzer if it's currently sounding
-      if (digitalRead(BUZZER_PIN) == HIGH)
-      {
-        digitalWrite(BUZZER_PIN, LOW);
-        digitalWrite(LED_PIN, LOW);
-        buzzerStopRequested = true;
-        Serial.println("Buzzer stopped by interrupt!");
-      }
-    }
-  }
 }
 
 // ==========================================
@@ -1357,10 +1271,6 @@ void setup()
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUZZER_PIN, OUTPUT);
-
-  // Attach interrupt for immediate buzzer shutoff
-  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonInterrupt, FALLING);
-  Serial.println("✓ Button interrupt attached to GPIO 26");
 
   // Test LED and Buzzer at startup
   digitalWrite(LED_PIN, HIGH);
