@@ -7,7 +7,6 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <EEPROM.h>
-#include <DNSServer.h>
 #include <Preferences.h>
 #include <time.h> // Include time.h for NTP
 
@@ -20,7 +19,6 @@ void switchLcdDisplayMode();
 void updateLCDContent(String line1, String line2);
 void displayClock();
 void displayCountdown();
-void displayMenu();
 
 // Alarm & Timer functions
 void triggerAlarm(int index);
@@ -40,7 +38,6 @@ float convertAdcToTemperature(int adcValue);
 // Configuration functions
 void loadConfiguration();
 void saveConfiguration();
-void loadAlarms();
 void saveAlarms();
 void loadWeatherConfig();
 void saveWeatherConfig();
@@ -65,8 +62,6 @@ void syncTimeWithNTP();
 // SMART CLOCK v5.0 - STANDALONE VERSION
 // ==========================================
 
-#define FIRMWARE_VERSION "v5.0.0"
-
 // Pin Definitions
 #define LED_PIN 12
 #define BUZZER_PIN 25
@@ -86,10 +81,7 @@ enum SystemState
   STATE_BOOT,
   STATE_NORMAL,
   STATE_ALARM,
-  STATE_COUNTDOWN,
-  STATE_INFO,
-  STATE_ERROR,
-  STATE_MENU
+  STATE_COUNTDOWN
 };
 
 SystemState currentState = STATE_BOOT;
@@ -122,8 +114,6 @@ volatile unsigned long lastInterruptTime = 0;
 
 // Temperature Data
 float currentTemp = 25.0;
-float minTemp = 999.0;
-float maxTemp = -999.0;
 
 // Alarm System
 struct Alarm
@@ -192,7 +182,6 @@ const char *vietnamCities[][2] = {
 // LCD Display State
 String currentLCDLine1 = "";
 String currentLCDLine2 = "";
-unsigned long lastLCDUpdate = 0;
 int lcdDisplayMode = 0; // 0: Clock/Temp, 1: Weather
 unsigned long lastLCDModeChange = 0;
 
@@ -290,7 +279,6 @@ void factoryReset()
 // ==========================================
 // HARDWARE FUNCTIONS
 // ==========================================
-
 void initializeHardware()
 {
   Serial.println("=== HARDWARE INIT v5.0 ===");
@@ -361,10 +349,6 @@ void readTemperature()
     return;
   int adcValue = analogRead(NTC_PIN);
   currentTemp = convertAdcToTemperature(adcValue);
-  if (currentTemp < minTemp)
-    minTemp = currentTemp;
-  if (currentTemp > maxTemp)
-    maxTemp = currentTemp;
 }
 
 // ==========================================
@@ -384,7 +368,6 @@ void updateLCDContent(String line1, String line2)
   {
     currentLCDLine1 = line1;
     currentLCDLine2 = line2;
-    lastLCDUpdate = millis();
 
     LCD.clear();
     LCD.setCursor(0, 0);
@@ -481,23 +464,6 @@ void displayCountdown()
   updateLCDContent(String(line1), String(timer.label));
 }
 
-void displayMenu()
-{
-  // Simple menu for additional features
-  static unsigned long lastUpdate = 0;
-  if (millis() - lastUpdate > 1000)
-  {
-    lastUpdate = millis();
-    updateLCDContent("MENU MODE", "Press to exit");
-  }
-
-  // Auto-exit menu after 10 seconds
-  if (millis() - stateStartTime > 10000)
-  {
-    currentState = STATE_NORMAL;
-  }
-}
-
 // ==========================================
 // ENHANCED ALARM & TIMER SYSTEM
 // ==========================================
@@ -568,7 +534,6 @@ void updateAlarmDisplay()
 // ==========================================
 // BUTTON HANDLING
 // ==========================================
-
 void handleButton()
 {
   static unsigned long lastPress = 0;
@@ -1413,7 +1378,6 @@ void setupWiFi()
 {
   Serial.println("Setting up WiFi...");
   tryConnectWiFiFirst();
-
   // bool connected = wifiManager.autoConnect(config.hotspotSSID, config.hotspotPassword);
 }
 
@@ -1573,38 +1537,54 @@ void setup()
 
 void loop()
 {
-  // 1. WiFiManager xử lý cấu hình WiFi (non-blocking)
+  // ===================== [A] XỬ LÝ WIFI: Auto Reconnect & Reset NTP Sync Flag =====================
+  static bool triedReconnect = false;
+  static unsigned long lastWiFiRetry = 0;
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    // Nếu mất WiFi, thử reconnect mỗi 30s, tránh reconnect liên tục
+    if (!triedReconnect && millis() - lastWiFiRetry > 30000)
+    {
+      lastWiFiRetry = millis();
+      triedReconnect = true;
+      Serial.println("[WiFi] Attempting reconnect...");
+      WiFi.reconnect();
+    }
+    rtcSynced = false; // Reset cờ sync NTP khi mất WiFi
+  }
+  else
+  {
+    triedReconnect = false; // Đã kết nối lại thì reset flag
+  }
+
+  // ===================== [B] XỬ LÝ WIFI MANAGER (Non-blocking Config Portal) =====================
   wifiManager.process();
 
-  // Tắt portal khi đã có WiFi
+  // Nếu đã kết nối WiFi thành công, tắt portal để nhường cổng cho webserver
   if (WiFi.status() == WL_CONNECTED && wifiManager.getConfigPortalActive())
   {
     wifiManager.stopConfigPortal();
     Serial.println("WiFiManager portal stopped!");
   }
 
-  // 1a. Chỉ start web server khi đã kết nối WiFi mà chưa start
+  // ===================== [C] QUẢN LÝ KHỞI TẠO/DỪNG WEBSERVER THEO TRẠNG THÁI WIFI =====================
   if (WiFi.status() == WL_CONNECTED && !webServerStarted)
   {
     setupWebServer();
     webServerStarted = true;
     Serial.println("✓ Web server started");
   }
-
-  // 1b. Nếu mất WiFi thì flag lại để cho phép khởi tạo lại khi kết nối lại
   if (WiFi.status() != WL_CONNECTED && webServerStarted)
   {
     webServerStarted = false;
-    // (optional) server.stop(); nếu cần
+    // (Optional) server.stop();
   }
-
-  // 2. Xử lý web server khi đã start
   if (webServerStarted)
   {
     server.handleClient();
   }
 
-  // 3. Đọc cảm biến, update LCD, các tác vụ khác
+  // ===================== [D] ĐỌC CẢM BIẾN NHIỆT ĐỘ (Định kỳ 5 giây) =====================
   static unsigned long lastTempRead = 0;
   if (millis() - lastTempRead > 5000)
   {
@@ -1616,8 +1596,10 @@ void loop()
     }
   }
 
+  // ===================== [E] XỬ LÝ ALARM/TIMER, BUZZER, LED =====================
   handleTimerAlarm();
 
+  // ===================== [F] XỬ LÝ NÚT BẤM (Debounce mỗi 50ms) =====================
   static unsigned long lastButtonCheck = 0;
   if (millis() - lastButtonCheck > 50)
   {
@@ -1625,16 +1607,21 @@ void loop()
     handleButton();
   }
 
-  // RTC sync với NTP khi vừa kết nối WiFi
+  // ===================== [G] ĐỒNG BỘ RTC VỚI NTP (Khi mới có WiFi) =====================
   if (WiFi.status() == WL_CONNECTED && !rtcSynced)
   {
     syncTimeWithNTP();
     rtcSynced = true;
   }
 
+  // ===================== [H] CẬP NHẬT TRẠNG THÁI WIFI CHO ỨNG DỤNG =====================
   hw.wifiOK = (WiFi.status() == WL_CONNECTED);
-  fetchWeatherData();
 
+  // ===================== [I] FETCH DỮ LIỆU THỜI TIẾT (Chỉ khi có WiFi) =====================
+  if (WiFi.status() == WL_CONNECTED)
+    fetchWeatherData();
+
+  // ===================== [J] STATE MACHINE: XỬ LÝ HIỂN THỊ GIAO DIỆN & CHẾ ĐỘ =====================
   switch (currentState)
   {
   case STATE_NORMAL:
@@ -1644,25 +1631,20 @@ void loop()
   case STATE_COUNTDOWN:
     displayCountdown();
     if (!timer.active)
-    {
       currentState = STATE_NORMAL;
-    }
     break;
   case STATE_ALARM:
     updateAlarmDisplay();
     break;
-  case STATE_MENU:
-    displayMenu();
-    break;
   }
 
+  // ===================== [Z] GIẢM TẢI CPU (Cho main loop mượt hơn) =====================
   delay(100);
 }
 
 // ==========================================
 // WEATHER FUNCTIONS
 // ==========================================
-
 void fetchWeatherData()
 {
   // Throttle WEATHER CONFIG DEBUG to print only every 5 seconds
