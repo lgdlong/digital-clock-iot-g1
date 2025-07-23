@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0" version="28.0.5">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0" version="28.0.6">
   <diagram name="IoT Block Diagram" id="0">
     <mxGraphModel dx="1042" dy="1785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -8,12 +8,21 @@
           <mxGeometry x="40" y="-200" width="320" height="155" as="geometry" />
         </mxCell>
         <mxCell id="JFZdBxIzQCJUveHTWrGP-7" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="20" width="700" height="270" as="geometry" />
+          <mxGeometry x="10" width="700" height="270" as="geometry" />
         </mxCell>
-        <mxCell id="JFZdBxIzQCJUveHTWrGP-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="MCU" target="Buzzer" edge="1">
+        <mxCell id="JFZdBxIzQCJUveHTWrGP-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="MCU" target="Buzzer" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="110" />
+              <mxPoint x="510" y="140" />
+              <mxPoint x="650" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JFZdBxIzQCJUveHTWrGP-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="MCU" target="Display" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="JFZdBxIzQCJUveHTWrGP-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="MCU" target="Display" edge="1">
+        <mxCell id="2WkS1_50UqmoXD8XFwfS-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="1" source="2WkS1_50UqmoXD8XFwfS-1" target="MCU" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="MCU" value="ESP32&lt;br&gt;(MCU + Embedded Web Server)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -25,23 +34,27 @@
         <mxCell id="RTC" value="DS1307 RTC" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="40" y="200" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="JFZdBxIzQCJUveHTWrGP-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="Temp" target="MCU" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="JFZdBxIzQCJUveHTWrGP-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="Temp" target="MCU" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="200" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="Temp" value="LM35&lt;br&gt;Temperature Sensor" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="530" y="200" width="140" height="50" as="geometry" />
+          <mxGeometry x="300" y="200" width="140" height="50" as="geometry" />
         </mxCell>
         <mxCell id="Display" value="LCD 16x2 I2C&lt;br&gt;Display" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="180" y="200" width="120" height="50" as="geometry" />
+          <mxGeometry x="460" y="200" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="JFZdBxIzQCJUveHTWrGP-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="Button" target="MCU" edge="1">
+        <mxCell id="JFZdBxIzQCJUveHTWrGP-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.087;entryY=0.977;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="Button" target="MCU" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Button" value="Button" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="330" y="200" width="80" height="50" as="geometry" />
+          <mxGeometry x="190" y="200" width="80" height="50" as="geometry" />
         </mxCell>
         <mxCell id="Buzzer" value="Buzzer" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="430" y="200" width="80" height="50" as="geometry" />
+          <mxGeometry x="610" y="200" width="80" height="50" as="geometry" />
         </mxCell>
         <mxCell id="UEzsnh451Z61A3DzALkh-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="NTP" target="MCU" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -66,11 +79,14 @@
         <mxCell id="JFZdBxIzQCJUveHTWrGP-14" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;System&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="100" y="20" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="wYDcJgkJySV3DUHnjS-v-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;startArrow=classicThin;startFill=1;" edge="1" parent="1" source="UEzsnh451Z61A3DzALkh-9" target="MCU">
+        <mxCell id="kovHcIE4w_nMOAs5pZuR-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="UEzsnh451Z61A3DzALkh-9" target="2WkS1_50UqmoXD8XFwfS-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="UEzsnh451Z61A3DzALkh-9" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;b style=&quot;&quot;&gt;Client&lt;br&gt;&lt;/b&gt;(&lt;span style=&quot;text-wrap-mode: nowrap; background-color: rgb(255, 255, 255);&quot;&gt;HTTP/Web Local&lt;/span&gt;)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="510" y="-170" width="150" height="65" as="geometry" />
+        <mxCell id="UEzsnh451Z61A3DzALkh-9" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;b&gt;Client&lt;/b&gt;&lt;br&gt;(Web browser)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="555" y="-170" width="150" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="2WkS1_50UqmoXD8XFwfS-1" value="Web local" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="570" y="60" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

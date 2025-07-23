@@ -9,14 +9,12 @@
 #include <EEPROM.h>
 #include <DNSServer.h>
 #include <Preferences.h>
-#include <time.h> // Include time.h for NTP
 
 // ==========================================
 // FORWARD DECLARATIONS
 // ==========================================
 
 // Display functions
-void switchLcdDisplayMode();
 void updateLCDContent(String line1, String line2);
 void displayClock();
 void displayCountdown();
@@ -27,7 +25,6 @@ void triggerAlarm(int index);
 void stopAlarm();
 void updateAlarmDisplay();
 void checkAlarms();
-void handleTimerAlarm();
 
 // Weather functions
 void fetchWeatherData();
@@ -57,9 +54,6 @@ void IRAM_ATTR buttonInterrupt();
 
 // Web interface
 String generateWebInterface();
-
-// Synchronize RTC with NTP time if WiFi is connected
-void syncTimeWithNTP();
 
 // ==========================================
 // SMART CLOCK v5.0 - STANDALONE VERSION
@@ -170,7 +164,7 @@ struct WeatherData
   float temperature = 0.0;
   int humidity = 0;
   String description = "N/A";
-  String city = "Thu Duc";
+  String city = "Thủ Đức";
   bool dataValid = false;
   unsigned long lastUpdate = 0;
   int errorCount = 0;
@@ -178,7 +172,7 @@ struct WeatherData
 
 // City Options for Vietnam
 const char *vietnamCities[][2] = {
-    {"Thu Duc", "Thu Duc"},
+    {"Thu Duc", "Thủ Đức"},
     {"Ho Chi Minh City", "TP. Hồ Chí Minh"},
     {"Hanoi", "Hà Nội"},
     {"Da Nang", "Đà Nẵng"},
@@ -201,8 +195,6 @@ unsigned long lastLCDModeChange = 0;
 #define CONFIG_ADDR 0
 #define ALARM_ADDR 400
 #define TIMER_ADDR 800
-bool rtcSynced = false; // True if RTC has been synced with NTP
-bool webServerStarted = false;
 
 // ==========================================
 // UTILITY FUNCTIONS
@@ -370,13 +362,6 @@ void readTemperature()
 // ==========================================
 // DISPLAY FUNCTIONS - ENHANCED
 // ==========================================
-// Switch LCD display mode
-void switchLcdDisplayMode()
-{
-  lcdDisplayMode = (lcdDisplayMode + 1) % 2; // or % N if you have more modes
-  lastLCDModeChange = millis();
-  displayClock();
-}
 
 void updateLCDContent(String line1, String line2)
 {
@@ -442,12 +427,12 @@ void displayClock()
       snprintf(line1, sizeof(line1), "%s: %.1fC",
                weather.city.substring(0, 8).c_str(), weather.temperature);
       snprintf(line2, sizeof(line2), "%s: %d%%",
-               "Humidity", weather.humidity);
+               "Do am", weather.humidity);
     }
     else
     {
-      strcpy(line1, "Weather");
-      strcpy(line2, "No data...");
+      strcpy(line1, "Thoi Tiet");
+      strcpy(line2, "Khong co du lieu");
     }
 
     updateLCDContent(String(line1), String(line2));
@@ -645,24 +630,22 @@ void handleButton()
       }
       else
       {
-        // Ưu tiên xử lý báo thức và timer nếu đang active
-        if (currentState == STATE_ALARM)
+        switch (currentState)
         {
+        case STATE_ALARM:
           stopAlarm();
-        }
-        else if (timer.alarmTriggered)
-        {
-          timer.alarmTriggered = false;
-          timer.finished = false;
-          digitalWrite(BUZZER_PIN, LOW);
-          digitalWrite(LED_PIN, LOW);
-          Serial.println("Timer alarm stopped by button");
-        }
-        // Nếu ở trạng thái bình thường, không có alarm/timer thì mới chuyển LCD
-        else if (currentState == STATE_NORMAL)
-        {
-          switchLcdDisplayMode();
-          Serial.println("LCD display mode switched");
+          break;
+        case STATE_NORMAL:
+          // Stop timer alarm if active
+          if (timer.alarmTriggered)
+          {
+            timer.alarmTriggered = false;
+            timer.finished = false;
+            digitalWrite(BUZZER_PIN, LOW);
+            digitalWrite(LED_PIN, LOW);
+            Serial.println("Timer alarm stopped by button");
+          }
+          break;
         }
       }
     }
@@ -1103,12 +1086,10 @@ String generateWebInterface()
 
 void setupWebServer()
 {
-  Serial.println("===Setting up web server...===");
   // Main page
   server.on("/", HTTP_GET, []()
             { server.send(200, "text/html; charset=utf-8", generateWebInterface()); });
 
-  Serial.println("===Web server setup complete.===");
   // Set alarm
   server.on("/set-alarm", HTTP_POST, []()
             {
@@ -1335,135 +1316,47 @@ void saveWeatherConfig()
 // ==========================================
 // WIFI SETUP
 // ==========================================
-void tryConnectWiFiFirst()
-{
-  // Removed LCD.clear() and LCD WiFi setup message
-  LCD.clear();
-  updateLCDContent("WiFi", "Connecting WiFi...");
-
-  Serial.println("[WiFi] Trying to connect to previously saved WiFi...");
-
-  WiFi.mode(WIFI_STA); // Đảm bảo ở chế độ Station
-  WiFi.begin();        // Dùng WiFi đã lưu trong flash
-
-  unsigned long t0 = millis();
-  bool connected = false;
-  int retryCount = 0;
-
-  while (millis() - t0 < 5000)
-  { // Thử trong 5 giây
-    wl_status_t status = WiFi.status();
-    if (status == WL_CONNECTED)
-    {
-      connected = true;
-      break;
-    }
-    retryCount++;
-    Serial.print("[WiFi] Retry #");
-    Serial.print(retryCount);
-    Serial.print(" - Status: ");
-    switch (status)
-    {
-    case WL_IDLE_STATUS:
-      Serial.println("IDLE");
-      break;
-    case WL_NO_SSID_AVAIL:
-      Serial.println("NO SSID AVAILABLE");
-      break;
-    case WL_SCAN_COMPLETED:
-      Serial.println("SCAN COMPLETED");
-      break;
-    case WL_CONNECTED:
-      Serial.println("CONNECTED");
-      break;
-    case WL_CONNECT_FAILED:
-      Serial.println("CONNECT FAILED");
-      break;
-    case WL_CONNECTION_LOST:
-      Serial.println("CONNECTION LOST");
-      break;
-    case WL_DISCONNECTED:
-      Serial.println("DISCONNECTED");
-      break;
-    default:
-      Serial.println("UNKNOWN");
-      break;
-    }
-    delay(300);
-  }
-
-  if (connected)
-  {
-    Serial.print("[WiFi] Connected! IP: ");
-    Serial.println(WiFi.localIP());
-    // Stop the config portal and AP after successful connection
-    wifiManager.stopConfigPortal();
-    WiFi.softAPdisconnect(true); // This disables the AP interface
-    Serial.println("[WiFi] Stopping WiFiManager config portal.");
-  }
-  else
-  {
-    Serial.println("[WiFi] Failed to connect in 5 seconds. Starting WiFiManager AP mode...");
-    wifiManager.setConfigPortalBlocking(false);
-    wifiManager.startConfigPortal(config.hotspotSSID, config.hotspotPassword);
-  }
+void onConfigMode(WiFiManager *myWiFiManager) {
+    LCD.clear();
+    LCD.setCursor(0, 0);
+    LCD.print("WiFi Setup Mode");
+    LCD.setCursor(0, 1);
+    LCD.print("SSID: SmartClock-v5");
 }
-
 void setupWiFi()
 {
   Serial.println("Setting up WiFi...");
-  tryConnectWiFiFirst();
 
-  // bool connected = wifiManager.autoConnect(config.hotspotSSID, config.hotspotPassword);
-}
+  wifiManager.setAPCallback(onConfigMode);
+  bool connected = wifiManager.autoConnect(config.hotspotSSID, config.hotspotPassword);
 
-// ==========================================
-// HÀM CON: Xử lý timer alarm tách ra cho rõ ràng
-// ==========================================
-void handleTimerAlarm()
-{
-  if (timer.alarmTriggered)
+  LCD.clear();
+  LCD.setCursor(0, 0);
+  LCD.print("WiFi Setup Mode");
+  LCD.setCursor(0, 1);
+  LCD.print("SSID: SmartClock-v5");
+
+  if (connected)
   {
-    unsigned long alarmElapsed = millis() - timer.alarmStartTime;
-
-    if (alarmElapsed < 5000)
-    { // 5s alarm
-      static unsigned long lastBlinkTimer = 0;
-      if (millis() - lastBlinkTimer > 250)
-      { // Blink nhanh
-        lastBlinkTimer = millis();
-        static bool timerBlinkState = false;
-        timerBlinkState = !timerBlinkState;
-
-        if (timerBlinkState)
-        {
-          digitalWrite(BUZZER_PIN, HIGH);
-          digitalWrite(LED_PIN, HIGH);
-          updateLCDContent("*** TIMER ***", timer.label);
-        }
-        else
-        {
-          digitalWrite(BUZZER_PIN, LOW);
-          digitalWrite(LED_PIN, LOW);
-          LCD.clear();
-        }
-      }
-    }
-    else
-    {
-      // Hết 5s thì tắt chuông
-      timer.alarmTriggered = false;
-      timer.finished = false;
-      digitalWrite(BUZZER_PIN, LOW);
-      digitalWrite(LED_PIN, LOW);
-      Serial.println("=== COUNTDOWN ALARM FINISHED ===");
-    }
+    Serial.println("WiFi connected: " + WiFi.localIP().toString());
+    hw.wifiOK = true;
+    WiFi.mode(WIFI_AP_STA);
+    WiFi.softAP(config.hotspotSSID, config.hotspotPassword);
+    Serial.println("Hotspot: " + String(config.hotspotSSID));
+  }
+  else
+  {
+    Serial.println("WiFi failed, hotspot only");
+    hw.wifiOK = false;
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP(config.hotspotSSID, config.hotspotPassword);
   }
 }
 
 // ==========================================
 // MAIN FUNCTIONS
 // ==========================================
+
 void setup()
 {
   Serial.begin(115200);
@@ -1558,9 +1451,6 @@ void setup()
     Serial.println("WiFi setup completed (Hotspot mode)");
   }
 
-  wifiManager.setConfigPortalBlocking(false);
-  wifiManager.startConfigPortal(config.hotspotSSID, config.hotspotPassword);
-
   setupWebServer();
 
   // Initial display
@@ -1573,38 +1463,9 @@ void setup()
 
 void loop()
 {
-  // 1. WiFiManager xử lý cấu hình WiFi (non-blocking)
-  wifiManager.process();
+  server.handleClient();
 
-  // Tắt portal khi đã có WiFi
-  if (WiFi.status() == WL_CONNECTED && wifiManager.getConfigPortalActive())
-  {
-    wifiManager.stopConfigPortal();
-    Serial.println("WiFiManager portal stopped!");
-  }
-
-  // 1a. Chỉ start web server khi đã kết nối WiFi mà chưa start
-  if (WiFi.status() == WL_CONNECTED && !webServerStarted)
-  {
-    setupWebServer();
-    webServerStarted = true;
-    Serial.println("✓ Web server started");
-  }
-
-  // 1b. Nếu mất WiFi thì flag lại để cho phép khởi tạo lại khi kết nối lại
-  if (WiFi.status() != WL_CONNECTED && webServerStarted)
-  {
-    webServerStarted = false;
-    // (optional) server.stop(); nếu cần
-  }
-
-  // 2. Xử lý web server khi đã start
-  if (webServerStarted)
-  {
-    server.handleClient();
-  }
-
-  // 3. Đọc cảm biến, update LCD, các tác vụ khác
+  // Read temperature every 5 seconds
   static unsigned long lastTempRead = 0;
   if (millis() - lastTempRead > 5000)
   {
@@ -1616,8 +1477,46 @@ void loop()
     }
   }
 
-  handleTimerAlarm();
+  // Handle countdown timer 5-second alarm
+  if (timer.alarmTriggered)
+  {
+    unsigned long alarmElapsed = millis() - timer.alarmStartTime;
 
+    if (alarmElapsed < 5000)
+    { // 5 seconds alarm
+      static unsigned long lastBlinkTimer = 0;
+      if (millis() - lastBlinkTimer > 250)
+      { // Fast blink for timer alarm
+        lastBlinkTimer = millis();
+        static bool timerBlinkState = false;
+        timerBlinkState = !timerBlinkState;
+
+        if (timerBlinkState)
+        {
+          digitalWrite(BUZZER_PIN, HIGH);
+          digitalWrite(LED_PIN, HIGH);
+          updateLCDContent("*** TIMER ***", timer.label);
+        }
+        else
+        {
+          digitalWrite(BUZZER_PIN, LOW);
+          digitalWrite(LED_PIN, LOW);
+          LCD.clear();
+        }
+      }
+    }
+    else
+    {
+      // 5 seconds completed, stop timer alarm
+      timer.alarmTriggered = false;
+      timer.finished = false;
+      digitalWrite(BUZZER_PIN, LOW);
+      digitalWrite(LED_PIN, LOW);
+      Serial.println("=== COUNTDOWN ALARM FINISHED ===");
+    }
+  }
+
+  // Handle button for manual alarm stop or menu
   static unsigned long lastButtonCheck = 0;
   if (millis() - lastButtonCheck > 50)
   {
@@ -1625,22 +1524,20 @@ void loop()
     handleButton();
   }
 
-  // RTC sync với NTP khi vừa kết nối WiFi
-  if (WiFi.status() == WL_CONNECTED && !rtcSynced)
-  {
-    syncTimeWithNTP();
-    rtcSynced = true;
-  }
-
+  // Update hardware status
   hw.wifiOK = (WiFi.status() == WL_CONNECTED);
+
+  // Fetch weather data periodically
   fetchWeatherData();
 
+  // State machine
   switch (currentState)
   {
   case STATE_NORMAL:
     displayClock();
     checkAlarms();
     break;
+
   case STATE_COUNTDOWN:
     displayCountdown();
     if (!timer.active)
@@ -1648,9 +1545,11 @@ void loop()
       currentState = STATE_NORMAL;
     }
     break;
+
   case STATE_ALARM:
     updateAlarmDisplay();
     break;
+
   case STATE_MENU:
     displayMenu();
     break;
@@ -1688,10 +1587,7 @@ void fetchWeatherData()
 
   if (!hw.wifiOK || !weatherConfig.enabled || strlen(weatherConfig.apiKey) == 0)
   {
-    if (now - lastWeatherDebug > 3000)
-    {
-      Serial.println("Weather API not enabled or WiFi not connected, using simulation...");
-    }
+    Serial.println("Using weather simulation...");
     // Fallback to simulation if no API key or WiFi
     unsigned long now = millis();
     if (now - weather.lastUpdate > 600000)
@@ -1699,7 +1595,7 @@ void fetchWeatherData()
       weather.temperature = currentTemp + random(-3, 4); // Simulate outdoor temp
       weather.humidity = random(40, 90);
       weather.description = "Mô phỏng";
-      weather.city = "Thu Duc";
+      weather.city = "Thủ Đức";
       weather.dataValid = true;
       weather.lastUpdate = now;
       weather.errorCount = 0;
@@ -1801,31 +1697,5 @@ void checkAlarms()
       triggerAlarm(i);
       break;
     }
-  }
-}
-
-// Synchronize RTC with NTP time if WiFi is connected
-void syncTimeWithNTP()
-{
-  if (WiFi.status() != WL_CONNECTED)
-  {
-    Serial.println("[NTP] WiFi not connected, skipping NTP sync.");
-    return;
-  }
-  configTime(7 * 3600, 0, "pool.ntp.org", "time.nist.gov"); // GMT+7, adjust as needed
-  struct tm timeinfo;
-  if (getLocalTime(&timeinfo))
-  {
-    Serial.printf("[NTP] Time from NTP: %04d-%02d-%02d %02d:%02d:%02d\n",
-                  timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday,
-                  timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
-    // Set RTC from NTP time
-    rtc.adjust(DateTime(timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday,
-                        timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec));
-    Serial.println("[NTP] RTC updated from NTP.");
-  }
-  else
-  {
-    Serial.println("[NTP] Failed to get time from NTP server.");
   }
 }
