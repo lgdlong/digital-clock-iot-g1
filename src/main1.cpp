@@ -1525,8 +1525,6 @@ void setup()
   wifiManager.setConfigPortalBlocking(false);
   wifiManager.startConfigPortal(config.hotspotSSID, config.hotspotPassword);
 
-  setupWebServer();
-
   // Initial display
   updateLCDContent("Smart Clock v5.1", "Starting...");
   delay(2000);
