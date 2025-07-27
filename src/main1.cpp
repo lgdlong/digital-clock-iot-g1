@@ -34,6 +34,7 @@ void fetchWeatherData();
 bool checkFirstBoot();
 void clearAllData();
 float convertAdcToTemperature(int adcValue);
+void factoryReset();
 
 // Configuration functions
 void loadConfiguration();
